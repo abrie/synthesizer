@@ -1,14 +1,10 @@
-//
-//  AppDelegate.m
-//  backend
-//
-//  Created by abrie on 2012-07-21.
-//  Copyright (c) 2012 abrie. All rights reserved.
-//
-
 #import "AppDelegate.h"
 
 @implementation AppDelegate
+@synthesize testMidiButton = _testMidiButton;
+@synthesize destinationComboBox = _destinationComboBox;
+@synthesize sourceComboBox = _sourceComboBox;
+@synthesize resetButton = _resetButton;
 
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -16,7 +12,39 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    midi = [[MIDI alloc] init];
+    [_destinationComboBox addItemsWithObjectValues:[midi destinations]];
+    [_destinationComboBox setStringValue:@"select destination..."];
+    [_sourceComboBox addItemsWithObjectValues:[midi sources]];
+    [_sourceComboBox setStringValue:@"select source..."];
+    
+    http = [[HTTP alloc] init];
+    [http instantiateHTTPServer];
+    
+    backend = [[Backend alloc] init];
+}
+
+- (void)testMidiAction:(id)sender
+{
+    [midi sendOnToChannel:0 number:1 velocity:64];
+    [midi sendOffToChannel:0 number:1 velocity:64];
+}
+
+- (void)resetAction:(id)sender
+{
+    [midi sendReset];
+}
+
+- (void)destinationSelectAction:(id)sender
+{
+    NSInteger index = [_destinationComboBox indexOfSelectedItem];
+    [midi connectDestination:index];
+}
+
+- (void)sourceSelectAction:(id)sender
+{
+    NSInteger index = [_sourceComboBox indexOfSelectedItem];
+    [midi connectSource:index];
 }
 
 // Returns the directory the application uses to store the Core Data store file. This code uses a directory named "abrie.backend" in the user's Application Support directory.
