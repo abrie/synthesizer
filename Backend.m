@@ -19,7 +19,7 @@
 
 -(void)midiClock
 {
-    
+    [feelers advance];
 }
 
 -(void)midiStart
