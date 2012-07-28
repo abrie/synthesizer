@@ -4,7 +4,6 @@
 @synthesize testMidiButton = _testMidiButton;
 @synthesize destinationComboBox = _destinationComboBox;
 @synthesize sourceComboBox = _sourceComboBox;
-@synthesize resetButton = _resetButton;
 
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -29,11 +28,6 @@
 {
     [midi sendOnToChannel:0 number:1 velocity:64];
     [midi sendOffToChannel:0 number:1 velocity:64];
-}
-
-- (void)resetAction:(id)sender
-{
-    [midi sendReset];
 }
 
 - (void)destinationSelectAction:(id)sender

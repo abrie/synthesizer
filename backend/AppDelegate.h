@@ -14,7 +14,6 @@
 @property (weak) IBOutlet NSButton *testMidiButton;
 @property (weak) IBOutlet NSComboBox *destinationComboBox;
 @property (weak) IBOutlet NSComboBox *sourceComboBox;
-@property (weak) IBOutlet NSButton *resetButton;
 
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
@@ -24,6 +23,5 @@
 - (IBAction)testMidiAction:(id)sender;
 - (IBAction)destinationSelectAction:(id)sender;
 - (IBAction)sourceSelectAction:(id)sender;
-- (IBAction)resetAction:(id)sender;
 
 @end
