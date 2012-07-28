@@ -12,7 +12,10 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    midi = [[MIDI alloc] init];
+    midi = [[MIDI alloc] initWithName:@"feelers synthesizer"];
+    backend = [[Backend alloc] initWithMidi:midi];
+    [backend setStandard];
+    
     [_destinationComboBox addItemsWithObjectValues:[midi destinations]];
     [_destinationComboBox setStringValue:@"select destination..."];
     [_sourceComboBox addItemsWithObjectValues:[midi sources]];
@@ -20,8 +23,6 @@
     
     http = [[HTTP alloc] init];
     [http instantiateHTTPServer];
-    
-    backend = [[Backend alloc] init];
 }
 
 - (void)testMidiAction:(id)sender
@@ -38,13 +39,13 @@
 - (void)destinationSelectAction:(id)sender
 {
     NSInteger index = [_destinationComboBox indexOfSelectedItem];
-    [midi connectDestination:index];
+    [midi connectDestinationByIndex:index];
 }
 
 - (void)sourceSelectAction:(id)sender
 {
     NSInteger index = [_sourceComboBox indexOfSelectedItem];
-    [midi connectSource:index];
+    [midi connectSourceByIndex:index];
 }
 
 // Returns the directory the application uses to store the Core Data store file. This code uses a directory named "abrie.backend" in the user's Application Support directory.

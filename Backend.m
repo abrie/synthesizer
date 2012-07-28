@@ -2,14 +2,46 @@
 
 @implementation Backend
 
-- (id)init
+- (id)initWithMidi:(MIDI *)_midi
 {
     self = [super init];
     if (self) {
         feelers = [[Feelers alloc] init];
+        [feelers setNoteEventDelegate:self];
+        
+        midi = _midi;
+        [midi setRealtimeDelegate:self];
     }
     
     return self;
+}
+
+- (void)setStandard
+{
+    NSDictionary *standard =
+    @{
+    @"root" : @{ @"type":@"branch", @"name" : @"root", @"subNodes" : @[@"emitter"] },
+    @"emitter" : @{
+        @"type":@"emitter",
+        @"name" : @"emitter",
+        @"note" : @[@60],
+        @"onVelocity" : @[@64],
+        @"duration" : @[@1],
+        @"offVelocity" : @[@54],
+        @"channel" : @[@0]}
+    };
+    
+    [feelers setNodeStates:standard];
+}
+
+- (void)offChannel:(unsigned int)channel note:(unsigned int)note velocity:(unsigned int)velocity
+{
+    [midi sendOffToChannel:channel number:note velocity:velocity];
+}
+
+- (void)onChannel:(unsigned int)channel note:(unsigned int)note velocity:(unsigned int)velocity
+{
+    [midi sendOnToChannel:channel number:note velocity:velocity];
 }
 
 -(void)midiContinue
@@ -20,6 +52,7 @@
 -(void)midiClock
 {
     [feelers advance];
+    [feelers sample];
 }
 
 -(void)midiStart
@@ -30,6 +63,11 @@
 -(void)midiStop
 {
     
+}
+
+-(void)midiUnhandledStatus:(Byte)status data1:(Byte)data1 data2:(Byte)data2 tag:(NSString *)tag
+{
+    NSLog(@"****************************************** %@ 0x%x 0x%x 0x%x", tag, status, data1, data2);
 }
 
 @end
