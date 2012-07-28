@@ -65,9 +65,4 @@
     
 }
 
--(void)midiUnhandledStatus:(Byte)status data1:(Byte)data1 data2:(Byte)data2 tag:(NSString *)tag
-{
-    NSLog(@"****************************************** %@ 0x%x 0x%x 0x%x", tag, status, data1, data2);
-}
-
 @end
