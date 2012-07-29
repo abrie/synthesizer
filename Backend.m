@@ -1,8 +1,9 @@
 #import "Backend.h"
 
 @implementation Backend
+@synthesize messageSync;
 
-- (id)initWithMidi:(MIDI *)_midi
+- (id)initWithMidi:(MIDI *)_midi sync:(MessageSync *)sync
 {
     self = [super init];
     if (self) {
@@ -11,9 +12,16 @@
         
         midi = _midi;
         [midi setRealtimeDelegate:self];
+        
+        messageSync = sync;
+        [messageSync setMessageDelegate:self];
     }
     
     return self;
+}
+
+- (void)processMessage:(NSDictionary *)message
+{
 }
 
 - (void)setStandard
@@ -51,6 +59,7 @@
 
 -(void)midiClock
 {
+    [messageSync processMessages];
     [feelers advance];
     [feelers sample];
 }

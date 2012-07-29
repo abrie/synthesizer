@@ -11,23 +11,30 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    messageSync = [[MessageSync alloc] init];
     midi = [[MIDI alloc] initWithName:@"feelers synthesizer"];
-    backend = [[Backend alloc] initWithMidi:midi];
+    
+    backend = [[Backend alloc] initWithMidi:midi sync:messageSync];
     [backend setStandard];
+    
+    http = [[HTTP alloc] initWithSync:messageSync];
+    [http start];
     
     [_destinationComboBox addItemsWithObjectValues:[midi destinations]];
     [_destinationComboBox setStringValue:@"select destination..."];
     [_sourceComboBox addItemsWithObjectValues:[midi sources]];
     [_sourceComboBox setStringValue:@"select source..."];
-    
-    http = [[HTTP alloc] init];
-    [http instantiateHTTPServer];
 }
 
 - (void)testMidiAction:(id)sender
 {
-    [midi sendOnToChannel:0 number:1 velocity:64];
-    [midi sendOffToChannel:0 number:1 velocity:64];
+    NSLog(@"midi test, sending song start and 24 clicks...");
+    
+    [midi sendStart];
+    for(int i = 0; i < 24; i++ )
+    {
+        [midi sendClock];
+    }
 }
 
 - (void)destinationSelectAction:(id)sender

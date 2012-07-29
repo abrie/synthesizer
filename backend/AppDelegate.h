@@ -2,12 +2,14 @@
 #import "MIDI/MIDI.h"
 #import "HTTP/http.h"
 #import "Backend.h"
+#import "MessageSync.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
 @private
     MIDI *midi;
     HTTP *http;
     Backend *backend;
+    MessageSync *messageSync;
 }
 
 @property (assign) IBOutlet NSWindow *window;
