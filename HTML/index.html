@@ -1,1 +1,83 @@
-hello
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>WebSocket Test</title>
+<script src="jquery-1.7.2.min.js"></script>
+<script language="javascript" type="text/javascript">
+    
+    function wsUri() {
+        return "ws://yeux.local.:12345/service";
+    }
+    
+    function standard() {
+        var result = {
+            'root' : {
+                'type' : 'branch',
+                'name' : 'root',
+                'subNodes' : ['emitter']
+            },
+            'emitter' : {
+                'type' : 'emitter',
+                'name' : 'emitter',
+                'note' : [60],
+                'onVelocity' : [64],
+                'duration' : [1],
+                'offVelocity' : [54],
+                'channel' : [0]
+            }
+        };
+        return result;
+    }
+        
+    function init() {
+        connectSocket();
+    }
+    
+    var websocket;
+    function connectSocket() {
+        websocket = new WebSocket(wsUri());
+        
+        websocket.onopen = function (evt) {
+            onOpen(evt)
+        };
+        
+        websocket.onclose = function (evt) {
+            onClose(evt)
+        };
+        
+        websocket.onmessage = function (evt) {
+            onMessage(evt)
+        };
+        
+        websocket.onerror = function (evt) {
+            onError(evt)
+        };
+    }
+    
+    function onOpen(evt) {
+        doSend( JSON.stringify( standard() ) );
+        $("#output").html("open");
+    }
+    
+    function onClose(evt) {
+        $("#output").html("closed");
+    }
+    
+    function onMessage(evt) {
+         $("#output").html(evt.data);
+    }
+    
+    function onError(evt) {
+       $("#output").html("error:" + evt.data);
+    }
+    
+    function doSend(message) {
+        websocket.send(message);
+    }
+    
+    $(document).ready( function() { init(); });
+    
+</script>
+<h2>WebSocket Test</h2>
+<div id="output"></div>
+
+</html>
