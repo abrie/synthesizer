@@ -44,7 +44,7 @@
     [midi sendOnToChannel:channel number:note velocity:velocity];
 }
 
--(void)midiContinue
+-(void)midiStart
 {
     
 }
@@ -55,9 +55,14 @@
     [feelers sample];
 }
 
--(void)midiStart
+-(void)midiTick
 {
+    
+}
 
+-(void)midiContinue
+{
+    
 }
 
 -(void)midiStop
