@@ -5,6 +5,7 @@
 @synthesize destinationComboBox = _destinationComboBox;
 @synthesize sourceComboBox = _sourceComboBox;
 @synthesize internalClockOutlet = _internalClockOutlet;
+@synthesize tempoOutlet = _tempoOutlet;
 
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -47,16 +48,25 @@
     [midi connectSourceByIndex:index];
 }
 
+- (NSTimeInterval)interval
+{
+    return [[self tempoOutlet] floatValue];
+}
+
 - (IBAction)internalClockAction:(id)sender
 {
     if ([_internalClockOutlet state] == NSOnState)
     {
-        [midi runInternalClock:0.1];
+        [midi runInternalClock:[self interval]];
     }
     else
     {
-        [midi setInternalClock:NO];
+        [midi stopInternalClock];
     }
+}
+
+- (IBAction)tempoAction:(id)sender {
+    [midi adjustInternalClock:[self interval]];
 }
 
 // Returns the directory the application uses to store the Core Data store file. This code uses a directory named "abrie.backend" in the user's Application Support directory.

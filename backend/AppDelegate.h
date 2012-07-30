@@ -17,6 +17,7 @@
 @property (weak) IBOutlet NSComboBox *destinationComboBox;
 @property (weak) IBOutlet NSComboBox *sourceComboBox;
 @property (weak) IBOutlet NSButton *internalClockOutlet;
+@property (weak) IBOutlet NSSlider *tempoOutlet;
 
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
@@ -27,5 +28,6 @@
 - (IBAction)destinationSelectAction:(id)sender;
 - (IBAction)sourceSelectAction:(id)sender;
 - (IBAction)internalClockAction:(id)sender;
+- (IBAction)tempoAction:(id)sender;
 
 @end
