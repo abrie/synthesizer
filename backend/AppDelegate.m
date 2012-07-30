@@ -1,11 +1,11 @@
 #import "AppDelegate.h"
 
 @implementation AppDelegate
-@synthesize testMidiButton = _testMidiButton;
 @synthesize destinationComboBox = _destinationComboBox;
 @synthesize sourceComboBox = _sourceComboBox;
 @synthesize internalClockOutlet = _internalClockOutlet;
 @synthesize tempoOutlet = _tempoOutlet;
+@synthesize frontendOutlet = _frontendOutlet;
 
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -67,6 +67,10 @@
 
 - (IBAction)tempoAction:(id)sender {
     [midi adjustInternalClock:[self interval]];
+}
+
+- (IBAction)frontendAction:(id)sender {
+   [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"http://yeux.local.:12345"]];
 }
 
 // Returns the directory the application uses to store the Core Data store file. This code uses a directory named "abrie.backend" in the user's Application Support directory.
