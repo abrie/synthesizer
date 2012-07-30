@@ -4,6 +4,7 @@
 @synthesize testMidiButton = _testMidiButton;
 @synthesize destinationComboBox = _destinationComboBox;
 @synthesize sourceComboBox = _sourceComboBox;
+@synthesize internalClockOutlet = _internalClockOutlet;
 
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -15,10 +16,7 @@
     midi = [[MIDI alloc] initWithName:@"feelers synthesizer"];
     
     backend = [[Backend alloc] initWithMidi:midi sync:messageSync];
-    [backend setStandard];
-    
     http = [[HTTP alloc] initWithSync:messageSync];
-    [http start];
     
     [_destinationComboBox addItemsWithObjectValues:[midi destinations]];
     [_destinationComboBox setStringValue:@"select destination..."];
@@ -47,6 +45,18 @@
 {
     NSInteger index = [_sourceComboBox indexOfSelectedItem];
     [midi connectSourceByIndex:index];
+}
+
+- (IBAction)internalClockAction:(id)sender
+{
+    if ([_internalClockOutlet state] == NSOnState)
+    {
+        [midi runInternalClock:0.1];
+    }
+    else
+    {
+        [midi setInternalClock:NO];
+    }
 }
 
 // Returns the directory the application uses to store the Core Data store file. This code uses a directory named "abrie.backend" in the user's Application Support directory.
