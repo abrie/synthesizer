@@ -22,24 +22,7 @@
 
 - (void)processMessage:(NSDictionary *)message
 {
-}
-
-- (void)setStandard
-{
-    NSDictionary *standard =
-    @{
-    @"root" : @{ @"type":@"branch", @"name" : @"root", @"subNodes" : @[@"emitter"] },
-    @"emitter" : @{
-        @"type":@"emitter",
-        @"name" : @"emitter",
-        @"note" : @[@60],
-        @"onVelocity" : @[@64],
-        @"duration" : @[@1],
-        @"offVelocity" : @[@54],
-        @"channel" : @[@0]}
-    };
-    
-    [feelers setNodeStates:standard];
+    [feelers setNodeStates:message];
 }
 
 - (void)offChannel:(unsigned int)channel note:(unsigned int)note velocity:(unsigned int)velocity

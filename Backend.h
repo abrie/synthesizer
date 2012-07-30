@@ -12,6 +12,5 @@
 @property (atomic, strong) MessageSync *messageSync;
 
 - (id)initWithMidi:(MIDI *)_midi sync:(MessageSync *)sync;
-- (void)setStandard;
 
 @end
