@@ -17,7 +17,6 @@
     
     backend = [[Backend alloc] initWithMidi:midi];
     http = [[HTTP alloc] init];
-    [http instantiateHTTPServer];
     
     [_destinationComboBox addItemsWithObjectValues:[midi destinations]];
     [_destinationComboBox setStringValue:@"select destination..."];
