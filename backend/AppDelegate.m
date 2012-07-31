@@ -13,11 +13,11 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    messageSync = [[MessageSync alloc] init];
     midi = [[MIDI alloc] initWithName:@"feelers synthesizer"];
     
-    backend = [[Backend alloc] initWithMidi:midi sync:messageSync];
-    http = [[HTTP alloc] initWithSync:messageSync];
+    backend = [[Backend alloc] initWithMidi:midi];
+    http = [[HTTP alloc] init];
+    [http instantiateHTTPServer];
     
     [_destinationComboBox addItemsWithObjectValues:[midi destinations]];
     [_destinationComboBox setStringValue:@"select destination..."];

@@ -1,9 +1,9 @@
 #import "Backend.h"
 
 @implementation Backend
-@synthesize messageSync;
 
-- (id)initWithMidi:(MIDI *)_midi sync:(MessageSync *)sync
+
+- (id)initWithMidi:(MIDI *)_midi
 {
     self = [super init];
     if (self) {
@@ -12,9 +12,6 @@
         
         midi = _midi;
         [midi setRealtimeDelegate:self];
-        
-        messageSync = sync;
-        [messageSync setMessageDelegate:self];
     }
     
     return self;
@@ -42,7 +39,6 @@
 
 -(void)midiClock
 {
-    [messageSync processMessages];
     [feelers advance];
     [feelers sample];
 }
