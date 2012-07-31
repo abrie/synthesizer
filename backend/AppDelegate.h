@@ -1,5 +1,5 @@
 #import <Cocoa/Cocoa.h>
-#import "MIDI/MIDI.h"
+#import "MIDI.h"
 #import "HTTP/http.h"
 #import "Backend.h"
 
@@ -8,6 +8,7 @@
     MIDI *midi;
     HTTP *http;
     Backend *backend;
+    BackendSync *backendSync;
 }
 
 @property (assign) IBOutlet NSWindow *window;

@@ -14,9 +14,10 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     midi = [[MIDI alloc] initWithName:@"feelers synthesizer"];
+    backendSync = [[BackendSync alloc] initWithQueue:dispatch_get_current_queue()];
     
-    backend = [[Backend alloc] initWithMidi:midi];
-    http = [[HTTP alloc] init];
+    backend = [[Backend alloc] initWithMidi:midi sync:backendSync];
+    http = [[HTTP alloc] initWithSync:backendSync];
     
     [_destinationComboBox addItemsWithObjectValues:[midi destinations]];
     [_destinationComboBox setStringValue:@"select destination..."];

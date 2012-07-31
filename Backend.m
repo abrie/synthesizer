@@ -2,8 +2,7 @@
 
 @implementation Backend
 
-
-- (id)initWithMidi:(MIDI *)_midi
+- (id)initWithMidi:(MIDI *)_midi sync:(BackendSync *)q
 {
     self = [super init];
     if (self) {
@@ -12,6 +11,8 @@
         
         midi = _midi;
         [midi setRealtimeDelegate:self];
+        
+        sync = q;
     }
     
     return self;
@@ -39,6 +40,11 @@
 
 -(void)midiClock
 {
+    NSDictionary *message = [sync readMessage]; // troubling assumption here; of there only being one message available...
+    if( message != nil )
+    {
+        NSLog(@"message recved");
+    }
     [feelers advance];
     [feelers sample];
 }
