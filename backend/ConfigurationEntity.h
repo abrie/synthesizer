@@ -4,7 +4,7 @@
 @interface ConfigurationEntity : NSManagedObject
 
 @property (nonatomic, retain) NSString * midiSource;
-@property (nonatomic, retain) NSString * output;
+@property (nonatomic, retain) NSString * midiDestination;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * documentRoot;
 

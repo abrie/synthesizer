@@ -2,9 +2,9 @@
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1800" systemVersion="12A269" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="ConfigurationEntity" representedClassName="ConfigurationEntity" syncable="YES">
         <attribute name="documentRoot" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="midiDestination" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="midiSource" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="output" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="ConfigurationEntity" positionX="0" positionY="0" width="0" height="0"/>

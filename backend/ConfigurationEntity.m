@@ -3,7 +3,7 @@
 @implementation ConfigurationEntity
 
 @dynamic midiSource;
-@dynamic output;
+@dynamic midiDestination;
 @dynamic name;
 @dynamic documentRoot;
 

@@ -38,11 +38,11 @@
 {
     ConfigurationEntity *entity = [self getDefaultMidiEntity];
     
-    NSLog(@"Settings found :%@/%@", [entity midiSource], [entity output]);
-    [midi connectDestinationByName:[entity output]];
+    NSLog(@"Settings found :%@/%@", [entity midiSource], [entity midiDestination]);
+    [midi connectDestinationByName:[entity midiDestination]];
     [midi connectSourceByName:[entity midiSource]];
     [_sourceComboBox selectItemWithObjectValue:[entity midiSource]];
-    [_destinationComboBox selectItemWithObjectValue:[entity output]];
+    [_destinationComboBox selectItemWithObjectValue:[entity midiDestination]];
     [_documentRootOutlet setStringValue:[entity documentRoot]];
     [http setDocumentRoot:[entity documentRoot]];
 }
@@ -90,12 +90,12 @@
 {
     ConfigurationEntity *entity = [self getDefaultMidiEntity];
    
-    entity.output = [self getSelectedOutputName];
+    entity.midiDestination = [self getSelectedOutputName];
     entity.midiSource = [self getSelectedInputName];
     entity.name = @"default";
     entity.documentRoot = [self getDocumentRoot];
     
-    NSLog(@"settings changed: %@/%@", entity.output, entity.midiSource);
+    NSLog(@"settings changed: %@/%@", entity.midiDestination, entity.midiSource);
     NSLog(@"document root: %@", entity.documentRoot);
 }
 
