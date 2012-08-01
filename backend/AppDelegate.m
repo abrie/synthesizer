@@ -36,7 +36,7 @@
 
 - (void)loadSettings
 {
-    MidiEntity *entity = [self getDefaultMidiEntity];
+    ConfigurationEntity *entity = [self getDefaultMidiEntity];
     
     NSLog(@"Settings found :%@/%@", [entity input], [entity output]);
     [midi connectDestinationByName:[entity output]];
@@ -47,30 +47,25 @@
     [http setDocumentRoot:[entity documentRoot]];
 }
 
-- (MidiEntity *)getDefaultMidiEntity
+- (ConfigurationEntity *)getDefaultMidiEntity
 {
    // Retrieve the entity from the local store -- much like a table in a database
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"MidiEntity" inManagedObjectContext:[self managedObjectContext]];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ConfigurationEntity"
+                                              inManagedObjectContext:[self managedObjectContext]];
+    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entity];
     
-    // Set the predicate -- much like a WHERE statement in a SQL database
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"config == %@", @"default"];
     [request setPredicate:predicate];
     
-    // Set the sorting -- mandatory, even if you're fetching a single record/object
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"config" ascending:YES];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     [request setSortDescriptors:sortDescriptors];
-    sortDescriptors = nil;
-    sortDescriptor = nil;
     
-     NSError *error;
+    NSError *error;
     
-    // Request the data -- NOTE, this assumes only one match, that
-    // yourIdentifyingQualifier is unique. It just grabs the first object in the array.
     NSArray *matches = [[self managedObjectContext] executeFetchRequest:request error:&error];
-    NSLog(@"Number of matches: %d", (int)[matches count]);
     
     if ([matches count] > 0)
     {
@@ -78,13 +73,14 @@
     }
     else
     {
-        MidiEntity *m = [NSEntityDescription insertNewObjectForEntityForName:@"MidiEntity"
+        ConfigurationEntity *m = [NSEntityDescription insertNewObjectForEntityForName:@"ConfigurationEntity"
                                                     inManagedObjectContext:[self managedObjectContext]];
         NSURL *storeURL = [self applicationFilesDirectory];
         
-        id globalStore = [_persistentStoreCoordinator persistentStoreForURL:storeURL];
+        id store = [_persistentStoreCoordinator persistentStoreForURL:storeURL];
         
-        [_managedObjectContext assignObject:m toPersistentStore:globalStore];
+        [_managedObjectContext assignObject:m
+                          toPersistentStore:store];
         
         return m;
     }
@@ -92,7 +88,7 @@
 
 - (void)doStore
 {
-    MidiEntity *entity = [self getDefaultMidiEntity];
+    ConfigurationEntity *entity = [self getDefaultMidiEntity];
    
     entity.output = [self getSelectedOutputName];
     entity.input = [self getSelectedInputName];

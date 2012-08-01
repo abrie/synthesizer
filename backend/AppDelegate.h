@@ -2,7 +2,7 @@
 #import "MIDI.h"
 #import "HTTP/http.h"
 #import "Backend.h"
-#import "MidiEntity.h"
+#import "ConfigurationEntity.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
 @private
