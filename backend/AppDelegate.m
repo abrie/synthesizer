@@ -156,7 +156,7 @@
 }
 
 - (IBAction)frontendAction:(id)sender {
-   [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"http://yeux.local.:12345"]];
+   [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"http://yeux.local.:12345/frontend.html"]];
 }
 
 // Returns the directory the application uses to store the Core Data store file. This code uses a directory named "abrie.backend" in the user's Application Support directory.
