@@ -17,6 +17,7 @@
 @property (weak) IBOutlet NSButton *internalClockOutlet;
 @property (weak) IBOutlet NSSlider *tempoOutlet;
 @property (weak) IBOutlet NSButton *frontendOutlet;
+@property (weak) IBOutlet NSTextField *intervalValueOutput;
 
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;

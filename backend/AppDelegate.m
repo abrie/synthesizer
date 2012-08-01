@@ -6,6 +6,7 @@
 @synthesize internalClockOutlet = _internalClockOutlet;
 @synthesize tempoOutlet = _tempoOutlet;
 @synthesize frontendOutlet = _frontendOutlet;
+@synthesize intervalValueOutput = _intervalValueOutput;
 
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -56,6 +57,7 @@
 
 - (IBAction)tempoAction:(id)sender {
     [midi adjustInternalClock:[self interval]];
+    [_intervalValueOutput setStringValue:[NSString stringWithFormat:@"%@",[NSNumber numberWithDouble:[self interval]]]];
 }
 
 - (IBAction)frontendAction:(id)sender {
