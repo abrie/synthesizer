@@ -4,7 +4,7 @@
 
 @dynamic input;
 @dynamic output;
-@dynamic config;
+@dynamic name;
 @dynamic documentRoot;
 
 @end

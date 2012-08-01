@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		20377FC315C9B737006BF0B2 /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = 20377FC215C9B737006BF0B2 /* HTML */; };
-		20B7658D15C8D50C00C00976 /* MidiEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B7658C15C8D50C00C00976 /* MidiEntity.m */; };
+		20B7658D15C8D50C00C00976 /* ConfigurationEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B7658C15C8D50C00C00976 /* ConfigurationEntity.m */; };
 		20DC119015BB050000DC5CF1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20DC118F15BB050000DC5CF1 /* Cocoa.framework */; };
 		20DC119A15BB050100DC5CF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 20DC119815BB050100DC5CF1 /* InfoPlist.strings */; };
 		20DC119C15BB050100DC5CF1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DC119B15BB050100DC5CF1 /* main.m */; };
@@ -38,8 +38,8 @@
 
 /* Begin PBXFileReference section */
 		20377FC215C9B737006BF0B2 /* HTML */ = {isa = PBXFileReference; lastKnownFileType = folder; name = HTML; path = ../frontend/frontend/HTML; sourceTree = "<group>"; };
-		20B7658B15C8D50C00C00976 /* MidiEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiEntity.h; sourceTree = "<group>"; };
-		20B7658C15C8D50C00C00976 /* MidiEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MidiEntity.m; sourceTree = "<group>"; };
+		20B7658B15C8D50C00C00976 /* ConfigurationEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationEntity.h; sourceTree = "<group>"; };
+		20B7658C15C8D50C00C00976 /* ConfigurationEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationEntity.m; sourceTree = "<group>"; };
 		20DC118B15BB050000DC5CF1 /* backend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = backend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20DC118F15BB050000DC5CF1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		20DC119215BB050000DC5CF1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -143,8 +143,8 @@
 				20DC11A215BB050100DC5CF1 /* AppDelegate.m */,
 				20DC11A415BB050100DC5CF1 /* MainMenu.xib */,
 				20DC11A715BB050100DC5CF1 /* backend.xcdatamodeld */,
-				20B7658B15C8D50C00C00976 /* MidiEntity.h */,
-				20B7658C15C8D50C00C00976 /* MidiEntity.m */,
+				20B7658B15C8D50C00C00976 /* ConfigurationEntity.h */,
+				20B7658C15C8D50C00C00976 /* ConfigurationEntity.m */,
 				20DC119615BB050100DC5CF1 /* Supporting Files */,
 			);
 			path = backend;
@@ -294,7 +294,7 @@
 				20DC11A315BB050100DC5CF1 /* AppDelegate.m in Sources */,
 				20DC11A915BB050100DC5CF1 /* backend.xcdatamodeld in Sources */,
 				20E8284C15BC848E000E2192 /* Backend.m in Sources */,
-				20B7658D15C8D50C00C00976 /* MidiEntity.m in Sources */,
+				20B7658D15C8D50C00C00976 /* ConfigurationEntity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

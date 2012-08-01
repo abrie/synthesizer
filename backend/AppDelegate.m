@@ -56,7 +56,7 @@
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"config == %@", @"default"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"default"];
     [request setPredicate:predicate];
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"config" ascending:YES];
@@ -92,7 +92,7 @@
    
     entity.output = [self getSelectedOutputName];
     entity.input = [self getSelectedInputName];
-    entity.config = @"default";
+    entity.name = @"default";
     entity.documentRoot = [self getDocumentRoot];
     
     NSLog(@"settings changed: %@/%@", entity.output, entity.input);
