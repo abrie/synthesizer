@@ -25,17 +25,6 @@
     [_sourceComboBox setStringValue:@"select source..."];
 }
 
-- (void)testMidiAction:(id)sender
-{
-    NSLog(@"midi test, sending song start and 24 clicks...");
-    
-    [midi sendStart];
-    for(int i = 0; i < 24; i++ )
-    {
-        [midi sendClock];
-    }
-}
-
 - (void)destinationSelectAction:(id)sender
 {
     NSInteger index = [_destinationComboBox indexOfSelectedItem];
