@@ -18,7 +18,7 @@
     backendSync = [[BackendSync alloc] initWithQueue:dispatch_get_current_queue()];
     
     backend = [[Backend alloc] initWithMidi:midi sync:backendSync];
-    http = [[HTTP alloc] initWithSync:backendSync];
+    http = [[HTTP alloc] initWithPath:[self defaultWebPath]  sync:backendSync];
     
     [_destinationComboBox addItemsWithObjectValues:[midi destinations]];
     [_destinationComboBox setStringValue:@"select destination..."];
@@ -26,6 +26,11 @@
     [_sourceComboBox setStringValue:@"select source..."];
     
     [self loadSettings];
+}
+
+- (NSString *)defaultWebPath
+{
+    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"HTML"];
 }
 
 - (void)loadSettings
