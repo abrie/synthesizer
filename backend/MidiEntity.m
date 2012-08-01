@@ -14,4 +14,6 @@
 @dynamic input;
 @dynamic output;
 @dynamic config;
+@dynamic documentRoot;
+
 @end

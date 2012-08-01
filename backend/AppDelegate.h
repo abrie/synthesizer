@@ -19,6 +19,7 @@
 @property (weak) IBOutlet NSSlider *tempoOutlet;
 @property (weak) IBOutlet NSButton *frontendOutlet;
 @property (weak) IBOutlet NSTextField *intervalValueOutput;
+@property (weak) IBOutlet NSTextField *documentRootOutlet;
 
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
@@ -30,5 +31,7 @@
 - (IBAction)internalClockAction:(id)sender;
 - (IBAction)tempoAction:(id)sender;
 - (IBAction)frontendAction:(id)sender;
+- (IBAction)documentRootAction:(id)sender;
+- (IBAction)defaultDocumentRootAction:(id)sender;
 
 @end

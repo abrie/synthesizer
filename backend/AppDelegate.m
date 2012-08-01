@@ -7,6 +7,7 @@
 @synthesize tempoOutlet = _tempoOutlet;
 @synthesize frontendOutlet = _frontendOutlet;
 @synthesize intervalValueOutput = _intervalValueOutput;
+@synthesize documentRootOutlet = _documentRootOutlet;
 
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -18,7 +19,7 @@
     backendSync = [[BackendSync alloc] initWithQueue:dispatch_get_current_queue()];
     
     backend = [[Backend alloc] initWithMidi:midi sync:backendSync];
-    http = [[HTTP alloc] initWithPath:[self defaultWebPath]  sync:backendSync];
+    http = [[HTTP alloc] initWithSync:backendSync];
     
     [_destinationComboBox addItemsWithObjectValues:[midi destinations]];
     [_destinationComboBox setStringValue:@"select destination..."];
@@ -42,6 +43,8 @@
     [midi connectSourceByName:[entity input]];
     [_sourceComboBox selectItemWithObjectValue:[entity input]];
     [_destinationComboBox selectItemWithObjectValue:[entity output]];
+    [_documentRootOutlet setStringValue:[entity documentRoot]];
+    [http setDocumentRoot:[entity documentRoot]];
 }
 
 - (MidiEntity *)getDefaultMidiEntity
@@ -94,8 +97,15 @@
     entity.output = [self getSelectedOutputName];
     entity.input = [self getSelectedInputName];
     entity.config = @"default";
+    entity.documentRoot = [self getDocumentRoot];
     
     NSLog(@"settings changed: %@/%@", entity.output, entity.input);
+    NSLog(@"document root: %@", entity.documentRoot);
+}
+
+- (NSString *)getDocumentRoot
+{
+    return [_documentRootOutlet stringValue];
 }
 
 - (NSString *)getSelectedInputName
@@ -162,6 +172,17 @@
 
 - (IBAction)frontendAction:(id)sender {
    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"http://yeux.local.:12345/frontend.html"]];
+}
+
+- (IBAction)documentRootAction:(id)sender {
+    [http setDocumentRoot:[_documentRootOutlet stringValue]];
+    [self doStore];
+}
+
+- (IBAction)defaultDocumentRootAction:(id)sender {
+    [_documentRootOutlet setStringValue:[self defaultWebPath]];
+    [http setDocumentRoot:[_documentRootOutlet stringValue]];
+    [self doStore];
 }
 
 // Returns the directory the application uses to store the Core Data store file. This code uses a directory named "abrie.backend" in the user's Application Support directory.

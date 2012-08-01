@@ -2,10 +2,11 @@
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1800" systemVersion="12A269" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="MidiEntity" representedClassName="MidiEntity" syncable="YES">
         <attribute name="config" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="documentRoot" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="input" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="output" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MidiEntity" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MidiEntity" positionX="0" positionY="0" width="128" height="105"/>
     </elements>
 </model>
