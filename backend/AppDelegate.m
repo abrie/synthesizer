@@ -24,18 +24,113 @@
     [_destinationComboBox setStringValue:@"select destination..."];
     [_sourceComboBox addItemsWithObjectValues:[midi sources]];
     [_sourceComboBox setStringValue:@"select source..."];
+    
+    [self loadSettings];
+}
+
+- (void)loadSettings
+{
+    MidiEntity *entity = [self getDefaultMidiEntity];
+    
+    NSLog(@"Settings found :%@/%@", [entity input], [entity output]);
+    [midi connectDestinationByName:[entity output]];
+    [midi connectSourceByName:[entity input]];
+    [_sourceComboBox selectItemWithObjectValue:[entity input]];
+    [_destinationComboBox selectItemWithObjectValue:[entity output]];
+}
+
+- (MidiEntity *)getDefaultMidiEntity
+{
+   // Retrieve the entity from the local store -- much like a table in a database
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"MidiEntity" inManagedObjectContext:[self managedObjectContext]];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    
+    // Set the predicate -- much like a WHERE statement in a SQL database
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"config == %@", @"default"];
+    [request setPredicate:predicate];
+    
+    // Set the sorting -- mandatory, even if you're fetching a single record/object
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"config" ascending:YES];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [request setSortDescriptors:sortDescriptors];
+    sortDescriptors = nil;
+    sortDescriptor = nil;
+    
+     NSError *error;
+    
+    // Request the data -- NOTE, this assumes only one match, that
+    // yourIdentifyingQualifier is unique. It just grabs the first object in the array.
+    NSArray *matches = [[self managedObjectContext] executeFetchRequest:request error:&error];
+    NSLog(@"Number of matches: %d", (int)[matches count]);
+    
+    if ([matches count] > 0)
+    {
+        return matches[0];
+    }
+    else
+    {
+        MidiEntity *m = [NSEntityDescription insertNewObjectForEntityForName:@"MidiEntity"
+                                                    inManagedObjectContext:[self managedObjectContext]];
+        NSURL *storeURL = [self applicationFilesDirectory];
+        
+        id globalStore = [_persistentStoreCoordinator persistentStoreForURL:storeURL];
+        
+        [_managedObjectContext assignObject:m toPersistentStore:globalStore];
+        
+        return m;
+    }
+}
+
+- (void)doStore
+{
+    MidiEntity *entity = [self getDefaultMidiEntity];
+   
+    entity.output = [self getSelectedOutputName];
+    entity.input = [self getSelectedInputName];
+    entity.config = @"default";
+    
+    NSLog(@"settings changed: %@/%@", entity.output, entity.input);
+}
+
+- (NSString *)getSelectedInputName
+{
+    NSUInteger index = [_sourceComboBox indexOfSelectedItem];
+    if (index < [_sourceComboBox numberOfItems])
+    {
+        return [midi sources][index];
+    }
+    else
+    {
+        return @"";
+    }
+}
+
+- (NSString *)getSelectedOutputName
+{
+    NSUInteger index = [_destinationComboBox indexOfSelectedItem];
+    if (index < [_destinationComboBox numberOfItems])
+    {
+        return [midi destinations][index];
+    }
+    else
+    {
+        return @"";
+    }
 }
 
 - (void)destinationSelectAction:(id)sender
 {
     NSInteger index = [_destinationComboBox indexOfSelectedItem];
     [midi connectDestinationByIndex:index];
+    [self doStore];
 }
 
 - (void)sourceSelectAction:(id)sender
 {
     NSInteger index = [_sourceComboBox indexOfSelectedItem];
     [midi connectSourceByIndex:index];
+    [self doStore];
 }
 
 - (NSTimeInterval)interval
