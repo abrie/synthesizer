@@ -90,7 +90,7 @@
 {
     ConfigurationEntity *entity = [self getDefaultMidiEntity];
    
-    entity.midiDestination = [self getSelectedOutputName];
+    entity.midiDestination = [self getSelectedDestinationName];
     entity.midiSource = [self getSelectedSourceName];
     entity.name = @"default";
     entity.documentRoot = [self getDocumentRoot];
@@ -117,7 +117,7 @@
     }
 }
 
-- (NSString *)getSelectedOutputName
+- (NSString *)getSelectedDestinationName
 {
     NSUInteger index = [_destinationComboBox indexOfSelectedItem];
     if (index < [_destinationComboBox numberOfItems])
