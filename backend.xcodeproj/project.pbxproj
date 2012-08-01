@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		203BD5CA15C430F8000415DB /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = 203BD5C915C430F8000415DB /* HTML */; };
+		20377FC315C9B737006BF0B2 /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = 20377FC215C9B737006BF0B2 /* HTML */; };
 		20B7658D15C8D50C00C00976 /* MidiEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B7658C15C8D50C00C00976 /* MidiEntity.m */; };
 		20DC119015BB050000DC5CF1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20DC118F15BB050000DC5CF1 /* Cocoa.framework */; };
 		20DC119A15BB050100DC5CF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 20DC119815BB050100DC5CF1 /* InfoPlist.strings */; };
@@ -37,7 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		203BD5C915C430F8000415DB /* HTML */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HTML; sourceTree = "<group>"; };
+		20377FC215C9B737006BF0B2 /* HTML */ = {isa = PBXFileReference; lastKnownFileType = folder; name = HTML; path = ../frontend/frontend/HTML; sourceTree = "<group>"; };
 		20B7658B15C8D50C00C00976 /* MidiEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiEntity.h; sourceTree = "<group>"; };
 		20B7658C15C8D50C00C00976 /* MidiEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MidiEntity.m; sourceTree = "<group>"; };
 		20DC118B15BB050000DC5CF1 /* backend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = backend.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,7 +94,7 @@
 		20DC118015BB050000DC5CF1 = {
 			isa = PBXGroup;
 			children = (
-				203BD5C915C430F8000415DB /* HTML */,
+				20377FC215C9B737006BF0B2 /* HTML */,
 				20DC119515BB050000DC5CF1 /* backend */,
 				20DC11B515BB050100DC5CF1 /* backendTests */,
 				20DC118E15BB050000DC5CF1 /* Frameworks */,
@@ -255,7 +255,7 @@
 				20DC119A15BB050100DC5CF1 /* InfoPlist.strings in Resources */,
 				20DC11A015BB050100DC5CF1 /* Credits.rtf in Resources */,
 				20DC11A615BB050100DC5CF1 /* MainMenu.xib in Resources */,
-				203BD5CA15C430F8000415DB /* HTML in Resources */,
+				20377FC315C9B737006BF0B2 /* HTML in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
