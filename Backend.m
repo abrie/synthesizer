@@ -40,11 +40,7 @@
 
 -(void)midiClock
 {
-    NSDictionary *message = [sync readMessage]; // troubling assumption here; of there only being one message available...
-    if( message != nil )
-    {
-        NSLog(@"message recved");
-    }
+    [feelers setNodeStates: [sync readMessage]];
     [feelers advance];
     [feelers sample];
 }
