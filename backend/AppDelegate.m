@@ -19,7 +19,7 @@
     backendSync = [[BackendSync alloc] initWithQueue:dispatch_get_current_queue()];
     
     backend = [[Backend alloc] initWithMidi:midi sync:backendSync];
-    http = [[HTTP alloc] initWithSync:backendSync];
+    http = [[HTTP alloc] initWithSync:backendSync withDocumentRoot:[self defaultWebPath]];
     
     [_destinationComboBox addItemsWithObjectValues:[midi destinations]];
     [_destinationComboBox setStringValue:@"select destination..."];
@@ -36,7 +36,7 @@
 
 - (void)loadSettings
 {
-    ConfigurationEntity *entity = [self getDefaultMidiEntity];
+    ConfigurationEntity *entity = [self getDefaultConfigurationEntity];
     
     NSLog(@"Settings found :%@/%@", [entity midiSource], [entity midiDestination]);
     [midi connectDestinationByName:[entity midiDestination]];
@@ -47,7 +47,7 @@
     [http setDocumentRoot:[entity documentRoot]];
 }
 
-- (ConfigurationEntity *)getDefaultMidiEntity
+- (ConfigurationEntity *)getDefaultConfigurationEntity
 {
    // Retrieve the entity from the local store -- much like a table in a database
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"ConfigurationEntity"
@@ -59,7 +59,7 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"default"];
     [request setPredicate:predicate];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"config" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     [request setSortDescriptors:sortDescriptors];
     
@@ -84,19 +84,6 @@
         
         return m;
     }
-}
-
-- (void)doStore
-{
-    ConfigurationEntity *entity = [self getDefaultMidiEntity];
-   
-    entity.midiDestination = [self getSelectedDestinationName];
-    entity.midiSource = [self getSelectedSourceName];
-    entity.name = @"default";
-    entity.documentRoot = [self getDocumentRoot];
-    
-    NSLog(@"settings changed: %@/%@", entity.midiDestination, entity.midiSource);
-    NSLog(@"document root: %@", entity.documentRoot);
 }
 
 - (NSString *)getDocumentRoot
@@ -130,18 +117,29 @@
     }
 }
 
+- (void)doStore
+{
+    ConfigurationEntity *entity = [self getDefaultConfigurationEntity];
+   
+    entity.midiDestination = [self getSelectedDestinationName];
+    entity.midiSource = [self getSelectedSourceName];
+    entity.name = @"default";
+    entity.documentRoot = [self getDocumentRoot];
+    
+    NSLog(@"settings changed: %@/%@", entity.midiDestination, entity.midiSource);
+    NSLog(@"document root: %@", entity.documentRoot);
+}
+
 - (void)destinationSelectAction:(id)sender
 {
     NSInteger index = [_destinationComboBox indexOfSelectedItem];
     [midi connectDestinationByIndex:index];
-    [self doStore];
 }
 
 - (void)sourceSelectAction:(id)sender
 {
     NSInteger index = [_sourceComboBox indexOfSelectedItem];
     [midi connectSourceByIndex:index];
-    [self doStore];
 }
 
 - (NSTimeInterval)interval
@@ -172,7 +170,6 @@
 
 - (IBAction)documentRootAction:(id)sender {
     [http setDocumentRoot:[_documentRootOutlet stringValue]];
-    [self doStore];
 }
 
 - (IBAction)defaultDocumentRootAction:(id)sender {
@@ -285,6 +282,8 @@
 // Performs the save action for the application, which is to send the save: message to the application's managed object context. Any encountered errors are presented to the user.
 - (IBAction)saveAction:(id)sender
 {
+    [self doStore];
+    
     NSError *error = nil;
     
     if (![[self managedObjectContext] commitEditing]) {

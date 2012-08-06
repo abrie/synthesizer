@@ -18,9 +18,17 @@
     return self;
 }
 
-- (void)processMessage:(NSDictionary *)message
+- (void)processMessages
 {
-    [feelers setNodeStates:message];
+    NSDictionary *message = [sync readMessage];
+    
+    if (!message)
+    {
+        return;
+    }
+    
+    NSArray *instruments = message[@"toFeelers"][@"instruments"];
+    [feelers setNodeStatesWithInstruments:instruments];
 }
 
 - (void)offChannel:(unsigned int)channel note:(unsigned int)note velocity:(unsigned int)velocity
@@ -40,7 +48,7 @@
 
 -(void)midiClock
 {
-    [feelers setNodeStates: [sync readMessage]];
+    [self processMessages];
     [feelers advance];
     [feelers sample];
 }
