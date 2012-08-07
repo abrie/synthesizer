@@ -15,8 +15,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    midi = [[MIDI alloc] initWithName:@"feelers synthesizer"];
-    backendSync = [[BackendSync alloc] initWithQueue:dispatch_get_current_queue()];
+    midi = [[MIDI alloc] initWithName:@"feelers synthesizer" withSync:dispatch_get_current_queue()];
+    backendSync = [[BackendSync alloc] init];
     
     backend = [[Backend alloc] initWithMidi:midi sync:backendSync];
     http = [[HTTP alloc] initWithSync:backendSync withDocumentRoot:[self defaultWebPath]];
