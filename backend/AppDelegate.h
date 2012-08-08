@@ -7,9 +7,8 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
 @private
     MIDI *midi;
-    HTTP *http;
+    BackendHTTPServer *http;
     Backend *backend;
-    BackendSync *backendSync;
 }
 
 @property (assign) IBOutlet NSWindow *window;

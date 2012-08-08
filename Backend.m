@@ -2,31 +2,35 @@
 
 @implementation Backend
 
-- (id)initWithMidi:(MIDI *)_midi sync:(BackendSync *)q
+- (id)initWithMidi:(MIDI *)_midi withHTTP:(BackendHTTPServer *)_http withQueue:(dispatch_queue_t)_queue
 {
     self = [super init];
     if (self) {
+        queue = _queue;
+        
         feelers = [[Feelers alloc] init];
         [feelers setNoteEventDelegate:self];
         
         midi = _midi;
         [midi setRealtimeDelegate:self];
         
-        sync = q;
+        http = _http;
+        [http setMessageDelegate:self];
     }
     
     return self;
 }
 
-- (void)processMessages
+- (void)messageFromClient:(NSDictionary *)message
 {
-    NSDictionary *message = [sync readMessage];
-    
-    if (!message)
-    {
-        return;
-    }
-    
+    dispatch_async(queue, ^{
+        [self processMessage:message];
+        
+    });
+}
+
+- (void)processMessage:(NSDictionary *)message
+{
     NSArray *instruments = message[@"toFeelers"][@"instruments"];
     [feelers setNodeStatesWithInstruments:instruments];
 }
@@ -48,9 +52,10 @@
 
 -(void)midiClock
 {
-    [self processMessages];
-    [feelers advance];
-    [feelers sample];
+    dispatch_async(queue, ^{
+        [feelers advance];
+        [feelers sample];
+    });
 }
 
 -(void)midiTick
