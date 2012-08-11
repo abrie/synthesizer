@@ -1,7 +1,7 @@
 #import <Cocoa/Cocoa.h>
 #import "MIDI.h"
 #import "HTTP.h"
-#import "Backend.h"
+#import "Synthesizer.h"
 #import "ConfigurationEntity.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {

@@ -1,6 +1,6 @@
-#import "backendTests.h"
+#import "synthesizerTests.h"
 
-@implementation backendTests
+@implementation synthesizerTests
 
 - (void)setUp
 {

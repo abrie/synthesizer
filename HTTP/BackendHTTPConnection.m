@@ -1,7 +1,7 @@
 #import "BackendHTTPConnection.h"
 #import "CocoaHTTPServer/Core/HTTPMessage.h"
 #import "CocoaHTTPServer/Core/HTTPResponse.h"
-#import "GCDAsyncSocket.h"
+#import "CocoaHTTPServer/Vendor/CocoaAsyncSocket/GCDAsyncSocket.h"
 #import "CocoaHTTPServer/Core/HTTPLogging.h"
 
 @implementation BackendHTTPConnection

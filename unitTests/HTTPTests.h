@@ -1,5 +1,6 @@
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface backendTests : SenTestCase
+@interface HTTPTests : SenTestCase
+
 
 @end

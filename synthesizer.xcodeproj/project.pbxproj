@@ -7,26 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		200C081E15D6962000F4A0DD /* Synthesizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 200C081D15D6962000F4A0DD /* Synthesizer.m */; };
+		200C082D15D6995800F4A0DD /* HTTPTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 200C082815D6995800F4A0DD /* HTTPTests.m */; };
+		200C082F15D6995800F4A0DD /* synthesizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 200C082B15D6995800F4A0DD /* synthesizerTests.m */; };
 		20377FC315C9B737006BF0B2 /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = 20377FC215C9B737006BF0B2 /* HTML */; };
-		20B7658D15C8D50C00C00976 /* ConfigurationEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B7658C15C8D50C00C00976 /* ConfigurationEntity.m */; };
 		20DC119015BB050000DC5CF1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20DC118F15BB050000DC5CF1 /* Cocoa.framework */; };
-		20DC119A15BB050100DC5CF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 20DC119815BB050100DC5CF1 /* InfoPlist.strings */; };
-		20DC119C15BB050100DC5CF1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DC119B15BB050100DC5CF1 /* main.m */; };
-		20DC11A015BB050100DC5CF1 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 20DC119E15BB050100DC5CF1 /* Credits.rtf */; };
-		20DC11A315BB050100DC5CF1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DC11A215BB050100DC5CF1 /* AppDelegate.m */; };
-		20DC11A615BB050100DC5CF1 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20DC11A415BB050100DC5CF1 /* MainMenu.xib */; };
-		20DC11A915BB050100DC5CF1 /* backend.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 20DC11A715BB050100DC5CF1 /* backend.xcdatamodeld */; };
 		20DC11B115BB050100DC5CF1 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20DC11B015BB050100DC5CF1 /* SenTestingKit.framework */; };
 		20DC11B215BB050100DC5CF1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20DC118F15BB050000DC5CF1 /* Cocoa.framework */; };
-		20DC11BA15BB050100DC5CF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 20DC11B815BB050100DC5CF1 /* InfoPlist.strings */; };
-		20DC11BD15BB050100DC5CF1 /* backendTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DC11BC15BB050100DC5CF1 /* backendTests.m */; };
 		20E7949B15D611BF009DCFD0 /* BackendHTTPConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7949215D611BF009DCFD0 /* BackendHTTPConfig.m */; };
 		20E7949C15D611BF009DCFD0 /* BackendHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7949415D611BF009DCFD0 /* BackendHTTPConnection.m */; };
 		20E7949D15D611BF009DCFD0 /* BackendSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7949615D611BF009DCFD0 /* BackendSync.m */; };
 		20E7949E15D611BF009DCFD0 /* BackendWebSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7949815D611BF009DCFD0 /* BackendWebSocketConnection.m */; };
 		20E7949F15D611BF009DCFD0 /* HTTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7949A15D611BF009DCFD0 /* HTTP.m */; };
-		20E8284315BC6344000E2192 /* HTTP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E8284215BC6344000E2192 /* HTTP.framework */; };
-		20E8284C15BC848E000E2192 /* Backend.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E8284B15BC848E000E2192 /* Backend.m */; };
+		20E81C3115D69B5A00758972 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E81C2315D69B5A00758972 /* AppDelegate.m */; };
+		20E81C3215D69B5A00758972 /* ConfigurationEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E81C2515D69B5A00758972 /* ConfigurationEntity.m */; };
+		20E81C3415D69B5A00758972 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 20E81C2815D69B5A00758972 /* InfoPlist.strings */; };
+		20E81C3515D69B5A00758972 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20E81C2A15D69B5A00758972 /* MainMenu.xib */; };
+		20E81C3615D69B5A00758972 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E81C2C15D69B5A00758972 /* main.m */; };
+		20E81C3815D69B5A00758972 /* synthesizer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 20E81C2F15D69B5A00758972 /* synthesizer.xcdatamodeld */; };
+		20E81C3C15D69D4000758972 /* HTTP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E8284215BC6344000E2192 /* HTTP.framework */; };
 		20F09E4215BC51790093607F /* feelers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20F09E4015BC51790093607F /* feelers.framework */; };
 		20F09E4315BC51790093607F /* MIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20F09E4115BC51790093607F /* MIDI.framework */; };
 /* End PBXBuildFile section */
@@ -42,29 +41,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		200C081C15D6962000F4A0DD /* Synthesizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Synthesizer.h; sourceTree = SOURCE_ROOT; };
+		200C081D15D6962000F4A0DD /* Synthesizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Synthesizer.m; sourceTree = SOURCE_ROOT; };
+		200C082715D6995800F4A0DD /* HTTPTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPTests.h; sourceTree = "<group>"; };
+		200C082815D6995800F4A0DD /* HTTPTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPTests.m; sourceTree = "<group>"; };
+		200C082A15D6995800F4A0DD /* synthesizerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = synthesizerTests.h; sourceTree = "<group>"; };
+		200C082B15D6995800F4A0DD /* synthesizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = synthesizerTests.m; sourceTree = "<group>"; };
 		20377FC215C9B737006BF0B2 /* HTML */ = {isa = PBXFileReference; lastKnownFileType = folder; name = HTML; path = ../frontend/frontend/HTML; sourceTree = "<group>"; };
-		20B7658B15C8D50C00C00976 /* ConfigurationEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationEntity.h; sourceTree = "<group>"; };
-		20B7658C15C8D50C00C00976 /* ConfigurationEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationEntity.m; sourceTree = "<group>"; };
-		20DC118B15BB050000DC5CF1 /* backend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = backend.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		20DC118B15BB050000DC5CF1 /* synthesizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = synthesizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20DC118F15BB050000DC5CF1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		20DC119215BB050000DC5CF1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		20DC119315BB050000DC5CF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		20DC119415BB050000DC5CF1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		20DC119715BB050100DC5CF1 /* backend-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "backend-Info.plist"; sourceTree = "<group>"; };
-		20DC119915BB050100DC5CF1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		20DC119B15BB050100DC5CF1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		20DC119D15BB050100DC5CF1 /* backend-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "backend-Prefix.pch"; sourceTree = "<group>"; };
-		20DC119F15BB050100DC5CF1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		20DC11A115BB050100DC5CF1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		20DC11A215BB050100DC5CF1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		20DC11A515BB050100DC5CF1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		20DC11A815BB050100DC5CF1 /* backend.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = backend.xcdatamodel; sourceTree = "<group>"; };
-		20DC11AF15BB050100DC5CF1 /* backendTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = backendTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		20DC11AF15BB050100DC5CF1 /* synthesizerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = synthesizerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		20DC11B015BB050100DC5CF1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		20DC11B715BB050100DC5CF1 /* backendTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "backendTests-Info.plist"; sourceTree = "<group>"; };
-		20DC11B915BB050100DC5CF1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		20DC11BB15BB050100DC5CF1 /* backendTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = backendTests.h; sourceTree = "<group>"; };
-		20DC11BC15BB050100DC5CF1 /* backendTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = backendTests.m; sourceTree = "<group>"; };
 		20E7949115D611BF009DCFD0 /* BackendHTTPConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackendHTTPConfig.h; sourceTree = "<group>"; };
 		20E7949215D611BF009DCFD0 /* BackendHTTPConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackendHTTPConfig.m; sourceTree = "<group>"; };
 		20E7949315D611BF009DCFD0 /* BackendHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackendHTTPConnection.h; sourceTree = "<group>"; };
@@ -75,9 +65,17 @@
 		20E7949815D611BF009DCFD0 /* BackendWebSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackendWebSocketConnection.m; sourceTree = "<group>"; };
 		20E7949915D611BF009DCFD0 /* HTTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTP.h; sourceTree = "<group>"; };
 		20E7949A15D611BF009DCFD0 /* HTTP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTP.m; sourceTree = "<group>"; };
+		20E81C2215D69B5A00758972 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		20E81C2315D69B5A00758972 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		20E81C2415D69B5A00758972 /* ConfigurationEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationEntity.h; sourceTree = "<group>"; };
+		20E81C2515D69B5A00758972 /* ConfigurationEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationEntity.m; sourceTree = "<group>"; };
+		20E81C2915D69B5A00758972 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		20E81C2B15D69B5A00758972 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		20E81C2C15D69B5A00758972 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		20E81C3015D69B5A00758972 /* synthesizer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = synthesizer.xcdatamodel; sourceTree = "<group>"; };
+		20E81C3915D69CE100758972 /* synthesizer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "synthesizer-Info.plist"; sourceTree = "<group>"; };
+		20E81C3A15D69CE100758972 /* synthesizer-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "synthesizer-Prefix.pch"; sourceTree = "<group>"; };
 		20E8284215BC6344000E2192 /* HTTP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HTTP.framework; path = "../../../Library/Developer/Xcode/DerivedData/synthesizer-fikigagxjnvvoeabcecxqikhscdv/Build/Products/Debug/HTTP.framework"; sourceTree = "<group>"; };
-		20E8284A15BC848E000E2192 /* Backend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Backend.h; path = ../Backend.h; sourceTree = "<group>"; };
-		20E8284B15BC848E000E2192 /* Backend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Backend.m; path = ../Backend.m; sourceTree = "<group>"; };
 		20F09E4015BC51790093607F /* feelers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = feelers.framework; path = "../../../Library/Developer/Xcode/DerivedData/synthesizer-fikigagxjnvvoeabcecxqikhscdv/Build/Products/Debug/feelers.framework"; sourceTree = "<group>"; };
 		20F09E4115BC51790093607F /* MIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MIDI.framework; path = "../../../Library/Developer/Xcode/DerivedData/synthesizer-fikigagxjnvvoeabcecxqikhscdv/Build/Products/Debug/MIDI.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,10 +85,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20E8284315BC6344000E2192 /* HTTP.framework in Frameworks */,
 				20F09E4215BC51790093607F /* feelers.framework in Frameworks */,
 				20F09E4315BC51790093607F /* MIDI.framework in Frameworks */,
 				20DC119015BB050000DC5CF1 /* Cocoa.framework in Frameworks */,
+				20E81C3C15D69D4000758972 /* HTTP.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,13 +104,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		200C082415D6995800F4A0DD /* unitTests */ = {
+			isa = PBXGroup;
+			children = (
+				200C082715D6995800F4A0DD /* HTTPTests.h */,
+				200C082815D6995800F4A0DD /* HTTPTests.m */,
+				200C082A15D6995800F4A0DD /* synthesizerTests.h */,
+				200C082B15D6995800F4A0DD /* synthesizerTests.m */,
+			);
+			path = unitTests;
+			sourceTree = "<group>";
+		};
 		20DC118015BB050000DC5CF1 = {
 			isa = PBXGroup;
 			children = (
+				20E81C3915D69CE100758972 /* synthesizer-Info.plist */,
+				20E81C3A15D69CE100758972 /* synthesizer-Prefix.pch */,
+				200C081C15D6962000F4A0DD /* Synthesizer.h */,
+				200C081D15D6962000F4A0DD /* Synthesizer.m */,
+				20E81C2115D69B5A00758972 /* Cocoa */,
+				200C082415D6995800F4A0DD /* unitTests */,
 				20E7949015D611BF009DCFD0 /* HTTP */,
 				20377FC215C9B737006BF0B2 /* HTML */,
-				20DC119515BB050000DC5CF1 /* backend */,
-				20DC11B515BB050100DC5CF1 /* backendTests */,
 				20DC118E15BB050000DC5CF1 /* Frameworks */,
 				20DC118C15BB050000DC5CF1 /* Products */,
 			);
@@ -121,8 +134,8 @@
 		20DC118C15BB050000DC5CF1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				20DC118B15BB050000DC5CF1 /* backend.app */,
-				20DC11AF15BB050100DC5CF1 /* backendTests.octest */,
+				20DC118B15BB050000DC5CF1 /* synthesizer.app */,
+				20DC11AF15BB050100DC5CF1 /* synthesizerTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,53 +163,6 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		20DC119515BB050000DC5CF1 /* backend */ = {
-			isa = PBXGroup;
-			children = (
-				20E8284A15BC848E000E2192 /* Backend.h */,
-				20E8284B15BC848E000E2192 /* Backend.m */,
-				20DC11A115BB050100DC5CF1 /* AppDelegate.h */,
-				20DC11A215BB050100DC5CF1 /* AppDelegate.m */,
-				20DC11A415BB050100DC5CF1 /* MainMenu.xib */,
-				20DC11A715BB050100DC5CF1 /* backend.xcdatamodeld */,
-				20B7658B15C8D50C00C00976 /* ConfigurationEntity.h */,
-				20B7658C15C8D50C00C00976 /* ConfigurationEntity.m */,
-				20DC119615BB050100DC5CF1 /* Supporting Files */,
-			);
-			path = backend;
-			sourceTree = "<group>";
-		};
-		20DC119615BB050100DC5CF1 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				20DC119715BB050100DC5CF1 /* backend-Info.plist */,
-				20DC119815BB050100DC5CF1 /* InfoPlist.strings */,
-				20DC119B15BB050100DC5CF1 /* main.m */,
-				20DC119D15BB050100DC5CF1 /* backend-Prefix.pch */,
-				20DC119E15BB050100DC5CF1 /* Credits.rtf */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		20DC11B515BB050100DC5CF1 /* backendTests */ = {
-			isa = PBXGroup;
-			children = (
-				20DC11BB15BB050100DC5CF1 /* backendTests.h */,
-				20DC11BC15BB050100DC5CF1 /* backendTests.m */,
-				20DC11B615BB050100DC5CF1 /* Supporting Files */,
-			);
-			path = backendTests;
-			sourceTree = "<group>";
-		};
-		20DC11B615BB050100DC5CF1 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				20DC11B715BB050100DC5CF1 /* backendTests-Info.plist */,
-				20DC11B815BB050100DC5CF1 /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		20E7949015D611BF009DCFD0 /* HTTP */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,12 +180,27 @@
 			path = HTTP;
 			sourceTree = "<group>";
 		};
+		20E81C2115D69B5A00758972 /* Cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				20E81C2215D69B5A00758972 /* AppDelegate.h */,
+				20E81C2315D69B5A00758972 /* AppDelegate.m */,
+				20E81C2415D69B5A00758972 /* ConfigurationEntity.h */,
+				20E81C2515D69B5A00758972 /* ConfigurationEntity.m */,
+				20E81C2815D69B5A00758972 /* InfoPlist.strings */,
+				20E81C2A15D69B5A00758972 /* MainMenu.xib */,
+				20E81C2C15D69B5A00758972 /* main.m */,
+				20E81C2F15D69B5A00758972 /* synthesizer.xcdatamodeld */,
+			);
+			path = Cocoa;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		20DC118A15BB050000DC5CF1 /* backend */ = {
+		20DC118A15BB050000DC5CF1 /* synthesizer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 20DC11C015BB050100DC5CF1 /* Build configuration list for PBXNativeTarget "backend" */;
+			buildConfigurationList = 20DC11C015BB050100DC5CF1 /* Build configuration list for PBXNativeTarget "synthesizer" */;
 			buildPhases = (
 				20DC118715BB050000DC5CF1 /* Sources */,
 				20DC118815BB050000DC5CF1 /* Frameworks */,
@@ -229,14 +210,14 @@
 			);
 			dependencies = (
 			);
-			name = backend;
+			name = synthesizer;
 			productName = backend;
-			productReference = 20DC118B15BB050000DC5CF1 /* backend.app */;
+			productReference = 20DC118B15BB050000DC5CF1 /* synthesizer.app */;
 			productType = "com.apple.product-type.application";
 		};
-		20DC11AE15BB050100DC5CF1 /* backendTests */ = {
+		20DC11AE15BB050100DC5CF1 /* synthesizerTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 20DC11C315BB050100DC5CF1 /* Build configuration list for PBXNativeTarget "backendTests" */;
+			buildConfigurationList = 20DC11C315BB050100DC5CF1 /* Build configuration list for PBXNativeTarget "synthesizerTests" */;
 			buildPhases = (
 				20DC11AA15BB050100DC5CF1 /* Sources */,
 				20DC11AB15BB050100DC5CF1 /* Frameworks */,
@@ -248,9 +229,9 @@
 			dependencies = (
 				20DC11B415BB050100DC5CF1 /* PBXTargetDependency */,
 			);
-			name = backendTests;
+			name = synthesizerTests;
 			productName = backendTests;
-			productReference = 20DC11AF15BB050100DC5CF1 /* backendTests.octest */;
+			productReference = 20DC11AF15BB050100DC5CF1 /* synthesizerTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -262,7 +243,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = abrie;
 			};
-			buildConfigurationList = 20DC118515BB050000DC5CF1 /* Build configuration list for PBXProject "backend" */;
+			buildConfigurationList = 20DC118515BB050000DC5CF1 /* Build configuration list for PBXProject "synthesizer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -275,8 +256,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				20DC118A15BB050000DC5CF1 /* backend */,
-				20DC11AE15BB050100DC5CF1 /* backendTests */,
+				20DC118A15BB050000DC5CF1 /* synthesizer */,
+				20DC11AE15BB050100DC5CF1 /* synthesizerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -286,10 +267,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20DC119A15BB050100DC5CF1 /* InfoPlist.strings in Resources */,
-				20DC11A015BB050100DC5CF1 /* Credits.rtf in Resources */,
-				20DC11A615BB050100DC5CF1 /* MainMenu.xib in Resources */,
 				20377FC315C9B737006BF0B2 /* HTML in Resources */,
+				20E81C3415D69B5A00758972 /* InfoPlist.strings in Resources */,
+				20E81C3515D69B5A00758972 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +277,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20DC11BA15BB050100DC5CF1 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,16 +303,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20DC119C15BB050100DC5CF1 /* main.m in Sources */,
-				20DC11A315BB050100DC5CF1 /* AppDelegate.m in Sources */,
-				20DC11A915BB050100DC5CF1 /* backend.xcdatamodeld in Sources */,
-				20E8284C15BC848E000E2192 /* Backend.m in Sources */,
-				20B7658D15C8D50C00C00976 /* ConfigurationEntity.m in Sources */,
 				20E7949B15D611BF009DCFD0 /* BackendHTTPConfig.m in Sources */,
 				20E7949C15D611BF009DCFD0 /* BackendHTTPConnection.m in Sources */,
 				20E7949D15D611BF009DCFD0 /* BackendSync.m in Sources */,
 				20E7949E15D611BF009DCFD0 /* BackendWebSocketConnection.m in Sources */,
 				20E7949F15D611BF009DCFD0 /* HTTP.m in Sources */,
+				200C081E15D6962000F4A0DD /* Synthesizer.m in Sources */,
+				20E81C3115D69B5A00758972 /* AppDelegate.m in Sources */,
+				20E81C3215D69B5A00758972 /* ConfigurationEntity.m in Sources */,
+				20E81C3615D69B5A00758972 /* main.m in Sources */,
+				20E81C3815D69B5A00758972 /* synthesizer.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,7 +320,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20DC11BD15BB050100DC5CF1 /* backendTests.m in Sources */,
+				200C082D15D6995800F4A0DD /* HTTPTests.m in Sources */,
+				200C082F15D6995800F4A0DD /* synthesizerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,42 +330,26 @@
 /* Begin PBXTargetDependency section */
 		20DC11B415BB050100DC5CF1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 20DC118A15BB050000DC5CF1 /* backend */;
+			target = 20DC118A15BB050000DC5CF1 /* synthesizer */;
 			targetProxy = 20DC11B315BB050100DC5CF1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		20DC119815BB050100DC5CF1 /* InfoPlist.strings */ = {
+		20E81C2815D69B5A00758972 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				20DC119915BB050100DC5CF1 /* en */,
+				20E81C2915D69B5A00758972 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		20DC119E15BB050100DC5CF1 /* Credits.rtf */ = {
+		20E81C2A15D69B5A00758972 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				20DC119F15BB050100DC5CF1 /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		20DC11A415BB050100DC5CF1 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				20DC11A515BB050100DC5CF1 /* en */,
+				20E81C2B15D69B5A00758972 /* en */,
 			);
 			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		20DC11B815BB050100DC5CF1 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				20DC11B915BB050100DC5CF1 /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -414,7 +378,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../HTTP/**",
+					"HTTP/CocoaHTTPServer/Vendor/CocoaLumberjack/**",
+					"CocoaHTTPServer/Vendor/CocoaAsyncSocket/**",
 					"../MIDI/**",
 					"../feelers/**",
 				);
@@ -441,7 +406,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../HTTP/**",
+					"HTTP/CocoaHTTPServer/Vendor/CocoaLumberjack/**",
+					"CocoaHTTPServer/Vendor/CocoaAsyncSocket/**",
 					"../MIDI/**",
 					"../feelers/**",
 				);
@@ -454,11 +420,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/synthesizer-fikigagxjnvvoeabcecxqikhscdv/Build/Products/Debug\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "backend/backend-Prefix.pch";
-				INFOPLIST_FILE = "backend/backend-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "synthesizer-Prefix.pch";
+				INFOPLIST_FILE = "synthesizer-Info.plist";
+				PRODUCT_NAME = synthesizer;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -467,11 +436,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/synthesizer-fikigagxjnvvoeabcecxqikhscdv/Build/Products/Debug\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "backend/backend-Prefix.pch";
-				INFOPLIST_FILE = "backend/backend-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "synthesizer-Prefix.pch";
+				INFOPLIST_FILE = "synthesizer-Info.plist";
+				PRODUCT_NAME = synthesizer;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -483,9 +455,9 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "backend/backend-Prefix.pch";
-				INFOPLIST_FILE = "backendTests/backendTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "synthesizer-Prefix.pch";
+				INFOPLIST_FILE = "unitTests/synthesizerTests-Info.plist";
+				PRODUCT_NAME = synthesizerTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -498,9 +470,9 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "backend/backend-Prefix.pch";
-				INFOPLIST_FILE = "backendTests/backendTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "synthesizer-Prefix.pch";
+				INFOPLIST_FILE = "unitTests/synthesizerTests-Info.plist";
+				PRODUCT_NAME = synthesizerTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -509,7 +481,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		20DC118515BB050000DC5CF1 /* Build configuration list for PBXProject "backend" */ = {
+		20DC118515BB050000DC5CF1 /* Build configuration list for PBXProject "synthesizer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				20DC11BE15BB050100DC5CF1 /* Debug */,
@@ -518,7 +490,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		20DC11C015BB050100DC5CF1 /* Build configuration list for PBXNativeTarget "backend" */ = {
+		20DC11C015BB050100DC5CF1 /* Build configuration list for PBXNativeTarget "synthesizer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				20DC11C115BB050100DC5CF1 /* Debug */,
@@ -527,7 +499,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		20DC11C315BB050100DC5CF1 /* Build configuration list for PBXNativeTarget "backendTests" */ = {
+		20DC11C315BB050100DC5CF1 /* Build configuration list for PBXNativeTarget "synthesizerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				20DC11C415BB050100DC5CF1 /* Debug */,
@@ -539,13 +511,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		20DC11A715BB050100DC5CF1 /* backend.xcdatamodeld */ = {
+		20E81C2F15D69B5A00758972 /* synthesizer.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				20DC11A815BB050100DC5CF1 /* backend.xcdatamodel */,
+				20E81C3015D69B5A00758972 /* synthesizer.xcdatamodel */,
 			);
-			currentVersion = 20DC11A815BB050100DC5CF1 /* backend.xcdatamodel */;
-			path = backend.xcdatamodeld;
+			currentVersion = 20E81C3015D69B5A00758972 /* synthesizer.xcdatamodel */;
+			path = synthesizer.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
