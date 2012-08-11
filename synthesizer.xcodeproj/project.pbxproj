@@ -10,7 +10,7 @@
 		200C081E15D6962000F4A0DD /* Synthesizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 200C081D15D6962000F4A0DD /* Synthesizer.m */; };
 		200C082D15D6995800F4A0DD /* HTTPTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 200C082815D6995800F4A0DD /* HTTPTests.m */; };
 		200C082F15D6995800F4A0DD /* synthesizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 200C082B15D6995800F4A0DD /* synthesizerTests.m */; };
-		20377FC315C9B737006BF0B2 /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = 20377FC215C9B737006BF0B2 /* HTML */; };
+		20B6897415D6A2AF0096D83B /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = 20B6897315D6A2AF0096D83B /* HTML */; };
 		20DC119015BB050000DC5CF1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20DC118F15BB050000DC5CF1 /* Cocoa.framework */; };
 		20DC11B115BB050100DC5CF1 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20DC11B015BB050100DC5CF1 /* SenTestingKit.framework */; };
 		20DC11B215BB050100DC5CF1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20DC118F15BB050000DC5CF1 /* Cocoa.framework */; };
@@ -47,7 +47,7 @@
 		200C082815D6995800F4A0DD /* HTTPTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPTests.m; sourceTree = "<group>"; };
 		200C082A15D6995800F4A0DD /* synthesizerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = synthesizerTests.h; sourceTree = "<group>"; };
 		200C082B15D6995800F4A0DD /* synthesizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = synthesizerTests.m; sourceTree = "<group>"; };
-		20377FC215C9B737006BF0B2 /* HTML */ = {isa = PBXFileReference; lastKnownFileType = folder; name = HTML; path = ../frontend/frontend/HTML; sourceTree = "<group>"; };
+		20B6897315D6A2AF0096D83B /* HTML */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HTML; sourceTree = "<group>"; };
 		20DC118B15BB050000DC5CF1 /* synthesizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = synthesizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20DC118F15BB050000DC5CF1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		20DC119215BB050000DC5CF1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -116,12 +116,12 @@
 		20DC118015BB050000DC5CF1 = {
 			isa = PBXGroup;
 			children = (
+				20B6897315D6A2AF0096D83B /* HTML */,
 				200C081C15D6962000F4A0DD /* Synthesizer.h */,
 				200C081D15D6962000F4A0DD /* Synthesizer.m */,
 				20E81C2115D69B5A00758972 /* Cocoa */,
 				200C082415D6995800F4A0DD /* unitTests */,
 				20E7949015D611BF009DCFD0 /* HTTP */,
-				20377FC215C9B737006BF0B2 /* HTML */,
 				20DC118E15BB050000DC5CF1 /* Frameworks */,
 				20DC118C15BB050000DC5CF1 /* Products */,
 			);
@@ -263,9 +263,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20377FC315C9B737006BF0B2 /* HTML in Resources */,
 				20E81C3415D69B5A00758972 /* InfoPlist.strings in Resources */,
 				20E81C3515D69B5A00758972 /* MainMenu.xib in Resources */,
+				20B6897415D6A2AF0096D83B /* HTML in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

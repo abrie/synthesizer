@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset='utf-8'/>
+		<title>see below</title>
+		<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="underscore-min.js"></script>
+		<script type="text/javascript" src="backbone-min.js"></script>
+		<link rel="stylesheet" href="frontend.css" type="text/css" />
+
+	<script type="text/template" id="instrument-template">
+		<div>instrument</div>
+		<button class="new">new</button>
+		<button class="emitter">emitter</button>
+        <ul class="nodes"></ul>
+	</script>
+
+	<script type="text/template" id="node-template">
+        <div class="name">node</div>
+        <button class="copy">copy</button>
+		<button class="paste">paste</button>
+        <ul class="pool"></ul>
+    </script>
+	
+    <script type="text/template" id="emitter-template">
+        <div>emitter</div>
+        <button class="copy">copy</button>
+		<button class="paste">paste</button>
+		<div class="programmer"></div>
+		<div class="playaround"></div>
+	</script>
+
+	<script type="text/template" id="lfsr-template">
+		<div class="name"><%= name %></div>
+		<div class="parameters">
+			<select class="bit_depth"></select>
+			<input class="value" value="<%= value %>"></input>
+			<input class="pool" value="<%= pool %>"></input>
+		</div>
+	</script>
+
+	<script type="text/template" id="pianoboard-template">
+		<ul class="pianokeys"></ul>
+	</script>
+
+	<script type="text/template" id="pianokey-template">
+		<li class="pianokey <%= whiteblack %>" state="<%= state %>" note_number="<%= note_number %>"></li>
+	</script>
+	</head>
+    
+	<body>
+		<div id="menu">
+			<div id="tick-indicator" on=false></div>
+			<div id="connection-status" class="waiting"></div>
+			<div id="sync-mode">
+				<input type="radio" name="sync_mode" value="external">external</input>
+				<input type="radio" name="sync_mode" value="internal">internal</input>
+				<input type="radio" name="sync_mode" value="stall">stall</input>
+			</div>
+			<button id="sync">sync</button>
+			<button id="render">render</button>
+		</div>
+        <div>
+		<ul id="content"></ul>
+        </div>
+		<button id="new">new</button>
+		<div id="nonsense">project feelers backbone 1960(c)(tm)(R)(r)(xxx) EN-DE-AY</div>
+		<script type="text/javascript" src="frontend.js"></script>
+	</body>
+</html>
