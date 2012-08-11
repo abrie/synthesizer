@@ -16,6 +16,8 @@
         
         http = _http;
         [http setMessageDelegate:self];
+        
+        midiStarted = NO;
     }
     
     return self;
@@ -47,14 +49,19 @@
 
 -(void)midiStart
 {
-    
+    midiStarted = YES;
+    NSLog(@"Midi start.");
 }
 
 -(void)midiClock
 {
+    if (!midiStarted) {
+        return;
+    }
+    
     dispatch_async(queue, ^{
-        [feelers advance];
         [feelers sample];
+        [feelers advance];
     });
 }
 
@@ -65,12 +72,14 @@
 
 -(void)midiContinue
 {
-    
+    midiStarted = YES;
+    NSLog(@"Midi continue.");
 }
 
 -(void)midiStop
 {
-    
+    midiStarted = NO;
+    NSLog(@"Midi stop.");
 }
 
 @end
