@@ -73,8 +73,6 @@
 		20E81C2B15D69B5A00758972 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		20E81C2C15D69B5A00758972 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		20E81C3015D69B5A00758972 /* synthesizer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = synthesizer.xcdatamodel; sourceTree = "<group>"; };
-		20E81C3915D69CE100758972 /* synthesizer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "synthesizer-Info.plist"; sourceTree = "<group>"; };
-		20E81C3A15D69CE100758972 /* synthesizer-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "synthesizer-Prefix.pch"; sourceTree = "<group>"; };
 		20E8284215BC6344000E2192 /* HTTP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HTTP.framework; path = "../../../Library/Developer/Xcode/DerivedData/synthesizer-fikigagxjnvvoeabcecxqikhscdv/Build/Products/Debug/HTTP.framework"; sourceTree = "<group>"; };
 		20F09E4015BC51790093607F /* feelers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = feelers.framework; path = "../../../Library/Developer/Xcode/DerivedData/synthesizer-fikigagxjnvvoeabcecxqikhscdv/Build/Products/Debug/feelers.framework"; sourceTree = "<group>"; };
 		20F09E4115BC51790093607F /* MIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MIDI.framework; path = "../../../Library/Developer/Xcode/DerivedData/synthesizer-fikigagxjnvvoeabcecxqikhscdv/Build/Products/Debug/MIDI.framework"; sourceTree = "<group>"; };
@@ -118,8 +116,6 @@
 		20DC118015BB050000DC5CF1 = {
 			isa = PBXGroup;
 			children = (
-				20E81C3915D69CE100758972 /* synthesizer-Info.plist */,
-				20E81C3A15D69CE100758972 /* synthesizer-Prefix.pch */,
 				200C081C15D6962000F4A0DD /* Synthesizer.h */,
 				200C081D15D6962000F4A0DD /* Synthesizer.m */,
 				20E81C2115D69B5A00758972 /* Cocoa */,
