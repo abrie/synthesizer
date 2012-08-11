@@ -1,6 +1,6 @@
 #import <Cocoa/Cocoa.h>
 #import "MIDI.h"
-#import "HTTP/http.h"
+#import "HTTP.h"
 #import "Backend.h"
 #import "ConfigurationEntity.h"
 
