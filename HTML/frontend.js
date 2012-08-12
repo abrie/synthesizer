@@ -68,11 +68,11 @@ EmitterModel = Backbone.Model.extend( {
 			name: uid(),
 			type: "emitter",
 			parameters: {
-				channel : [0],
-				note : [36],
-				onVelocity : [64,54,44,34,65],
-				offVelocity : [60],
-				duration :[1]
+				channel : { seed:1, mask:0xC0, pool:[0] },
+				note : { seed:1, mask:0xC0, pool:[36] },
+				onVelocity : { seed:1, mask:0xC0, pool:[64,54,44,34,65]},
+				offVelocity : { seed:1, mask:0xC0, pool:[60]},
+				duration :{ seed:1, mask:0xC0, pool:[1]}
 			},
 		};
 	},
@@ -126,27 +126,27 @@ EmitterView = Backbone.View.extend( {
 	},
 	parameterChanged: function(e) {
 		parameters = this.model.get("parameters");
-		parameters["note"] = inputToArray( this.noteInput );
-		parameters["channel"] = inputToArray( this.channelInput );
-		parameters["duration"] = inputToArray( this.durationInput );
+		parameters["note"]["pool"] = inputToArray( this.noteInput );
+		parameters["channel"]["pool"] = inputToArray( this.channelInput );
+		parameters["duration"]["pool"] = inputToArray( this.durationInput );
                                    console.log( this.durationInput );
                                    //console.log( this.onVelocityInput );
-        parameters["onVelocity"] = inputToArray( this.onVelocityInput );
-        parameters["offVelocity"] = inputToArray( this.offVelocityInput );
+        parameters["onVelocity"]["pool"] = inputToArray( this.onVelocityInput );
+        parameters["offVelocity"]["pool"] = inputToArray( this.offVelocityInput );
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
 		this.$(".name").html( "node:"+this.model.get("name") );
 		this.noteInput = this.$("input.note");
-		this.noteInput.val( this.model.get("parameters")["note"] );
+		this.noteInput.val( this.model.get("parameters")["note"]["pool"] );
 		this.channelInput = this.$("input.channel");
-		this.channelInput.val( this.model.get("parameters")["channel"] );
+		this.channelInput.val( this.model.get("parameters")["channel"]["pool"] );
 		this.durationInput = this.$("input.duration");
-		this.durationInput.val( this.model.get("parameters")["duration"] );
+		this.durationInput.val( this.model.get("parameters")["duration"]["pool"] );
         this.onVelocityInput = this.$("input.onVelocity");
-        this.onVelocityInput.val( this.model.get("parameters")["onVelocity"] );
+        this.onVelocityInput.val( this.model.get("parameters")["onVelocity"]["pool"] );
         this.offVelocityInput = this.$("input.offVelocity");
-        this.offVelocityInput.val( this.model.get("parameters")["offVelocity"] );
+        this.offVelocityInput.val( this.model.get("parameters")["offVelocity"]["pool"] );
 		return this;            
 	}
 });
