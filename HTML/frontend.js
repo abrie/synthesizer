@@ -32,6 +32,10 @@ function parseNotation(str) {
 }
 
 function inputToArray( input ) {
+    if (!input) {
+        console.log("inputToArray called with null parameter");
+        return [];
+    }
 	var result = _.map( input.val().split(','), function(val) {
 		if(val == 0) {
 			return 0;
@@ -95,6 +99,8 @@ EmitterView = Backbone.View.extend( {
 		"change input.note" : "parameterChanged",
 		"change input.channel" : "parameterChanged",
 		"change input.duration" : "parameterChanged",
+        "change input.onVelocity" : "parameterChanged",
+        "change input.offVelocity" : "parameterChanged",
 	},
     dragStart: function(e) {
 		dragNode = this.model;
@@ -123,6 +129,10 @@ EmitterView = Backbone.View.extend( {
 		parameters["note"] = inputToArray( this.noteInput );
 		parameters["channel"] = inputToArray( this.channelInput );
 		parameters["duration"] = inputToArray( this.durationInput );
+                                   console.log( this.durationInput );
+                                   //console.log( this.onVelocityInput );
+        parameters["onVelocity"] = inputToArray( this.onVelocityInput );
+        parameters["offVelocity"] = inputToArray( this.offVelocityInput );
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
@@ -133,6 +143,10 @@ EmitterView = Backbone.View.extend( {
 		this.channelInput.val( this.model.get("parameters")["channel"] );
 		this.durationInput = this.$("input.duration");
 		this.durationInput.val( this.model.get("parameters")["duration"] );
+        this.onVelocityInput = this.$("input.onVelocity");
+        this.onVelocityInput.val( this.model.get("parameters")["onVelocity"] );
+        this.offVelocityInput = this.$("input.offVelocity");
+        this.offVelocityInput.val( this.model.get("parameters")["offVelocity"] );
 		return this;            
 	}
 });
