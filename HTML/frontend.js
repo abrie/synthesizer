@@ -31,6 +31,15 @@ function parseNotation(str) {
 	return ticks > 0 ? ticks : str;
 }
 
+var availableIndexers = ["lfsr","sequential"];
+function populateIndexerSelect( select, current ) {
+	_.each( availableIndexers, function(indexer) {
+		select[0].add( new Option( indexer, indexer ) );
+	}); 
+
+	return select;
+}
+
 function inputToArray( input ) {
     if (!input) {
         console.log("inputToArray called with null parameter");
@@ -68,6 +77,7 @@ EmitterModel = Backbone.Model.extend( {
 			name: uid(),
 			type: "emitter",
 			parameters: {
+				indexer: "lfsr",
 				channel : { seed:1, mask:0xC0, pool:[0] },
 				note : { seed:1, mask:0xC0, pool:[36] },
 				onVelocity : { seed:1, mask:0xC0, pool:[64,54,44,34,65]},
@@ -78,6 +88,72 @@ EmitterModel = Backbone.Model.extend( {
 	},
 	initialize: function() {
 		this.containedBy = null;
+	},
+	parameters: function() {
+		return this.get("parameters");
+	},
+	parameter: function(name) {
+		return this.parameters()[name];
+	}
+});
+
+LFSRView = Backbone.View.extend( {
+	tagname: "div",
+	className: "lfsr",
+	template: _.template( $("#lfsr-template").html() ),
+	initialize: function( model, parameterName ) {
+		this.targetParameterName = parameterName;
+		this.targetParameter = model.parameter(parameterName);
+		_.bindAll(this, "render");
+	},
+	events: {
+		"change input.seed" : "parameterChanged",
+		"change input.mask" : "parameterChanged",
+		"change input.pool" : "parameterChanged",
+	},
+	parameterChanged: function(e) {
+		this.targetParameter["seed"] = parseInt( this.seedInput.val() );
+		this.targetParameter["mask"] = parseInt( this.maskInput.val() );
+		this.targetParameter["pool"] = inputToArray( this.poolInput );
+	},
+	render: function() {
+		this.$el.html( this.template() );
+		this.$("span.name").html( this.targetParameterName );
+        this.seedInput = this.$("input.seed");
+		this.seedInput.val( this.targetParameter["seed"] );
+        this.maskInput = this.$("input.mask");
+		this.maskInput.val( this.targetParameter["mask"] );
+		this.poolInput = this.$("input.pool");
+		this.poolInput.val( this.targetParameter["pool"] );
+		return this;            
+	}
+});
+
+SequentialView = Backbone.View.extend( {
+	tagname: "div",
+	className: "sequential",
+	template: _.template( $("#sequential-template").html() ),
+	initialize: function( model, parameterName ) {
+		this.targetParameterName = parameterName;
+		this.targetParameter = model.parameter(parameterName);
+		_.bindAll(this, "render");
+	},
+	events: {
+		"change input.direction" : "parameterChanged",
+		"change input.pool" : "parameterChanged",
+	},
+	parameterChanged: function(e) {
+		this.targetParameter["direction"] = parseInt( this.directionInput.val() );
+		this.targetParameter["pool"] = inputToArray( this.poolInput );
+	},
+	render: function() {
+		this.$el.html( this.template() );
+		this.$("span.name").html( this.targetParameterName );
+        this.directionInput = this.$("input.direction");
+		this.directionInput.val( this.targetParameter["direction"] );
+		this.poolInput = this.$("input.pool");
+		this.poolInput.val( this.targetParameter["pool"] );
+		return this;            
 	}
 });
 
@@ -96,6 +172,7 @@ EmitterView = Backbone.View.extend( {
 		this.render();
 	},
 	events: {
+		"change select.indexer" : "parameterChanged",
 		"change input.note" : "parameterChanged",
 		"change input.channel" : "parameterChanged",
 		"change input.duration" : "parameterChanged",
@@ -104,49 +181,49 @@ EmitterView = Backbone.View.extend( {
 	},
     dragStart: function(e) {
 		dragNode = this.model;
-		console.log("dragStart:", dragNode.get("name"));
 		e.stopPropagation();
 	},                      
 	dragOver: function(e) {
 		return false;
 	},
 	drop: function(e) {
-		console.log("dropped into:", this.model.get("name") );
-		console.log("dragged node:", dragNode.get("name") );
-		console.log("dragNode was containedBy:", dragNode.containedBy.get("name"));
-		if( !this.model.get("pool").contains( dragNode ) )
+		if( !this.model.parameter("pool").contains( dragNode ) )
 		{
-			this.model.get("pool").add( dragNode );
-			dragNode.containedBy.get("pool").remove( dragNode );
+			this.model.parameter("pool").add( dragNode );
+			dragNode.containedBy.parameter("pool").remove( dragNode );
 			dragNode.containedBy = this.model;
 		}
-		console.log("dragNode now containedBy:", dragNode.containedBy.get("name"));
 		e.preventDefault();
 		e.stopPropagation();
 	},
 	parameterChanged: function(e) {
-		parameters = this.model.get("parameters");
-		parameters["note"]["pool"] = inputToArray( this.noteInput );
-		parameters["channel"]["pool"] = inputToArray( this.channelInput );
-		parameters["duration"]["pool"] = inputToArray( this.durationInput );
-                                   console.log( this.durationInput );
-                                   //console.log( this.onVelocityInput );
-        parameters["onVelocity"]["pool"] = inputToArray( this.onVelocityInput );
-        parameters["offVelocity"]["pool"] = inputToArray( this.offVelocityInput );
+		this.model.parameters()["indexer"] = this.indexerSelect.val();
+		this.render();
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
 		this.$(".name").html( "node:"+this.model.get("name") );
-		this.noteInput = this.$("input.note");
-		this.noteInput.val( this.model.get("parameters")["note"]["pool"] );
-		this.channelInput = this.$("input.channel");
-		this.channelInput.val( this.model.get("parameters")["channel"]["pool"] );
-		this.durationInput = this.$("input.duration");
-		this.durationInput.val( this.model.get("parameters")["duration"]["pool"] );
-        this.onVelocityInput = this.$("input.onVelocity");
-        this.onVelocityInput.val( this.model.get("parameters")["onVelocity"]["pool"] );
-        this.offVelocityInput = this.$("input.offVelocity");
-        this.offVelocityInput.val( this.model.get("parameters")["offVelocity"]["pool"] );
+
+		this.indexerSelect = populateIndexerSelect( this.$("select.indexer") );
+		this.indexerSelect.val( this.model.parameter("indexer") );
+		
+		var viewClass;
+		if( this.model.parameter("indexer") === "lfsr" ) {
+			viewClass = LFSRView;
+		}
+		else if( this.model.parameter("indexer") === "sequential" ) {
+			viewClass = SequentialView;
+		}
+		else {
+			console.log("Unknown indexer type:", this.model.parameter("indexer"));
+		}
+
+		this.$(".note").html( new viewClass(this.model,"note").render().el );
+		this.$(".channel").html( new viewClass(this.model,"channel").render().el );
+		this.$(".duration").html( new viewClass(this.model,"duration").render().el );
+		this.$(".onVelocity").html( new viewClass(this.model,"onVelocity").render().el );
+		this.$(".offVelocity").html( new viewClass(this.model,"offVelocity").render().el );
+
 		return this;            
 	}
 });
@@ -169,23 +246,18 @@ NodeView = Backbone.View.extend( {
 	},
     dragStart: function(e) {
 		dragNode = this.model;
-		console.log("dragStart:", dragNode.get("name"));
 		e.stopPropagation();
 	},                      
 	dragOver: function(e) {
 		return false;
 	},
 	drop: function(e) {
-		console.log("dropped into:", this.model.get("name") );
-		console.log("dragged node:", dragNode.get("name") );
-		console.log("dragNode was containedBy:", dragNode.containedBy.get("name"));
 		if( !this.model.get("pool").contains( dragNode ) )
 		{
 			this.model.get("pool").add( dragNode );
 			dragNode.containedBy.get("pool").remove( dragNode );
 			dragNode.containedBy = this.model;
 		}
-		console.log("dragNode now containedBy:", dragNode.containedBy.get("name"));
 		e.preventDefault();
 		e.stopPropagation();
 	},
@@ -266,16 +338,12 @@ InstrumentView = Backbone.View.extend( {
 		return false;
 	},
 	drop: function(e) {
-		console.log("dropped into:", this.model.get("name") );
-		console.log("dragged node:", dragNode.get("name") );
-		console.log("dragNode was containedBy:", dragNode.containedBy.get("name"));
 		if( !this.model.get("pool").contains( dragNode ) )
 		{
 			this.model.get("pool").add( dragNode );
 			dragNode.containedBy.get("pool").remove( dragNode );
 			dragNode.containedBy = this.model;
 		}
-		console.log("dragNode now containedBy:", dragNode.containedBy.get("name"));
 		e.preventDefault();
 		e.stopPropagation();
 	},

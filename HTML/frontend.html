@@ -26,26 +26,26 @@
         <ul class="pool"></ul>
     </script>
 	
-    <script type="text/template" id="emitter-template">
-        <div>emitter</div>
-        <button class="copy">copy</button>
-		<button class="paste">paste</button>
-		<input class="note" placeholder="note"></input>
-		<input class="channel" placeholder="channel"></input>
-		<input class="duration" placeholder="duration"></input>
-        <input class="onVelocity" placeholder="onVelocity"></input>
-        <input class="offVelocity" placeholder="offVelocity"></input>
-		<div class="programmer"></div>
-		<div class="playaround"></div>
+	<script type="text/template" id="lfsr-template">
+		<span class="name"></span>
+		<input class="seed" placeholder="seed"></input>
+		<input class="mask" placeholder="mask"></input>
+		<input class="pool" placeholder="pool"></input>
 	</script>
 
-	<script type="text/template" id="lfsr-template">
-		<div class="name"><%= name %></div>
-		<div class="parameters">
-			<select class="bit_depth"></select>
-			<input class="value" value="<%= value %>"></input>
-			<input class="pool" value="<%= pool %>"></input>
-		</div>
+	<script type="text/template" id="sequential-template">
+		<input class="direction" placeholder="direction"></input>
+		<input class="pool" placeholder="pool"></input>
+	</script>
+
+    <script type="text/template" id="emitter-template">
+        <div>emitter</div>
+		<select class="indexer"></select>
+		<div class="note"></div>
+		<div class="channel"></div>
+		<div class="duration"></div>
+        <div class="onVelocity"></div>
+        <div class="offVelocity"></div>
 	</script>
 
 	<script type="text/template" id="pianoboard-template">
