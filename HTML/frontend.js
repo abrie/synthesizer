@@ -302,6 +302,7 @@ InstrumentView = Backbone.View.extend( {
 		_.bindAll(this, "render");
 		this.model.bind("change", this.render);
 		this.model.rootNodes().bind("add", this.render);
+		this.model.rootNodes().bind("remove", this.render);
 		this.$el.bind("dragstart",_.bind(this.dragStart, this));
 		this.$el.bind("dragover",_.bind(this.dragOver, this));
 		this.$el.bind("drop",_.bind(this.drop, this));
