@@ -317,13 +317,13 @@ InstrumentView = Backbone.View.extend( {
 		this.$el.attr("id",this.model.get("name"));
 	},
 	events: {
-		"click button.new" : "newNode",
+		"click button.branch" : "newBranch",
 		"click button.emitter" : "newEmitter",
 		"change input.steps" : "rhythmChanged",
 		"change input.pulses" : "rhythmChanged",
 		"change input.pulsesPerStep" : "rhythmChanged",
 	},
-	newNode: function() {
+	newBranch: function() {
 		var node = new NodeModel();
 		node.containedBy = this.model;
 		this.model.rootNodes().add(node);
