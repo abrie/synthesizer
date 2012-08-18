@@ -31,6 +31,7 @@ function parseNotation(str) {
 	return ticks > 0 ? ticks : str;
 }
 
+
 function inputToArray( input ) {
     if (!input) {
         console.log("inputToArray called with null parameter");
@@ -301,6 +302,23 @@ InstrumentModel = Backbone.Model.extend( {
 	}
 });
 
+function modifyRhythm( steps, pulses, amount )
+{
+	var newPulses = pulses + amount;
+	var newSteps = steps;
+
+	if (newPulses > steps) {
+		newPulses = 1;
+		newSteps++;
+	}
+	else if (newPulses == 0) {
+		newSteps--;
+		newPulses = newSteps;
+	}
+
+	return {steps:newSteps, pulses:newPulses};
+}
+
 InstrumentView = Backbone.View.extend( {
 	tagName: "li",
     className: "instrument",
@@ -319,6 +337,8 @@ InstrumentView = Backbone.View.extend( {
 	events: {
 		"click button.branch" : "newBranch",
 		"click button.emitter" : "newEmitter",
+		"click button.rhythmUp" : "rhythmUp",
+		"click button.rhythmDown" : "rhythmDown",
 		"change input.steps" : "rhythmChanged",
 		"change input.pulses" : "rhythmChanged",
 		"change input.pulsesPerStep" : "rhythmChanged",
@@ -335,11 +355,25 @@ InstrumentView = Backbone.View.extend( {
 		this.model.rootNodes().add(node);
 		this.render();
 	},
+	rhythmUp: function() {
+		parameters = this.model.get("parameters");
+		var modified = modifyRhythm( parameters["steps"], parameters["pulses"], 1 );
+		this.stepsInput.val( modified["steps"] );
+		this.pulsesInput.val( modified["pulses"] );
+		this.rhythmChanged();
+	},
+	rhythmDown: function() {
+		parameters = this.model.get("parameters");
+		var modified = modifyRhythm( parameters["steps"], parameters["pulses"], -1 );
+		this.stepsInput.val( modified["steps"] );
+		this.pulsesInput.val( modified["pulses"] );
+		this.rhythmChanged();
+	},
 	rhythmChanged: function() {
 		parameters = this.model.get("parameters");
-		parameters["steps"] = this.stepsInput.val();
-		parameters["pulses"] = this.pulsesInput.val();
-		parameters["pulsesPerStep"] = this.pulsesPerStepInput.val();
+		parameters["steps"] = parseInt( this.stepsInput.val() );
+		parameters["pulses"] = parseInt( this.pulsesInput.val() );
+		parameters["pulsesPerStep"] = parseInt( this.pulsesPerStepInput.val() );
 	},
     dragStart: function(e) { },                      
 	dragOver: function(e) {
