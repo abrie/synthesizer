@@ -118,7 +118,7 @@ LFSRView = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.template() );
-		this.$("span.name").html( this.targetParameterName );
+		this.$(".name").html( this.targetParameterName );
         this.seedInput = this.$("input.seed");
 		this.seedInput.val( this.targetParameter["seed"] );
         this.maskInput = this.$("input.mask");
@@ -148,7 +148,7 @@ SequentialView = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.template() );
-		this.$("span.name").html( this.targetParameterName );
+		this.$(".name").html( this.targetParameterName );
         this.directionInput = this.$("input.direction");
 		this.directionInput.val( this.targetParameter["direction"] );
 		this.poolInput = this.$("input.pool");
@@ -302,7 +302,6 @@ InstrumentView = Backbone.View.extend( {
 		_.bindAll(this, "render");
 		this.model.bind("change", this.render);
 		this.model.rootNodes().bind("add", this.render);
-		this.render();
 		this.$el.bind("dragstart",_.bind(this.dragStart, this));
 		this.$el.bind("dragover",_.bind(this.dragOver, this));
 		this.$el.bind("drop",_.bind(this.drop, this));
