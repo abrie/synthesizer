@@ -31,15 +31,6 @@ function parseNotation(str) {
 	return ticks > 0 ? ticks : str;
 }
 
-var availableIndexers = ["lfsr","sequential"];
-function populateIndexerSelect( select, current ) {
-	_.each( availableIndexers, function(indexer) {
-		select[0].add( new Option( indexer, indexer ) );
-	}); 
-
-	return select;
-}
-
 function inputToArray( input ) {
     if (!input) {
         console.log("inputToArray called with null parameter");
@@ -55,47 +46,6 @@ function inputToArray( input ) {
 
 	return result;
 }
-
-NodeCollection = Backbone.Collection.extend({ });
-
-NodeModel = Backbone.Model.extend( {
-	defaults: function() {
-		return {
-			name: uid(),
-			type: "branch",
-			pool: new NodeCollection(),
-		};
-	},
-	initialize: function() {
-		this.containedBy = null;
-	}
-});
-
-EmitterModel = Backbone.Model.extend( {
-	defaults: function() {
-		return {
-			name: uid(),
-			type: "emitter",
-			parameters: {
-				indexer: "lfsr",
-				channel : { seed:1, mask:0xC0, pool:[0] },
-				note : { seed:1, mask:0xC0, pool:[36] },
-				onVelocity : { seed:1, mask:0xC0, pool:[64,54,44,34,65]},
-				offVelocity : { seed:1, mask:0xC0, pool:[60]},
-				duration :{ seed:1, mask:0xC0, pool:[1]}
-			},
-		};
-	},
-	initialize: function() {
-		this.containedBy = null;
-	},
-	parameters: function() {
-		return this.get("parameters");
-	},
-	parameter: function(name) {
-		return this.parameters()[name];
-	}
-});
 
 LFSRView = Backbone.View.extend( {
 	tagname: "div",
@@ -157,6 +107,64 @@ SequentialView = Backbone.View.extend( {
 	}
 });
 
+var availableIndexers = ["lfsr","sequential"];
+var indexerViews = {lfsr:LFSRView, sequential:SequentialView};
+
+function populateIndexerSelect( select, current ) {
+	_.each( availableIndexers, function(indexer) {
+		select[0].add( new Option( indexer, indexer ) );
+	}); 
+
+	return select;
+}
+
+function getViewType( type )
+{
+	return indexerViews[type];
+}
+
+NodeCollection = Backbone.Collection.extend({ });
+
+NodeModel = Backbone.Model.extend( {
+	defaults: function() {
+		return {
+			name: uid(),
+			type: "branch",
+			pool: new NodeCollection(),
+		};
+	},
+	initialize: function() {
+		this.containedBy = null;
+	}
+});
+
+EmitterModel = Backbone.Model.extend( {
+	defaults: function() {
+		return {
+			name: uid(),
+			type: "emitter",
+			parameters: {
+				indexer: "lfsr",
+				channel : { seed:1, mask:0xC0, pool:[0] },
+				note : { seed:1, mask:0xC0, pool:[36] },
+				onVelocity : { seed:1, mask:0xC0, pool:[64,54,44,34,65]},
+				offVelocity : { seed:1, mask:0xC0, pool:[60]},
+				duration :{ seed:1, mask:0xC0, pool:[1]}
+			},
+		};
+	},
+	initialize: function() {
+		this.containedBy = null;
+	},
+	parameters: function() {
+		return this.get("parameters");
+	},
+	parameter: function(name) {
+		return this.parameters()[name];
+	}
+});
+
+
 EmitterView = Backbone.View.extend( {
 	tagname: "li",
     attributes: { "draggable" : true },
@@ -207,22 +215,12 @@ EmitterView = Backbone.View.extend( {
 		this.indexerSelect = populateIndexerSelect( this.$("select.indexer") );
 		this.indexerSelect.val( this.model.parameter("indexer") );
 		
-		var viewClass;
-		if( this.model.parameter("indexer") === "lfsr" ) {
-			viewClass = LFSRView;
-		}
-		else if( this.model.parameter("indexer") === "sequential" ) {
-			viewClass = SequentialView;
-		}
-		else {
-			console.log("Unknown indexer type:", this.model.parameter("indexer"));
-		}
-
-		this.$(".note").html( new viewClass(this.model,"note").render().el );
-		this.$(".channel").html( new viewClass(this.model,"channel").render().el );
-		this.$(".duration").html( new viewClass(this.model,"duration").render().el );
-		this.$(".onVelocity").html( new viewClass(this.model,"onVelocity").render().el );
-		this.$(".offVelocity").html( new viewClass(this.model,"offVelocity").render().el );
+		var viewType = getViewType( this.model.parameter("indexer") );
+		this.$(".note").html( new viewType(this.model,"note").render().el );
+		this.$(".channel").html( new viewType(this.model,"channel").render().el );
+		this.$(".duration").html( new viewType(this.model,"duration").render().el );
+		this.$(".onVelocity").html( new viewType(this.model,"onVelocity").render().el );
+		this.$(".offVelocity").html( new viewType(this.model,"offVelocity").render().el );
 
 		return this;            
 	}
