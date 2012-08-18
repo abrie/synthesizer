@@ -107,12 +107,10 @@ SequentialView = Backbone.View.extend( {
 	}
 });
 
-var availableIndexers = ["lfsr","sequential"];
 var indexerViews = {lfsr:LFSRView, sequential:SequentialView};
-
 function populateIndexerSelect( select, current ) {
-	_.each( availableIndexers, function(indexer) {
-		select[0].add( new Option( indexer, indexer ) );
+	_.each( indexerViews, function(type, name) {
+		select[0].add( new Option( name, name ) );
 	}); 
 
 	return select;
