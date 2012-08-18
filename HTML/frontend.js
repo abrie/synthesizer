@@ -52,9 +52,9 @@ LFSRView = Backbone.View.extend( {
 	className: "lfsr",
 	template: _.template( $("#lfsr-template").html() ),
 	initialize: function( model, parameterName ) {
+		_.bindAll(this, "render");
 		this.targetParameterName = parameterName;
 		this.targetParameter = model.parameter(parameterName);
-		_.bindAll(this, "render");
 	},
 	events: {
 		"change input.seed" : "parameterChanged",
@@ -84,9 +84,9 @@ SequentialView = Backbone.View.extend( {
 	className: "sequential",
 	template: _.template( $("#sequential-template").html() ),
 	initialize: function( model, parameterName ) {
+		_.bindAll(this, "render");
 		this.targetParameterName = parameterName;
 		this.targetParameter = model.parameter(parameterName);
-		_.bindAll(this, "render");
 	},
 	events: {
 		"change input.direction" : "parameterChanged",
@@ -173,6 +173,7 @@ EmitterView = Backbone.View.extend( {
 		this.model.bind("change", this.render);
 		this.$el.bind("dragstart",_.bind(this.dragStart, this));
 		this.$el.bind("dragover",_.bind(this.dragOver, this));
+		this.$el.bind("dragleave",_.bind(this.dragLeave, this));
 		this.$el.bind("drop",_.bind(this.drop, this));
 		this.$el.attr("id",this.model.get("name"));
 		this.render();
@@ -190,9 +191,17 @@ EmitterView = Backbone.View.extend( {
 		e.stopPropagation();
 	},                      
 	dragOver: function(e) {
+		if (dragNode != this.model ) {
+			this.$el.addClass("dragOver");
+		}
+		return false;
+	},
+	dragLeave: function(e) {
+		this.$el.removeClass("dragOver");
 		return false;
 	},
 	drop: function(e) {
+		this.$el.removeClass("dragOver");
 		if( !this.model.parameter("pool").contains( dragNode ) )
 		{
 			this.model.parameter("pool").add( dragNode );
@@ -245,9 +254,11 @@ NodeView = Backbone.View.extend( {
 		e.stopPropagation();
 	},                      
 	dragOver: function(e) {
+		this.$el.addClass("dragOver");
 		return false;
 	},
 	drop: function(e) {
+		this.$el.addClass("dragOver");
 		if( !this.model.get("pool").contains( dragNode ) )
 		{
 			this.model.get("pool").add( dragNode );
@@ -301,6 +312,7 @@ InstrumentView = Backbone.View.extend( {
 		this.model.rootNodes().bind("remove", this.render);
 		this.$el.bind("dragstart",_.bind(this.dragStart, this));
 		this.$el.bind("dragover",_.bind(this.dragOver, this));
+		this.$el.bind("dragleave",_.bind(this.dragLeave, this));
 		this.$el.bind("drop",_.bind(this.drop, this));
 		this.$el.attr("id",this.model.get("name"));
 	},
@@ -331,9 +343,15 @@ InstrumentView = Backbone.View.extend( {
 	},
     dragStart: function(e) { },                      
 	dragOver: function(e) {
+		this.$el.addClass("dragOver");
+		return false;
+	},
+	dragLeave: function(e) {
+		this.$el.removeClass("dragOver");
 		return false;
 	},
 	drop: function(e) {
+		this.$el.removeClass("dragOver");
 		if( !this.model.get("pool").contains( dragNode ) )
 		{
 			this.model.get("pool").add( dragNode );
