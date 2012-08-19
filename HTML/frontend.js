@@ -106,15 +106,17 @@ PianoboardView = Backbone.View.extend( {
 		console.log("pianoKeyRelease:",noteNumber);
 		return false;
 	},
+	makePianokey: function( noteNumber ) {
+		return this.pianokey_template( {
+			note_number: noteNumber,
+			whiteblack: this.whiteOrBlackPianokey(noteNumber),
+			state: this.isPianokeyProgrammed(noteNumber) ? "on" : "off" 
+		});
+	},
 	render: function() {
 		this.$el.html( this.pianoboard_template() );
 		for( var i = 2*12; i < 7*12; i++ ) {
-			var key = this.pianokey_template( {
-				note_number: i,
-				whiteblack: this.whiteOrBlackPianokey(i),
-				state: this.isPianokeyProgrammed(i) ? "on" : "off" 
-			} ); 
-			this.$("ul.pianokeys").append( key );
+			this.$("ul.pianokeys").append(this.makePianokey(i));
 		}
 
 		return this;
