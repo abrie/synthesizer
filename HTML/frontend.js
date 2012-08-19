@@ -58,9 +58,9 @@ PianoboardView = Backbone.View.extend( {
 	className: "pianoboard",
 	pianoboard_template: _.template( $("#pianoboard-template").html() ),
 	pianokey_template: _.template( $("#pianokey-template").html() ),
-	initialize: function( targetParameters) {
+	initialize: function( model ) {
 		_.bindAll(this, "render");
-		this.targetParameters = targetParameters;
+		this.model = model;
 	},
 	events: {
         "mousedown li.pianokey" : "pianoKeyPress",
@@ -75,15 +75,17 @@ PianoboardView = Backbone.View.extend( {
 		}) ? "black" : "white";
 	},
 	isPianokeyProgrammed: function(nn) {
-		var indexInPool = this.targetParameters.note.pool.indexOf(nn); 
+		var indexInPool = this.model.note.pool.indexOf(nn); 
 		 return indexInPool >= 0;
 	},
 	addPianokey: function(nn) {
-		this.targetParameters.note.pool.push(nn);
+		this.model.note.pool.push(nn);
 	},
 	removePianokey: function(nn) {
-		var filtered = this.targetParameters.note.pool.filter( function(i) { return i != nn});
-		this.targetParameters.note.pool = filtered;
+		var filtered = this.model.note.pool.filter( function(i) {
+			return i != nn
+		});
+		this.model.note.pool = filtered;
 	},
 	pianoKeyPress: function(e) {
 		var noteNumber = this.noteNumberOfPianokey( e.currentTarget );
@@ -116,7 +118,7 @@ PianoboardView = Backbone.View.extend( {
 		}
 
 		return this;
-	}
+	}     
 });
 
 LFSRView = Backbone.View.extend( {
