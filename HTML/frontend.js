@@ -164,14 +164,14 @@ SequentialView = Backbone.View.extend( {
 		"change input.pool" : "parameterChanged",
 	},
 	parameterChanged: function(e) {
-		this.field["direction"] = parseInt( this.directionInput.val() );
+		this.field["step"] = parseInt( this.stepInput.val() );
 		this.field["pool"] = inputToArray( this.poolInput );
 	},
 	render: function() {
 		this.$el.html( this.template() );
-		this.$(".name").html( this.fieldName );
-        this.directionInput = setField( this.$("input.direction"), this.field["direction"] );
-		this.poolInput = setField( this.$("input.pool"), this.field["pool"] );
+		this.$(".name").html(this.fieldName);
+        this.stepInput = setField(this.$("input.step"), this.field["step"]);
+		this.poolInput = setField(this.$("input.pool"), this.field["pool"]);
 		return this;            
 	}
 });
