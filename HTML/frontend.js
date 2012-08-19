@@ -48,7 +48,7 @@ function inputToArray( input ) {
 	return result;
 }
 
-function getAndSet( element, parameter ) {
+function setField( element, parameter ) {
 	element.val( parameter );
 	return element;
 }
@@ -143,9 +143,9 @@ LFSRView = Backbone.View.extend( {
 	render: function() {
 		this.$el.html( this.template() );
 		this.$(".name").html( this.fieldName );
-        this.seedInput = getAndSet(this.$("input.seed"), this.field["seed"]);
-        this.maskInput = getAndSet(this.$("input.mask"), this.field["mask"]);
-		this.poolInput = getAndSet(this.$("input.pool"), this.field["pool"]);
+        this.seedInput = setField(this.$("input.seed"), this.field["seed"]);
+        this.maskInput = setField(this.$("input.mask"), this.field["mask"]);
+		this.poolInput = setField(this.$("input.pool"), this.field["pool"]);
 		return this;            
 	}
 });
@@ -170,8 +170,8 @@ SequentialView = Backbone.View.extend( {
 	render: function() {
 		this.$el.html( this.template() );
 		this.$(".name").html( this.targetParameterName );
-        this.directionInput = getAndSet( this.$("input.direction"), this.targetParameter["direction"] );
-		this.poolInput = getAndSet( this.$("input.pool"), this.targetParameter["pool"] );
+        this.directionInput = setField( this.$("input.direction"), this.targetParameter["direction"] );
+		this.poolInput = setField( this.$("input.pool"), this.targetParameter["pool"] );
 		return this;            
 	}
 });
@@ -427,9 +427,9 @@ InstrumentView = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
-		this.stepsInput = getAndSet( this.$("input.steps"), this.model.get("parameters")["steps"] );
-		this.pulsesInput = getAndSet( this.$("input.pulses"),this.model.get("parameters")["pulses"] );
-		this.pulsesPerStepInput = getAndSet( this.$("input.pulsesPerStep"),this.model.get("parameters")["pulsesPerStep"] );
+		this.stepsInput = setField( this.$("input.steps"), this.model.get("parameters")["steps"] );
+		this.pulsesInput = setField( this.$("input.pulses"),this.model.get("parameters")["pulses"] );
+		this.pulsesPerStepInput = setField( this.$("input.pulsesPerStep"),this.model.get("parameters")["pulsesPerStep"] );
 		this.model.rootNodes().each( function(node) {
 			var type = node.get("type");
 			if (type === "branch") {
