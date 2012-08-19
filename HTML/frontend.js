@@ -122,6 +122,38 @@ function getViewType( type )
 	return indexerViews[type];
 }
 
+DragDropMixin = {
+	initializeDragDrop: function() {
+		this.$el.bind("dragstart",_.bind(this.dragStart, this));
+		this.$el.bind("dragover",_.bind(this.dragOver, this));
+		this.$el.bind("dragleave",_.bind(this.dragLeave, this));
+		this.$el.bind("drop",_.bind(this.drop, this));
+	},
+    dragStart: function(e) {
+		dragNode = this.model;
+		e.stopPropagation();
+	},                      
+	dragOver: function(e) {
+		this.$el.addClass("dragOver");
+		return false;
+	},
+	dragLeave: function(e) {
+		this.$el.removeClass("dragOver");
+		return false;
+	},
+	drop: function(e) {
+		this.$el.removeClass("dragOver");
+		if( !this.model.get("pool").contains( dragNode ) )
+		{
+			this.model.get("pool").add( dragNode );
+			dragNode.containedBy.get("pool").remove( dragNode );
+			dragNode.containedBy = this.model;
+		}
+		e.preventDefault();
+		e.stopPropagation();
+	}
+};
+
 NodeCollection = Backbone.Collection.extend({ });
 
 NodeModel = Backbone.Model.extend( {
@@ -172,11 +204,8 @@ EmitterView = Backbone.View.extend( {
 	initialize: function() {
 		_.bindAll(this, "render");
 		this.model.bind("change", this.render);
-		this.$el.bind("dragstart",_.bind(this.dragStart, this));
-		this.$el.bind("dragover",_.bind(this.dragOver, this));
-		this.$el.bind("dragleave",_.bind(this.dragLeave, this));
-		this.$el.bind("drop",_.bind(this.drop, this));
 		this.$el.attr("id",this.model.get("name"));
+		this.initializeDragDrop();
 		this.render();
 	},
 	events: {
@@ -186,31 +215,6 @@ EmitterView = Backbone.View.extend( {
 		"change input.duration" : "parameterChanged",
         "change input.onVelocity" : "parameterChanged",
         "change input.offVelocity" : "parameterChanged",
-	},
-    dragStart: function(e) {
-		dragNode = this.model;
-		e.stopPropagation();
-	},                      
-	dragOver: function(e) {
-		if (dragNode != this.model ) {
-			this.$el.addClass("dragOver");
-		}
-		return false;
-	},
-	dragLeave: function(e) {
-		this.$el.removeClass("dragOver");
-		return false;
-	},
-	drop: function(e) {
-		this.$el.removeClass("dragOver");
-		if( !this.model.parameter("pool").contains( dragNode ) )
-		{
-			this.model.parameter("pool").add( dragNode );
-			dragNode.containedBy.parameter("pool").remove( dragNode );
-			dragNode.containedBy = this.model;
-		}
-		e.preventDefault();
-		e.stopPropagation();
 	},
 	parameterChanged: function(e) {
 		this.model.parameters()["indexer"] = this.indexerSelect.val();
@@ -233,41 +237,20 @@ EmitterView = Backbone.View.extend( {
 		return this;            
 	}
 });
+_.extend(EmitterView.prototype, DragDropMixin);
 
 NodeView = Backbone.View.extend( {
 	tagname: "li",
-    attributes: { "draggable" : true },
 	className: "node",
+    attributes: { "draggable" : true },
 	template: _.template( $("#node-template").html() ),
 	initialize: function() {
 		_.bindAll(this, "render");
 		this.model.bind("change", this.render);
 		this.model.get("pool").bind("add", this.render);
 		this.model.get("pool").bind("remove", this.render);
-		this.$el.bind("dragstart",_.bind(this.dragStart, this));
-		this.$el.bind("dragover",_.bind(this.dragOver, this));
-		this.$el.bind("drop",_.bind(this.drop, this));
 		this.$el.attr("id",this.model.get("name"));
-		this.render();
-	},
-    dragStart: function(e) {
-		dragNode = this.model;
-		e.stopPropagation();
-	},                      
-	dragOver: function(e) {
-		this.$el.addClass("dragOver");
-		return false;
-	},
-	drop: function(e) {
-		this.$el.addClass("dragOver");
-		if( !this.model.get("pool").contains( dragNode ) )
-		{
-			this.model.get("pool").add( dragNode );
-			dragNode.containedBy.get("pool").remove( dragNode );
-			dragNode.containedBy = this.model;
-		}
-		e.preventDefault();
-		e.stopPropagation();
+		this.initializeDragDrop();
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
@@ -287,6 +270,7 @@ NodeView = Backbone.View.extend( {
 		return this;            
 	}
 });
+_.extend(NodeView.prototype, DragDropMixin);
 
 InstrumentModel = Backbone.Model.extend( {
 	defaults: function() {
@@ -328,11 +312,8 @@ InstrumentView = Backbone.View.extend( {
 		this.model.bind("change", this.render);
 		this.model.rootNodes().bind("add", this.render);
 		this.model.rootNodes().bind("remove", this.render);
-		this.$el.bind("dragstart",_.bind(this.dragStart, this));
-		this.$el.bind("dragover",_.bind(this.dragOver, this));
-		this.$el.bind("dragleave",_.bind(this.dragLeave, this));
-		this.$el.bind("drop",_.bind(this.drop, this));
 		this.$el.attr("id",this.model.get("name"));
+		this.initializeDragDrop();
 	},
 	events: {
 		"click button.branch" : "newBranch",
@@ -375,26 +356,6 @@ InstrumentView = Backbone.View.extend( {
 		parameters["pulses"] = parseInt( this.pulsesInput.val() );
 		parameters["pulsesPerStep"] = parseInt( this.pulsesPerStepInput.val() );
 	},
-    dragStart: function(e) { },                      
-	dragOver: function(e) {
-		this.$el.addClass("dragOver");
-		return false;
-	},
-	dragLeave: function(e) {
-		this.$el.removeClass("dragOver");
-		return false;
-	},
-	drop: function(e) {
-		this.$el.removeClass("dragOver");
-		if( !this.model.get("pool").contains( dragNode ) )
-		{
-			this.model.get("pool").add( dragNode );
-			dragNode.containedBy.get("pool").remove( dragNode );
-			dragNode.containedBy = this.model;
-		}
-		e.preventDefault();
-		e.stopPropagation();
-	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
 		this.stepsInput = getAndSet( this.$("input.steps"), this.model.get("parameters")["steps"] );
@@ -415,6 +376,7 @@ InstrumentView = Backbone.View.extend( {
 		return this;            
 	}
 });
+_.extend(InstrumentView.prototype, DragDropMixin);
 
 InstrumentModelCollection = Backbone.Collection.extend( {
 	model : InstrumentModel,
