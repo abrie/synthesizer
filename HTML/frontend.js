@@ -125,10 +125,10 @@ LFSRView = Backbone.View.extend( {
 	tagname: "div",
 	className: "lfsr",
 	template: _.template( $("#lfsr-template").html() ),
-	initialize: function( model, parameterName ) {
+	initialize: function( model, fieldName ) {
 		_.bindAll(this, "render");
-		this.targetParameterName = parameterName;
-		this.targetParameter = model.parameter(parameterName);
+		this.fieldName = fieldName;
+		this.field = model.parameter(fieldName);
 	},
 	events: {
 		"change input.seed" : "parameterChanged",
@@ -136,16 +136,16 @@ LFSRView = Backbone.View.extend( {
 		"change input.pool" : "parameterChanged",
 	},
 	parameterChanged: function(e) {
-		this.targetParameter["seed"] = parseInt( this.seedInput.val() );
-		this.targetParameter["mask"] = parseInt( this.maskInput.val() );
-		this.targetParameter["pool"] = inputToArray( this.poolInput );
+		this.field["seed"] = parseInt( this.seedInput.val() );
+		this.field["mask"] = parseInt( this.maskInput.val() );
+		this.field["pool"] = inputToArray( this.poolInput );
 	},
 	render: function() {
 		this.$el.html( this.template() );
-		this.$(".name").html( this.targetParameterName );
-        this.seedInput = getAndSet( this.$("input.seed"), this.targetParameter["seed"] );
-        this.maskInput = getAndSet( this.$("input.mask"), this.targetParameter["mask"] );
-		this.poolInput = getAndSet( this.$("input.pool"), this.targetParameter["pool"] );
+		this.$(".name").html( this.fieldName );
+        this.seedInput = getAndSet(this.$("input.seed"), this.field["seed"]);
+        this.maskInput = getAndSet(this.$("input.mask"), this.field["mask"]);
+		this.poolInput = getAndSet(this.$("input.pool"), this.field["pool"]);
 		return this;            
 	}
 });
