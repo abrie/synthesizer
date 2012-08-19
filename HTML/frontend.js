@@ -290,20 +290,26 @@ EmitterView = Backbone.View.extend( {
 		this.model.parameters()["indexer"] = this.indexerSelect.val();
 		this.render();
 	},
+	renderView: function( type, fieldName ) {
+		var view = new type(this.model, fieldName);
+		return view.render().el;
+	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
 		this.$(".name").html( "node:"+this.model.get("name") );
 
-		this.indexerSelect = populateIndexerSelect( this.$("select.indexer") );
+		this.indexerSelect = populateIndexerSelect(this.$("select.indexer"));
 		this.indexerSelect.val( this.model.parameter("indexer") );
 		
-		var viewType = getViewType( this.model.parameter("indexer") );
-		this.$(".note").html( new viewType(this.model,"note").render().el );
-		this.$(".channel").html( new viewType(this.model,"channel").render().el );
-		this.$(".duration").html( new viewType(this.model,"duration").render().el );
-		this.$(".onVelocity").html( new viewType(this.model,"onVelocity").render().el );
-		this.$(".offVelocity").html( new viewType(this.model,"offVelocity").render().el );
-		this.$(".piano").html( new PianoboardView(this.model.parameters()).render().el );
+		var type = getViewType( this.model.parameter("indexer"));
+		this.$(".note").html(this.renderView(type, "note"));
+		this.$(".channel").html(this.renderView(type, "channel"));
+		this.$(".duration").html(this.renderView(type, "duration"));
+		this.$(".onVelocity").html(this.renderView(type, "onVelocity"));
+		this.$(".offVelocity").html(this.renderView(type, "offVelocity"));
+
+		var pianoView = new PianoboardView(this.model.parameters());
+		this.$(".piano").html( pianoView.render().el );
 
 		return this;            
 	}
