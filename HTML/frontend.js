@@ -53,6 +53,72 @@ function getAndSet( element, parameter ) {
 	return element;
 }
 
+PianoboardView = Backbone.View.extend( {
+	tagName: "div",
+	className: "pianoboard",
+	pianoboard_template: _.template( $("#pianoboard-template").html() ),
+	pianokey_template: _.template( $("#pianokey-template").html() ),
+	initialize: function( targetParameters) {
+		_.bindAll(this, "render");
+		this.targetParameters = targetParameters;
+	},
+	events: {
+        "mousedown li.pianokey" : "pianoKeyPress",
+		"mouseup li.pianokey" : "pianoKeyRelease"
+	},
+	noteNumberOfPianokey : function(pianoKey) {
+		return parseInt( $(pianoKey).attr("note_number") );
+	},
+	whiteOrBlackPianokey : function(nn) {
+		return _.find( [1,3,6,8,10], function(n) { 
+			return (nn%12) / n == 1;
+		}) ? "black" : "white";
+	},
+	isPianokeyProgrammed: function(nn) {
+		var indexInPool = this.targetParameters.note.pool.indexOf(nn); 
+		 return indexInPool >= 0;
+	},
+	addPianokey: function(nn) {
+		this.targetParameters.note.pool.push(nn);
+	},
+	removePianokey: function(nn) {
+		var filtered = this.targetParameters.note.pool.filter( function(i) { return i != nn});
+		this.targetParameters.note.pool = filtered;
+	},
+	pianoKeyPress: function(e) {
+		var noteNumber = this.noteNumberOfPianokey( e.currentTarget );
+		console.log("pianoKeyPress:",noteNumber);
+		return false;
+	},
+	pianoKeyRelease: function(e) {
+		var noteNumber = this.noteNumberOfPianokey( e.currentTarget );
+		var isProgrammed = this.isPianokeyProgrammed( noteNumber );
+		if (isProgrammed) {
+			this.removePianokey(noteNumber);
+			$(e.currentTarget).attr("state","off");
+		}
+		else {
+			this.addPianokey(noteNumber);
+			$(e.currentTarget).attr("state","on");
+		}
+		console.log("pianoKeyRelease:",noteNumber);
+		return false;
+	},
+	render: function() {
+		this.$el.html( this.pianoboard_template() );
+		for( var i = 2*12; i < 7*12; i++ ) {
+			var key = this.pianokey_template( {
+				note_number: i,
+				whiteblack: this.whiteOrBlackPianokey(i),
+				state: this.isPianokeyProgrammed(i) ? "on" : "off" 
+			} ); 
+			this.$("ul.pianokeys").append( key );
+		}
+
+		return this;
+	}
+});
+
 LFSRView = Backbone.View.extend( {
 	tagname: "div",
 	className: "lfsr",
@@ -233,6 +299,7 @@ EmitterView = Backbone.View.extend( {
 		this.$(".duration").html( new viewType(this.model,"duration").render().el );
 		this.$(".onVelocity").html( new viewType(this.model,"onVelocity").render().el );
 		this.$(".offVelocity").html( new viewType(this.model,"offVelocity").render().el );
+		this.$(".piano").html( new PianoboardView(this.model.parameters()).render().el );
 
 		return this;            
 	}
@@ -430,7 +497,6 @@ $("input[name='sync_mode']").change ( function() {
 
 $("#render").click( function() {
 	appView.render();
-	appView.debug();
 });
 
 function message_processor(evt) {

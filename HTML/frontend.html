@@ -8,6 +8,7 @@
 		<script type="text/javascript" src="backbone-min.js"></script>
 		<script type="text/javascript" src="websocket.js"></script>
 		<link rel="stylesheet" href="frontend.css" type="text/css" />
+		<link rel="stylesheet" href="piano.css" type="text/css" />
 
 	<script type="text/template" id="instrument-template">
 		<div>instrument</div>
@@ -47,6 +48,7 @@
 		<div class="duration"></div>
         <div class="onVelocity"></div>
         <div class="offVelocity"></div>
+		<div class="piano"></div>
 	</script>
 
 	<script type="text/template" id="pianoboard-template">
@@ -54,7 +56,10 @@
 	</script>
 
 	<script type="text/template" id="pianokey-template">
-		<li class="pianokey <%= whiteblack %>" state="<%= state %>" note_number="<%= note_number %>"></li>
+		<li class="pianokey <%= whiteblack %>"
+			state="<%= state %>"
+			note_number="<%= note_number %>">
+		</li>
 	</script>
 	</head>
     
