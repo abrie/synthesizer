@@ -154,24 +154,24 @@ SequentialView = Backbone.View.extend( {
 	tagname: "div",
 	className: "sequential",
 	template: _.template( $("#sequential-template").html() ),
-	initialize: function( model, parameterName ) {
+	initialize: function( model, fieldName ) {
 		_.bindAll(this, "render");
-		this.targetParameterName = parameterName;
-		this.targetParameter = model.parameter(parameterName);
+		this.fieldName = fieldName;
+		this.field = model.parameter(fieldName);
 	},
 	events: {
 		"change input.direction" : "parameterChanged",
 		"change input.pool" : "parameterChanged",
 	},
 	parameterChanged: function(e) {
-		this.targetParameter["direction"] = parseInt( this.directionInput.val() );
-		this.targetParameter["pool"] = inputToArray( this.poolInput );
+		this.field["direction"] = parseInt( this.directionInput.val() );
+		this.field["pool"] = inputToArray( this.poolInput );
 	},
 	render: function() {
 		this.$el.html( this.template() );
-		this.$(".name").html( this.targetParameterName );
-        this.directionInput = setField( this.$("input.direction"), this.targetParameter["direction"] );
-		this.poolInput = setField( this.$("input.pool"), this.targetParameter["pool"] );
+		this.$(".name").html( this.fieldName );
+        this.directionInput = setField( this.$("input.direction"), this.field["direction"] );
+		this.poolInput = setField( this.$("input.pool"), this.field["pool"] );
 		return this;            
 	}
 });
