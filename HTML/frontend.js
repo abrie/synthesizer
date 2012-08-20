@@ -14,21 +14,21 @@ PianoboardView = Backbone.View.extend( {
 	noteNumberOfPianokey : function(pianoKey) {
 		return parseInt( $(pianoKey).attr("note_number") );
 	},
-	whiteOrBlackPianokey : function(nn) {
+	whiteOrBlackPianokey : function(noteNumber) {
 		return _.find( [1,3,6,8,10], function(n) { 
-			return (nn%12) / n == 1;
+			return (noteNumber%12) / n == 1;
 		}) ? "black" : "white";
 	},
-	isPianokeyProgrammed: function(nn) {
-		var indexInPool = this.model.note.pool.indexOf(nn); 
+	isPianokeyProgrammed: function(noteNumber) {
+		var indexInPool = this.model.note.pool.indexOf(noteNumber); 
 		 return indexInPool >= 0;
 	},
-	addPianokey: function(nn) {
-		this.model.note.pool.push(nn);
+	addPianokey: function(noteNumber) {
+		this.model.note.pool.push(noteNumber);
 	},
-	removePianokey: function(nn) {
+	removePianokey: function(noteNumber) {
 		var filtered = this.model.note.pool.filter( function(i) {
-			return i != nn
+			return i != noteNumber
 		});
 		this.model.note.pool = filtered;
 	},
