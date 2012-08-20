@@ -169,7 +169,7 @@ EmitterView = Backbone.View.extend( {
 		this.render();
 	},
 	renderView: function( type, fieldName ) {
-		var view = new type(this.model, fieldName);
+		var view = new type(this.model, fieldName, this.render);
 		return view.render().el;
 	},
 	render: function() {
