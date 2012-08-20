@@ -161,7 +161,7 @@ EmitterView = Backbone.View.extend( {
 	},
 	parameterChanged: function(e) {
 		this.model.parameters().indexer = this.indexerSelect.val();
-		this.render();
+		this.model.trigger("change");
 	},
 	renderView: function( type, fieldName ) {
 		var view = new type(this.model, fieldName);
