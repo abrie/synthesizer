@@ -162,7 +162,7 @@ EmitterView = Backbone.View.extend( {
         "change input.offVelocity" : "parameterChanged",
 	},
 	parameterChanged: function(e) {
-		this.model.parameters()["indexer"] = this.indexerSelect.val();
+		this.model.parameters().indexer = this.indexerSelect.val();
 		this.render();
 	},
 	renderView: function( type, fieldName ) {
@@ -290,29 +290,29 @@ InstrumentView = Backbone.View.extend( {
 	},
 	rhythmUp: function() {
 		parameters = this.model.get("parameters");
-		var modified = modifyRhythm( parameters["steps"], parameters["pulses"], 1 );
-		this.stepsInput.val( modified["steps"] );
-		this.pulsesInput.val( modified["pulses"] );
+		var modified = modifyRhythm( parameters.steps, parameters.pulses, 1 );
+		this.stepsInput.val( modified.steps );
+		this.pulsesInput.val( modified.pulses );
 		this.rhythmChanged();
 	},
 	rhythmDown: function() {
 		parameters = this.model.get("parameters");
-		var modified = modifyRhythm( parameters["steps"], parameters["pulses"], -1 );
-		this.stepsInput.val( modified["steps"] );
-		this.pulsesInput.val( modified["pulses"] );
+		var modified = modifyRhythm( parameters.steps, parameters.pulses, -1 );
+		this.stepsInput.val( modified.steps );
+		this.pulsesInput.val( modified.pulses );
 		this.rhythmChanged();
 	},
 	rhythmChanged: function() {
 		parameters = this.model.get("parameters");
-		parameters["steps"] = parseInt( this.stepsInput.val() );
-		parameters["pulses"] = parseInt( this.pulsesInput.val() );
-		parameters["pulsesPerStep"] = parseInt( this.pulsesPerStepInput.val() );
+		parameters.steps = parseInt( this.stepsInput.val() );
+		parameters.pulses = parseInt( this.pulsesInput.val() );
+		parameters.pulsesPerStep = parseInt( this.pulsesPerStepInput.val() );
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
-		this.stepsInput = setField( this.$("input.steps"), this.model.get("parameters")["steps"] );
-		this.pulsesInput = setField( this.$("input.pulses"),this.model.get("parameters")["pulses"] );
-		this.pulsesPerStepInput = setField( this.$("input.pulsesPerStep"),this.model.get("parameters")["pulsesPerStep"] );
+		this.stepsInput = setField( this.$("input.steps"), this.model.get("parameters").steps );
+		this.pulsesInput = setField( this.$("input.pulses"),this.model.get("parameters").pulses );
+		this.pulsesPerStepInput = setField( this.$("input.pulsesPerStep"),this.model.get("parameters").pulsesPerStep );
 		this.model.rootNodes().each( function(node) {
 			var type = node.get("type");
 			if (type === "branch") {
