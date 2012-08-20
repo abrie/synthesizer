@@ -3,9 +3,10 @@ PianoboardView = Backbone.View.extend( {
 	className: "pianoboard",
 	pianoboard_template: _.template( $("#pianoboard-template").html() ),
 	pianokey_template: _.template( $("#pianokey-template").html() ),
-	initialize: function( model ) {
+	initialize: function( model, onChange ) {
 		_.bindAll(this, "render");
 		this.model = model;
+		this.onChange = onChange;
 	},
 	events: {
         "mousedown li.pianokey" : "pianoKeyPress",
@@ -25,12 +26,14 @@ PianoboardView = Backbone.View.extend( {
 	},
 	addPianokey: function(noteNumber) {
 		this.model.note.pool.push(noteNumber);
+		this.onChange();
 	},
 	removePianokey: function(noteNumber) {
 		var filtered = this.model.note.pool.filter( function(i) {
 			return i != noteNumber
 		});
 		this.model.note.pool = filtered;
+		this.onChange();
 	},
 	pianoKeyPress: function(e) {
 		var noteNumber = this.noteNumberOfPianokey( e.currentTarget );
@@ -183,7 +186,7 @@ EmitterView = Backbone.View.extend( {
 		this.$(".onVelocity").html(this.renderView(type, "onVelocity"));
 		this.$(".offVelocity").html(this.renderView(type, "offVelocity"));
 
-		var pianoView = new PianoboardView(this.model.parameters());
+		var pianoView = new PianoboardView(this.model.parameters(), this.render);
 		this.$(".piano").html( pianoView.render().el );
 
 		return this;            
