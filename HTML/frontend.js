@@ -3,10 +3,11 @@ PianoboardView = Backbone.View.extend( {
 	className: "pianoboard",
 	pianoboard_template: _.template( $("#pianoboard-template").html() ),
 	pianokey_template: _.template( $("#pianokey-template").html() ),
-	initialize: function( model, onChange ) {
+	initialize: function( model, fieldName ) {
 		_.bindAll(this, "render");
 		this.model = model;
-		this.onChange = onChange;
+		this.fieldName = fieldName;
+		this.field = model.parameter(fieldName);
 	},
 	events: {
         "mousedown li.pianokey" : "pianoKeyPress",
@@ -21,23 +22,23 @@ PianoboardView = Backbone.View.extend( {
 		}) ? "black" : "white";
 	},
 	isPianokeyProgrammed: function(noteNumber) {
-		var indexInPool = this.model.note.pool.indexOf(noteNumber); 
+		var indexInPool = this.field.pool.indexOf(noteNumber); 
 		 return indexInPool >= 0;
 	},
 	addPianokey: function(noteNumber) {
-		this.model.note.pool.push(noteNumber);
-		this.onChange();
+		this.field.pool.push(noteNumber);
+		this.model.trigger("change");
 	},
 	removePianokey: function(noteNumber) {
-		var filtered = this.model.note.pool.filter( function(i) {
+		var filtered = this.field.pool.filter( function(i) {
 			return i != noteNumber
 		});
-		this.model.note.pool = filtered;
-		this.onChange();
+		this.field.pool = filtered;
+		this.model.trigger("change");
 	},
 	pianoKeyPress: function(e) {
 		var noteNumber = this.noteNumberOfPianokey( e.currentTarget );
-		console.log("pianoKeyPress:",noteNumber);
+		// no action on press... (TODO:send a midi note-on message)
 		return false;
 	},
 	pianoKeyRelease: function(e) {
@@ -51,7 +52,6 @@ PianoboardView = Backbone.View.extend( {
 			this.addPianokey(noteNumber);
 			$(e.currentTarget).attr("state","on");
 		}
-		console.log("pianoKeyRelease:",noteNumber);
 		return false;
 	},
 	makePianokey: function( noteNumber ) {
@@ -164,7 +164,7 @@ EmitterView = Backbone.View.extend( {
 		this.render();
 	},
 	renderView: function( type, fieldName ) {
-		var view = new type(this.model, fieldName, this.render);
+		var view = new type(this.model, fieldName);
 		return view.render().el;
 	},
 	render: function() {
@@ -181,7 +181,7 @@ EmitterView = Backbone.View.extend( {
 		this.$(".onVelocity").html(this.renderView(type, "onVelocity"));
 		this.$(".offVelocity").html(this.renderView(type, "offVelocity"));
 
-		var pianoView = new PianoboardView(this.model.parameters(), this.render);
+		var pianoView = new PianoboardView(this.model, "note");
 		this.$(".piano").html( pianoView.render().el );
 
 		return this;            

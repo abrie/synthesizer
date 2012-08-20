@@ -2,11 +2,11 @@ LFSRView = Backbone.View.extend( {
 	tagname: "div",
 	className: "lfsr",
 	template: _.template( $("#lfsr-template").html() ),
-	initialize: function( model, fieldName, onChange ) {
+	initialize: function( model, fieldName ) {
 		_.bindAll(this, "render");
+		this.model = model;
 		this.fieldName = fieldName;
 		this.field = model.parameter(fieldName);
-		this.onChange = onChange;
 	},
 	events: {
 		"change input.seed" : "parameterChanged",
@@ -17,7 +17,7 @@ LFSRView = Backbone.View.extend( {
 		this.field.seed = parseInt( this.seedInput.val() );
 		this.field.mask = parseInt( this.maskInput.val() );
 		this.field.pool = inputToArray( this.poolInput );
-		this.onChange();
+		this.model.trigger("change");
 	},
 	render: function() {
 		this.$el.html( this.template() );
@@ -33,11 +33,11 @@ SequentialView = Backbone.View.extend( {
 	tagname: "div",
 	className: "sequential",
 	template: _.template( $("#sequential-template").html() ),
-	initialize: function( model, fieldName, onChange ) {
+	initialize: function( model, fieldName ) {
 		_.bindAll(this, "render");
+		this.model = model;
 		this.fieldName = fieldName;
 		this.field = model.parameter(fieldName);
-		this.onChange = onChange;
 	},
 	events: {
 		"change input.direction" : "parameterChanged",
@@ -46,7 +46,7 @@ SequentialView = Backbone.View.extend( {
 	parameterChanged: function(e) {
 		this.field.step = parseInt( this.stepInput.val() );
 		this.field.pool = inputToArray( this.poolInput );
-		this.onChange();
+		this.model.trigger("change");
 	},
 	render: function() {
 		this.$el.html( this.template() );
