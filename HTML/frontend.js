@@ -152,7 +152,6 @@ EmitterView = Backbone.View.extend( {
 		this.model.bind("change", this.render);
 		this.$el.attr("id",this.model.get("name"));
 		this.initializeDragDrop();
-		this.render();
 	},
 	events: {
 		"change select.indexer" : "parameterChanged",
