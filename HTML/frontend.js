@@ -153,6 +153,7 @@ EmitterView = Backbone.View.extend( {
 	initialize: function() {
 		_.bindAll(this, "render");
 		this.model.bind("change", this.render);
+		this.model.bind("change", publishAppModel);
 		this.$el.attr("id",this.model.get("name"));
 		this.initializeDragDrop();
 	},
