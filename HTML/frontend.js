@@ -158,11 +158,6 @@ EmitterView = Backbone.View.extend( {
 	},
 	events: {
 		"change select.indexer" : "parameterChanged",
-		"change input.note" : "parameterChanged",
-		"change input.channel" : "parameterChanged",
-		"change input.duration" : "parameterChanged",
-        "change input.onVelocity" : "parameterChanged",
-        "change input.offVelocity" : "parameterChanged",
 	},
 	parameterChanged: function(e) {
 		this.model.parameters().indexer = this.indexerSelect.val();
