@@ -291,16 +291,16 @@ InstrumentView = Backbone.View.extend( {
 	rhythmUp: function() {
 		parameters = this.model.get("parameters");
 		var modified = modifyRhythm( parameters.steps, parameters.pulses, 1 );
-		this.stepsInput.val( modified.steps );
-		this.pulsesInput.val( modified.pulses );
-		this.rhythmChanged();
+		parameters.steps = modified.steps;
+		parameters.pulses = modified.pulses;
+		this.render();
 	},
 	rhythmDown: function() {
 		parameters = this.model.get("parameters");
 		var modified = modifyRhythm( parameters.steps, parameters.pulses, -1 );
-		this.stepsInput.val( modified.steps );
-		this.pulsesInput.val( modified.pulses );
-		this.rhythmChanged();
+		parameters.steps = modified.steps;
+		parameters.pulses = modified.pulses;
+		this.render();
 	},
 	rhythmChanged: function() {
 		parameters = this.model.get("parameters");
@@ -310,9 +310,13 @@ InstrumentView = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
-		this.stepsInput = setField( this.$("input.steps"), this.model.get("parameters").steps );
-		this.pulsesInput = setField( this.$("input.pulses"),this.model.get("parameters").pulses );
-		this.pulsesPerStepInput = setField( this.$("input.pulsesPerStep"),this.model.get("parameters").pulsesPerStep );
+		this.stepsInput = this.$("input.steps");
+		this.stepsInput.val( this.model.get("parameters").steps );
+		this.pulsesInput = this.$("input.pulses");
+		this.pulsesInput.val( this.model.get("parameters").pulses );
+		this.pulsesPerStepInput = this.$("input.pulsesPerStep");
+		this.pulsesPerStepInput.val( this.model.get("parameters").pulsesPerStep );
+
 		this.model.rootNodes().each( function(node) {
 			var type = node.get("type");
 			if (type === "branch") {
