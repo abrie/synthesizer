@@ -358,10 +358,6 @@ AppView = Backbone.View.extend( {
 		this.render();
 		return this;
 	},
-	report: function() {
-		var message = { toFeelers: this.model.toJSON() };
-		send_data(message);
-	},
 	render: function() {
 		this.$el.empty();
 		this.model.get("instruments").each( function(instrument) {
@@ -378,6 +374,11 @@ $("#new").click( function() {
 	appView.addInstrument( instrumentModel );
 });
 
+function publishAppModel() {
+	var message = { toFeelers: appModel.toJSON() };
+	send_data(message);
+}
+
 $("input[name='sync_mode']").change ( function() {
 	var mode = $("input[name='sync_mode']:checked").val();
 	transmit_sequencer_sync( mode );
@@ -392,6 +393,4 @@ function message_processor(evt) {
 }
 
 open_interfaceWebSocket("ws://yeux.local:12345/service", message_processor );
-$("#sync").click( function() {
-	appView.report();
-});
+$("#sync").click( publishAppModel );
