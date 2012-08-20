@@ -261,8 +261,7 @@ InstrumentView = Backbone.View.extend( {
 	initialize: function() {
 		_.bindAll(this, "render");
 		this.model.bind("change", this.render);
-		this.model.rootNodes().bind("add", this.render);
-		this.model.rootNodes().bind("remove", this.render);
+		this.model.bind("change", publishAppModel);
 		this.$el.attr("id",this.model.get("name"));
 		this.initializeDragDrop();
 	},
@@ -279,33 +278,34 @@ InstrumentView = Backbone.View.extend( {
 		var node = new NodeModel();
 		node.containedBy = this.model;
 		this.model.rootNodes().add(node);
-		this.render();
+		this.model.trigger("change");
 	},
 	newEmitter: function() {
 		var node = new EmitterModel();
 		node.containedBy = this.model;
 		this.model.rootNodes().add(node);
-		this.render();
+		this.model.trigger("change");
 	},
 	rhythmUp: function() {
 		parameters = this.model.get("parameters");
 		var modified = modifyRhythm( parameters.steps, parameters.pulses, 1 );
 		parameters.steps = modified.steps;
 		parameters.pulses = modified.pulses;
-		this.render();
+		this.model.trigger("change");
 	},
 	rhythmDown: function() {
 		parameters = this.model.get("parameters");
 		var modified = modifyRhythm( parameters.steps, parameters.pulses, -1 );
 		parameters.steps = modified.steps;
 		parameters.pulses = modified.pulses;
-		this.render();
+		this.model.trigger("change");
 	},
 	rhythmChanged: function() {
 		parameters = this.model.get("parameters");
 		parameters.steps = parseInt( this.stepsInput.val() );
 		parameters.pulses = parseInt( this.pulsesInput.val() );
 		parameters.pulsesPerStep = parseInt( this.pulsesPerStepInput.val() );
+		this.model.trigger("change");
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
