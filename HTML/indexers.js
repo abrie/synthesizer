@@ -13,16 +13,16 @@ LFSRView = Backbone.View.extend( {
 		"change input.pool" : "parameterChanged",
 	},
 	parameterChanged: function(e) {
-		this.field["seed"] = parseInt( this.seedInput.val() );
-		this.field["mask"] = parseInt( this.maskInput.val() );
-		this.field["pool"] = inputToArray( this.poolInput );
+		this.field.seed = parseInt( this.seedInput.val() );
+		this.field.mask = parseInt( this.maskInput.val() );
+		this.field.pool = inputToArray( this.poolInput );
 	},
 	render: function() {
 		this.$el.html( this.template() );
 		this.$(".name").html( this.fieldName );
-        this.seedInput = setField(this.$("input.seed"), this.field["seed"]);
-        this.maskInput = setField(this.$("input.mask"), this.field["mask"]);
-		this.poolInput = setField(this.$("input.pool"), this.field["pool"]);
+        this.seedInput = setField(this.$("input.seed"), this.field.seed);
+        this.maskInput = setField(this.$("input.mask"), this.field.mask);
+		this.poolInput = setField(this.$("input.pool"), this.field.pool);
 		return this;            
 	}
 });
@@ -41,14 +41,14 @@ SequentialView = Backbone.View.extend( {
 		"change input.pool" : "parameterChanged",
 	},
 	parameterChanged: function(e) {
-		this.field["step"] = parseInt( this.stepInput.val() );
-		this.field["pool"] = inputToArray( this.poolInput );
+		this.field.step = parseInt( this.stepInput.val() );
+		this.field.pool = inputToArray( this.poolInput );
 	},
 	render: function() {
 		this.$el.html( this.template() );
 		this.$(".name").html(this.fieldName);
-        this.stepInput = setField(this.$("input.step"), this.field["step"]);
-		this.poolInput = setField(this.$("input.pool"), this.field["pool"]);
+        this.stepInput = setField(this.$("input.step"), this.field.step);
+		this.poolInput = setField(this.$("input.pool"), this.field.pool);
 		return this;            
 	}
 });
