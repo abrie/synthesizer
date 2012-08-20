@@ -371,7 +371,8 @@ AppView = Backbone.View.extend( {
 	},
 });       
 
-appView = new AppView( { model: new AppModel() } );
+var appModel = new AppModel(); 
+var appView = new AppView( { model: appModel } );
 $("#new").click( function() {
 	var instrumentModel = new InstrumentModel();
 	appView.addInstrument( instrumentModel );
