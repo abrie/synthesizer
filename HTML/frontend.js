@@ -152,6 +152,7 @@ EmitterView = Backbone.View.extend( {
 		this.model.bind("change", this.render, this);
 		this.$el.attr("id",this.model.get("name"));
 		this.pianoView = new PianoboardView({model:this.model});
+		this.cachedViews = {};
 		this.initializeDragDrop();
 	},
 	events: {
@@ -162,7 +163,17 @@ EmitterView = Backbone.View.extend( {
 		this.model.trigger("change");
 	},
 	renderView: function( type, fieldName ) {
-		var view = new type(this.model, fieldName);
+		var keyHash = type+fieldName;
+		var view = this.cachedViews[keyHash]; 
+		if (view === undefined) {
+			if (type === "lfsr") {
+				view = new LFSRView(this.model,fieldName);
+			}
+			else if (type === "sequential") {
+				view = new SequentialView(this.model,fieldName);
+			}
+			this.cachedViews[keyHash] = view;
+		}
 		return view.render().el;
 	},
 	render: function() {
@@ -172,12 +183,12 @@ EmitterView = Backbone.View.extend( {
 		this.indexerSelect = populateIndexerSelect(this.$("select.indexer"));
 		this.indexerSelect.val( this.model.parameter("indexer") );
 		
-		var type = getViewType( this.model.parameter("indexer"));
-		this.$(".note").html(this.renderView(type, "note"));
-		this.$(".channel").html(this.renderView(type, "channel"));
-		this.$(".duration").html(this.renderView(type, "duration"));
-		this.$(".onVelocity").html(this.renderView(type, "onVelocity"));
-		this.$(".offVelocity").html(this.renderView(type, "offVelocity"));
+		var indexer = this.model.parameter("indexer");
+		this.$(".note").html(this.renderView(indexer, "note"));
+		this.$(".channel").html(this.renderView(indexer, "channel"));
+		this.$(".duration").html(this.renderView(indexer, "duration"));
+		this.$(".onVelocity").html(this.renderView(indexer, "onVelocity"));
+		this.$(".offVelocity").html(this.renderView(indexer, "offVelocity"));
         
 		this.$(".piano").html( this.pianoView.render().el );
 

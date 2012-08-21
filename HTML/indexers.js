@@ -2,11 +2,11 @@ LFSRView = Backbone.View.extend( {
 	tagname: "div",
 	className: "lfsr",
 	template: _.template( $("#lfsr-template").html() ),
-	initialize: function( model, fieldName ) {
-		_.bindAll(this, "render");
+	initialize: function(model,fieldName) {
+		console.log("initialize LFSRView. model:",model,"fieldName:",fieldName);
 		this.model = model;
 		this.fieldName = fieldName;
-		this.field = model.parameter(fieldName);
+		this.field = this.model.parameter(this.fieldName);
 	},
 	events: {
 		"change input.seed" : "parameterChanged",
@@ -25,6 +25,7 @@ LFSRView = Backbone.View.extend( {
         this.seedInput = setField(this.$("input.seed"), this.field.seed);
         this.maskInput = setField(this.$("input.mask"), this.field.mask);
 		this.poolInput = setField(this.$("input.pool"), this.field.pool);
+        this.delegateEvents(this.events);
 		return this;            
 	}
 });
@@ -33,11 +34,11 @@ SequentialView = Backbone.View.extend( {
 	tagname: "div",
 	className: "sequential",
 	template: _.template( $("#sequential-template").html() ),
-	initialize: function( model, fieldName ) {
-		_.bindAll(this, "render");
+	initialize: function(model,fieldName) {
+		console.log("initialize SequentialView. model:",model,"fieldName:",fieldName);
 		this.model = model;
 		this.fieldName = fieldName;
-		this.field = model.parameter(fieldName);
+		this.field = this.model.parameter(this.fieldName);
 	},
 	events: {
 		"change input.direction" : "parameterChanged",
@@ -53,6 +54,7 @@ SequentialView = Backbone.View.extend( {
 		this.$(".name").html(this.fieldName);
         this.stepInput = setField(this.$("input.step"), this.field.step);
 		this.poolInput = setField(this.$("input.pool"), this.field.pool);
+        this.delegateEvents(this.events);
 		return this;            
 	}
 });
