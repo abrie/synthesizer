@@ -153,7 +153,6 @@ EmitterView = Backbone.View.extend( {
 	initialize: function() {
 		_.bindAll(this, "render");
 		this.model.bind("change", this.render);
-		this.model.bind("change", publishAppModel);
 		this.$el.attr("id",this.model.get("name"));
 		this.initializeDragDrop();
 	},
@@ -261,7 +260,6 @@ InstrumentView = Backbone.View.extend( {
 	initialize: function() {
 		_.bindAll(this, "render");
 		this.model.bind("change", this.render);
-		this.model.bind("change", publishAppModel);
 		this.$el.attr("id",this.model.get("name"));
 		this.initializeDragDrop();
 	},
@@ -277,12 +275,14 @@ InstrumentView = Backbone.View.extend( {
 	newBranch: function() {
 		var node = new NodeModel();
 		node.containedBy = this.model;
+		node.bind("change", publishAppModel);
 		this.model.rootNodes().add(node);
 		this.model.trigger("change");
 	},
 	newEmitter: function() {
 		var node = new EmitterModel();
 		node.containedBy = this.model;
+		node.bind("change", publishAppModel);
 		this.model.rootNodes().add(node);
 		this.model.trigger("change");
 	},
@@ -372,6 +372,7 @@ var appModel = new AppModel();
 var appView = new AppView( { model: appModel } );
 $("#new").click( function() {
 	var instrumentModel = new InstrumentModel();
+	instrumentModel.bind("change", publishAppModel);
 	appView.addInstrument( instrumentModel );
 });
 
