@@ -3,11 +3,8 @@ PianoboardView = Backbone.View.extend( {
 	className: "pianoboard",
 	pianoboard_template: _.template( $("#pianoboard-template").html() ),
 	pianokey_template: _.template( $("#pianokey-template").html() ),
-	initialize: function( model, fieldName ) {
-		_.bindAll(this, "render");
-		this.model = model;
-		this.fieldName = fieldName;
-		this.field = model.parameter(fieldName);
+	initialize: function( ) {
+		this.field = this.model.parameter("note");
 	},
 	events: {
         "mousedown li.pianokey" : "pianoKeyPress",
@@ -66,7 +63,7 @@ PianoboardView = Backbone.View.extend( {
 		for( var i = 2*12; i < 7*12; i++ ) {
 			this.$("ul.pianokeys").append(this.makePianokey(i));
 		}
-
+        this.delegateEvents(this.events);
 		return this;
 	}     
 });
@@ -151,9 +148,10 @@ EmitterView = Backbone.View.extend( {
 	className: "emitter",
 	template: _.template( $("#emitter-template").html() ),
 	initialize: function() {
-		_.bindAll(this, "render");
-		this.model.bind("change", this.render);
+		this.bind("all", this.render, this);
+		this.model.bind("change", this.render, this);
 		this.$el.attr("id",this.model.get("name"));
+		this.pianoView = new PianoboardView({model:this.model});
 		this.initializeDragDrop();
 	},
 	events: {
@@ -180,9 +178,8 @@ EmitterView = Backbone.View.extend( {
 		this.$(".duration").html(this.renderView(type, "duration"));
 		this.$(".onVelocity").html(this.renderView(type, "onVelocity"));
 		this.$(".offVelocity").html(this.renderView(type, "offVelocity"));
-
-		var pianoView = new PianoboardView(this.model, "note");
-		this.$(".piano").html( pianoView.render().el );
+        
+		this.$(".piano").html( this.pianoView.render().el );
 
 		return this;            
 	}
