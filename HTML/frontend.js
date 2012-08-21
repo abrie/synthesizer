@@ -266,9 +266,11 @@ InstrumentView = Backbone.View.extend( {
     className: "instrument",
 	template: _.template( $('#instrument-template').html() ),
 	initialize: function() {
+		console.log("instrument initialize");
 		_.bindAll(this, "render");
 		this.model.bind("change", this.render);
 		this.$el.attr("id",this.model.get("name"));
+		this.cachedViews = {};
 		this.initializeDragDrop();
 	},
 	events: {
@@ -315,6 +317,20 @@ InstrumentView = Backbone.View.extend( {
 		parameters.pulsesPerStep = parseInt( this.pulsesPerStepInput.val() );
 		this.model.trigger("change");
 	},
+	renderView: function(model) {
+		var result = this.cachedViews[model.cid];
+		if (result === undefined) {
+			var type = model.get("type");
+			if (type === "branch") {
+				result = new NodeView({model:model});
+			}
+			else if (type === "emitter") {
+				result = new EmitterView({model:model});
+			}
+			this.cachedViews[model.cid] = result;
+		}
+		return result.render().el;
+	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
 		this.stepsInput = this.$("input.steps");
@@ -324,17 +340,8 @@ InstrumentView = Backbone.View.extend( {
 		this.pulsesPerStepInput = this.$("input.pulsesPerStep");
 		this.pulsesPerStepInput.val( this.model.get("parameters").pulsesPerStep );
 
-		this.model.rootNodes().each( function(node) {
-			var type = node.get("type");
-			if (type === "branch") {
-				var view = new NodeView({model:node});
-				this.$("> ul.nodes").append( view.render().el );
-			}
-			else if (type === "emitter") {
-				var view = new EmitterView({model:node});
-				this.$("> ul.nodes").append( view.render().el );
-			}
-			
+		this.model.rootNodes().each( function(model) {
+			this.$("> ul.nodes").append( this.renderView(model) );
 		}, this);
 		return this;            
 	}
