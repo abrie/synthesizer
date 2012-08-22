@@ -30,12 +30,12 @@ LFSRWidget = Backbone.View.extend( {
 	}
 });
 
-SequentialView = Backbone.View.extend( {
+SequentialWidget = Backbone.View.extend( {
 	tagname: "div",
-	className: "sequential",
-	template: _.template( $("#sequential-template").html() ),
+	className: "sequentialWidget",
+	template: _.template( $("#sequentialWidget-template").html() ),
 	initialize: function(model,fieldName) {
-		console.log("initialize SequentialView. model:",model,"fieldName:",fieldName);
+		console.log("initialize SequentialWidget. model:",model,"fieldName:",fieldName);
 		this.model = model;
 		this.fieldName = fieldName;
 		this.field = this.model.parameter(this.fieldName);
@@ -59,7 +59,7 @@ SequentialView = Backbone.View.extend( {
 	}
 });
 
-var indexerViews = {lfsr:LFSRWidget, sequential:SequentialView};
+var indexerViews = {lfsr:LFSRWidget, sequential:SequentialWidget};
 function populateIndexerSelect( select, current ) {
 	_.each( indexerViews, function(type, name) {
 		select[0].add( new Option( name, name ) );
