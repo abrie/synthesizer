@@ -13,11 +13,7 @@
 		<div>instrument</div>
 		<button class="branch">branch</button>
 		<button class="emitter">emitter</button>
-		<input class="steps" placeholder="steps"></input>
-		<input class="pulses" placeholder="pulses"></input>
-		<button class="rhythmUp">+</button>
-		<button class="rhythmDown">-</button>
-		<input class="pulsesPerStep" placeholder="pulsesPerStep"></input>
+		<div class="rhythm"></div>
         <ul class="nodes"></ul>
 	</script>
 
@@ -26,6 +22,15 @@
         <ul class="pool"></ul>
     </script>
 	
+	<script type="text/template" id="rhythmWidget-template">
+		<div class="name">rhythm</div>
+		<input class="steps" placeholder="steps">
+		<input class="pulses" placeholder="pulses">
+		<button class="rhythmUp">+</button>
+		<button class="rhythmDown">-</button>
+		<input class="pulsesPerStep" placeholder="pulsesPerStep">
+	</script>
+
 	<script type="text/template" id="lfsrWidget-template">
 		<div class="name"></div>
 		<input class="seed" placeholder="seed"></input>

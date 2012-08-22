@@ -261,6 +261,52 @@ function modifyRhythm( steps, pulses, amount )
 	return {steps:newSteps, pulses:newPulses};
 }
 
+RhythmWidget = Backbone.View.extend( {
+	tagname: "div",
+	className: "lfsrWidget",
+	template: _.template( $('#rhythmWidget-template').html() ),
+	initialize: function() {
+		console.log("initialize RhythmWidget. model:",this.model);
+	},
+	events: {
+		"click button.rhythmUp" : "rhythmUp",
+		"click button.rhythmDown" : "rhythmDown",
+		"change input.steps" : "rhythmChanged",
+		"change input.pulses" : "rhythmChanged",
+		"change input.pulsesPerStep" : "rhythmChanged",
+	},
+	rhythmUp: function() {
+		var parameters = this.model.get("parameters");
+		var modified = modifyRhythm( parameters.steps, parameters.pulses, 1 );
+		parameters.steps = modified.steps;
+		parameters.pulses = modified.pulses;
+		this.model.trigger("change");
+	},
+	rhythmDown: function() {
+		var parameters = this.model.get("parameters");
+		var modified = modifyRhythm( parameters.steps, parameters.pulses, -1 );
+		parameters.steps = modified.steps;
+		parameters.pulses = modified.pulses;
+		this.model.trigger("change");
+	},
+	rhythmChanged: function() {
+		var parameters = this.model.get("parameters");
+		parameters.steps = parseInt( this.stepsInput.val() );
+		parameters.pulses = parseInt( this.pulsesInput.val() );
+		parameters.pulsesPerStep = parseInt( this.pulsesPerStepInput.val() );
+		this.model.trigger("change");
+	},
+	render: function() {
+		this.$el.html( this.template() );
+		var parameters = this.model.get("parameters");
+		this.stepsInput = this.$("input.steps").val( parameters.steps );
+		this.pulsesInput = this.$("input.pulses").val( parameters.pulses );
+		this.pulsesPerStepInput = this.$("input.pulsesPerStep").val( parameters.pulsesPerStep );
+        this.delegateEvents(this.events);
+		return this;            
+	}
+});
+
 InstrumentView = Backbone.View.extend( {
 	tagName: "li",
     className: "instrument",
@@ -270,17 +316,13 @@ InstrumentView = Backbone.View.extend( {
 		_.bindAll(this, "render");
 		this.model.bind("change", this.render);
 		this.$el.attr("id",this.model.get("name"));
+		this.rhythmWidget = new RhythmWidget( {model:this.model} );
 		this.cachedViews = {};
 		this.initializeDragDrop();
 	},
 	events: {
 		"click button.branch" : "newBranch",
 		"click button.emitter" : "newEmitter",
-		"click button.rhythmUp" : "rhythmUp",
-		"click button.rhythmDown" : "rhythmDown",
-		"change input.steps" : "rhythmChanged",
-		"change input.pulses" : "rhythmChanged",
-		"change input.pulsesPerStep" : "rhythmChanged",
 	},
 	newBranch: function() {
 		var node = new NodeModel();
@@ -294,27 +336,6 @@ InstrumentView = Backbone.View.extend( {
 		node.containedBy = this.model;
 		node.bind("change", publishAppModel);
 		this.model.rootNodes().add(node);
-		this.model.trigger("change");
-	},
-	rhythmUp: function() {
-		parameters = this.model.get("parameters");
-		var modified = modifyRhythm( parameters.steps, parameters.pulses, 1 );
-		parameters.steps = modified.steps;
-		parameters.pulses = modified.pulses;
-		this.model.trigger("change");
-	},
-	rhythmDown: function() {
-		parameters = this.model.get("parameters");
-		var modified = modifyRhythm( parameters.steps, parameters.pulses, -1 );
-		parameters.steps = modified.steps;
-		parameters.pulses = modified.pulses;
-		this.model.trigger("change");
-	},
-	rhythmChanged: function() {
-		parameters = this.model.get("parameters");
-		parameters.steps = parseInt( this.stepsInput.val() );
-		parameters.pulses = parseInt( this.pulsesInput.val() );
-		parameters.pulsesPerStep = parseInt( this.pulsesPerStepInput.val() );
 		this.model.trigger("change");
 	},
 	renderView: function(model) {
@@ -333,12 +354,7 @@ InstrumentView = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
-		this.stepsInput = this.$("input.steps");
-		this.stepsInput.val( this.model.get("parameters").steps );
-		this.pulsesInput = this.$("input.pulses");
-		this.pulsesInput.val( this.model.get("parameters").pulses );
-		this.pulsesPerStepInput = this.$("input.pulsesPerStep");
-		this.pulsesPerStepInput.val( this.model.get("parameters").pulsesPerStep );
+		this.$(".rhythm").html( this.rhythmWidget.render().el );
 
 		this.model.rootNodes().each( function(model) {
 			this.$("> ul.nodes").append( this.renderView(model) );
