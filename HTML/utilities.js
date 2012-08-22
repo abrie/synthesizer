@@ -47,8 +47,3 @@ function inputToArray( input ) {
 
 	return result;
 }
-
-function setField( element, parameter ) {
-	element.val( parameter );
-	return element;
-}

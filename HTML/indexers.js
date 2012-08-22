@@ -22,9 +22,9 @@ LFSRWidget = Backbone.View.extend( {
 	render: function() {
 		this.$el.html( this.template() );
 		this.$(".name").html( this.fieldName );
-        this.seedInput = setField(this.$("input.seed"), this.field.seed);
-        this.maskInput = setField(this.$("input.mask"), this.field.mask);
-		this.poolInput = setField(this.$("input.pool"), this.field.pool);
+        this.seedInput = this.$("input.seed").val(this.field.seed);
+        this.maskInput = this.$("input.mask").val(this.field.mask);
+		this.poolInput = this.$("input.pool").val(this.field.pool);
         this.delegateEvents(this.events);
 		return this;            
 	}
@@ -52,8 +52,8 @@ SequentialWidget = Backbone.View.extend( {
 	render: function() {
 		this.$el.html( this.template() );
 		this.$(".name").html(this.fieldName);
-        this.stepInput = setField(this.$("input.step"), this.field.step);
-		this.poolInput = setField(this.$("input.pool"), this.field.pool);
+        this.stepInput = this.$("input.step").val(this.field.step);
+		this.poolInput = this.$("input.pool").val(this.field.pool);
         this.delegateEvents(this.events);
 		return this;            
 	}
