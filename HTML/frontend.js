@@ -141,7 +141,6 @@ EmitterModel = Backbone.Model.extend( {
 	}
 });
 
-
 EmitterView = Backbone.View.extend( {
 	tagname: "li",
     attributes: { "draggable" : true },
@@ -243,23 +242,6 @@ InstrumentModel = Backbone.Model.extend( {
 		return this.get("pool");
 	}
 });
-
-function modifyRhythm( steps, pulses, amount )
-{
-	var newPulses = pulses + amount;
-	var newSteps = steps;
-
-	if (newPulses > steps) {
-		newPulses = 1;
-		newSteps++;
-	}
-	else if (newPulses == 0) {
-		newSteps--;
-		newPulses = newSteps;
-	}
-
-	return {steps:newSteps, pulses:newPulses};
-}
 
 InstrumentView = Backbone.View.extend( {
 	tagName: "li",

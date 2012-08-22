@@ -47,3 +47,20 @@ function inputToArray( input ) {
 
 	return result;
 }
+
+function modifyRhythm( steps, pulses, amount )
+{
+	var newPulses = pulses + amount;
+	var newSteps = steps;
+
+	if (newPulses > steps) {
+		newPulses = 1;
+		newSteps++;
+	}
+	else if (newPulses == 0) {
+		newSteps--;
+		newPulses = newSteps;
+	}
+
+	return {steps:newSteps, pulses:newPulses};
+}
