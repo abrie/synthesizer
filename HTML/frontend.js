@@ -1,7 +1,7 @@
-PianoboardView = Backbone.View.extend( {
+PianoWidget = Backbone.View.extend( {
 	tagName: "div",
-	className: "pianoboard",
-	pianoboard_template: _.template( $("#pianoboard-template").html() ),
+	className: "pianoWidget",
+	pianoWidget_template: _.template( $("#pianoWidget-template").html() ),
 	pianokey_template: _.template( $("#pianokey-template").html() ),
 	initialize: function( ) {
 		this.field = this.model.parameter("note");
@@ -59,7 +59,7 @@ PianoboardView = Backbone.View.extend( {
 		});
 	},
 	render: function() {
-		this.$el.html( this.pianoboard_template() );
+		this.$el.html( this.pianoWidget_template() );
 		for( var i = 2*12; i < 7*12; i++ ) {
 			this.$("ul.pianokeys").append(this.makePianokey(i));
 		}
@@ -151,7 +151,7 @@ EmitterView = Backbone.View.extend( {
 		this.bind("all", this.render, this);
 		this.model.bind("change", this.render, this);
 		this.$el.attr("id",this.model.get("name"));
-		this.pianoView = new PianoboardView({model:this.model});
+		this.pianoWidget = new PianoWidget({model:this.model});
 		this.cachedViews = {};
 		this.initializeDragDrop();
 	},
@@ -190,7 +190,7 @@ EmitterView = Backbone.View.extend( {
 		this.$(".onVelocity").html(this.renderView(indexer, "onVelocity"));
 		this.$(".offVelocity").html(this.renderView(indexer, "offVelocity"));
         
-		this.$(".piano").html( this.pianoView.render().el );
+		this.$(".piano").html( this.pianoWidget.render().el );
 
 		return this;            
 	}
