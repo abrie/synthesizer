@@ -167,7 +167,7 @@ EmitterView = Backbone.View.extend( {
 		var view = this.cachedViews[keyHash]; 
 		if (view === undefined) {
 			if (type === "lfsr") {
-				view = new LFSRView(this.model,fieldName);
+				view = new LFSRWidget(this.model,fieldName);
 			}
 			else if (type === "sequential") {
 				view = new SequentialView(this.model,fieldName);
