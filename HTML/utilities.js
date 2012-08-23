@@ -62,5 +62,9 @@ function modifyRhythm( steps, pulses, amount )
 		newPulses = newSteps;
 	}
 
-	return {steps:newSteps, pulses:newPulses};
+	
+	return {
+		steps: newSteps > 0 ? newSteps : 1,
+		pulses:newPulses > 0 ? newPulses : 1
+	};
 }

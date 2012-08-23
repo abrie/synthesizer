@@ -1,9 +1,15 @@
 RhythmWidget = Backbone.View.extend( {
 	tagname: "div",
-	className: "lfsrWidget",
+	className: "rhythmWidget",
 	template: _.template( $('#rhythmWidget-template').html() ),
-	initialize: function() {
-		console.log("initialize RhythmWidget. model:",this.model);
+	initialize: function(model, fieldName) {
+		console.log("initialize LFSRWidget. model:",model,"fieldName:",fieldName);
+		this.model = model;
+		this.model.bind("change", this.update, this);
+		this.fieldName = fieldName;
+		this.field = this.model.parameter(this.fieldName);
+		this.knobValue = 0;
+		this.knobPrevious = 0;
 	},
 	events: {
 		"click button.rhythmUp" : "rhythmUp",
@@ -13,34 +19,60 @@ RhythmWidget = Backbone.View.extend( {
 		"change input.pulsesPerStep" : "rhythmChanged",
 	},
 	rhythmUp: function() {
-		var parameters = this.model.get("parameters");
+		var parameters = this.field;
 		var modified = modifyRhythm( parameters.steps, parameters.pulses, 1 );
 		parameters.steps = modified.steps;
 		parameters.pulses = modified.pulses;
 		this.model.trigger("change");
 	},
 	rhythmDown: function() {
-		var parameters = this.model.get("parameters");
+		var parameters = this.field;
 		var modified = modifyRhythm( parameters.steps, parameters.pulses, -1 );
 		parameters.steps = modified.steps;
 		parameters.pulses = modified.pulses;
 		this.model.trigger("change");
 	},
 	rhythmChanged: function() {
-		var parameters = this.model.get("parameters");
+		var parameters = this.field;
 		parameters.steps = parseInt( this.stepsInput.val() );
 		parameters.pulses = parseInt( this.pulsesInput.val() );
 		parameters.pulsesPerStep = parseInt( this.pulsesPerStepInput.val() );
 		this.model.trigger("change");
 	},
+	knobChange: function(v) {
+		var delta = v - this.knobPrevious;
+		this.knobPrevious = v;
+	    if (delta > 0) {
+			this.knobValue+=1;
+			this.rhythmUp();
+		}
+		else if (delta < 0) {
+			this.knobValue-=1;
+			this.rhythmDown();
+		}
+	},
+	update: function() {
+		var parameters = this.field;
+		this.stepsInput.val( parameters.steps );
+		this.pulsesInput.val( parameters.pulses );
+		this.pulsesPerStepInput.val( parameters.pulsesPerStep );
+		this.knob.val(this.knobValue);
+		return this;
+	},
 	render: function() {
 		this.$el.html( this.template() );
-		var parameters = this.model.get("parameters");
-		this.stepsInput = this.$("input.steps").val( parameters.steps );
-		this.pulsesInput = this.$("input.pulses").val( parameters.pulses );
-		this.pulsesPerStepInput = this.$("input.pulsesPerStep").val( parameters.pulsesPerStep );
+		var parameters = this.field;
+		this.stepsInput = this.$("input.steps");
+		this.pulsesInput = this.$("input.pulses");
+		this.pulsesPerStepInput = this.$("input.pulsesPerStep");
+		this.knob = this.$("input.knob").knob( {
+			min : 0,
+			max : 100,
+			stopper : true,
+			change : _.bind(this.knobChange,this),
+		});
         this.delegateEvents(this.events);
-		return this;            
+		return this.update();
 	}
 });
 

@@ -165,11 +165,19 @@ InstrumentModel = Backbone.Model.extend( {
 			name: uid(),
 			type: "root",
 			pool : new NodeCollection(),
-			parameters : {steps:8, pulses:5, pulsesPerStep:24}
+			parameters : {
+				rhythm: { steps:1, pulses:1, pulsesPerStep:24 }
+			}
 		};
 	},
 	rootNodes: function() {
 		return this.get("pool");
+	},
+	parameters: function() {
+		return this.get("parameters");
+	},
+	parameter: function(name) {
+		return this.parameters()[name];
 	}
 });
 
@@ -180,9 +188,10 @@ InstrumentView = Backbone.View.extend( {
 	initialize: function() {
 		console.log("instrument initialize");
 		_.bindAll(this, "render");
-		this.model.bind("change", this.render);
+		this.model.rootNodes().bind("add", this.render, this);
+		this.model.rootNodes().bind("remove", this.render, this);
 		this.$el.attr("id",this.model.get("name"));
-		this.rhythmWidget = new RhythmWidget( {model:this.model} );
+		this.rhythmWidget = new RhythmWidget( this.model, "rhythm" );
 		this.cachedViews = {};
 		this.initializeDragDrop();
 	},
@@ -195,14 +204,12 @@ InstrumentView = Backbone.View.extend( {
 		node.containedBy = this.model;
 		node.bind("change", publishAppModel);
 		this.model.rootNodes().add(node);
-		this.model.trigger("change");
 	},
 	newEmitter: function() {
 		var node = new EmitterModel();
 		node.containedBy = this.model;
 		node.bind("change", publishAppModel);
 		this.model.rootNodes().add(node);
-		this.model.trigger("change");
 	},
 	renderView: function(model) {
 		var result = this.cachedViews[model.cid];
