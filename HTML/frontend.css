@@ -107,15 +107,15 @@ div.name {
 }
 
 input.seed {
-	width: 4em;
+	width: 2em;
 }
 
 input.mask {
-	width: 4em;
+	width: 2em;
 }
 
 input.pool {
-	width: 12em;
+	width: 4em;
 }
 
 #nonsense {
