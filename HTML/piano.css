@@ -17,6 +17,7 @@ li.pianokey {
 	width: 1.5em;
 	height: 40px;
 	float: left;
+	border-top: 1px solid rgb(120,120,120);
 	position: relative;
 	cursor: pointer;
 }
@@ -24,6 +25,7 @@ li.pianokey {
 li.pianokey.white {
 	border-right: 1px solid rgb(120,120,120);
 	border-bottom: 1px solid rgb(200,200,200);
+	margin-left: -4px;
 	z-index:10;
 }
 
@@ -41,6 +43,8 @@ li.pianokey.white[state="on"] {
 
 li.pianokey.black {
 	height: 25px;
+	width: 1.25em;
+	margin-top: 1px;
 	margin-left:-10px;
 	margin-right:-12px;
 	border-right: 1px solid rgb(120,120,120);
