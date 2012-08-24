@@ -17,24 +17,21 @@ RhythmWidget = Backbone.View.extend( {
 		"change input.pulsesPerStep" : "rhythmChanged",
 	},
 	rhythmUp: function() {
-		var parameters = this.field;
-		var modified = modifyRhythm( parameters.steps, parameters.pulses, 1 );
-		parameters.steps = modified.steps;
-		parameters.pulses = modified.pulses;
+		var modified = modifyRhythm( this.field.steps, this.field.pulses, 1 );
+		this.field.steps = modified.steps;
+		this.field.pulses = modified.pulses;
 		this.model.trigger("change");
 	},
 	rhythmDown: function() {
-		var parameters = this.field;
-		var modified = modifyRhythm( parameters.steps, parameters.pulses, -1 );
-		parameters.steps = modified.steps;
-		parameters.pulses = modified.pulses;
+		var modified = modifyRhythm( this.field.steps, this.field.pulses, -1 );
+		this.field.steps = modified.steps;
+		this.field.pulses = modified.pulses;
 		this.model.trigger("change");
 	},
 	rhythmChanged: function() {
-		var parameters = this.field;
-		parameters.steps = parseInt( this.stepsInput.val() );
-		parameters.pulses = parseInt( this.pulsesInput.val() );
-		parameters.pulsesPerStep = parseInt( this.pulsesPerStepInput.val() );
+		this.field.steps = parseInt( this.stepsInput.val() );
+		this.field.pulses = parseInt( this.pulsesInput.val() );
+		this.field.pulsesPerStep = parseInt( this.pulsesPerStepInput.val() );
 		this.model.trigger("change");
 	},
 	knobChange: function(v) {
@@ -50,16 +47,14 @@ RhythmWidget = Backbone.View.extend( {
 		}
 	},
 	update: function() {
-		var parameters = this.field;
-		this.stepsInput.val( parameters.steps );
-		this.pulsesInput.val( parameters.pulses );
-		this.pulsesPerStepInput.val( parameters.pulsesPerStep );
+		this.stepsInput.val( this.field.steps );
+		this.pulsesInput.val( this.field.pulses );
+		this.pulsesPerStepInput.val( this.field.pulsesPerStep );
 		this.knob.val(this.knobValue);
 		return this;
 	},
 	render: function() {
 		this.$el.html( this.template() );
-		var parameters = this.field;
 		this.stepsInput = this.$("input.steps");
 		this.pulsesInput = this.$("input.pulses");
 		this.pulsesPerStepInput = this.$("input.pulsesPerStep");
