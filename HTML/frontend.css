@@ -5,6 +5,14 @@ body {
 	user-select: none;
 }
 
+ul {
+	-webkit-padding-start: 0px;
+}
+
+ul.nodes {
+	padding-left: 5em;
+}
+
 #menu {
 	position: fixed;
 	top: 0px;
