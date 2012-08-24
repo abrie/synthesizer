@@ -8,8 +8,8 @@ RhythmWidget = Backbone.View.extend( {
 		this.model.bind("change", this.update, this);
 		this.fieldName = fieldName;
 		this.field = this.model.parameter(this.fieldName);
-		this.knobValue = 0;
-		this.knobPrevious = 0;
+		this.patternKnobValue = 0;
+		this.patternKnobPrevious = 0;
 	},
 	events: {
 		"change input.steps" : "rhythmChanged",
@@ -36,15 +36,15 @@ RhythmWidget = Backbone.View.extend( {
 		this.field.offset = parseInt( this.offsetInput.val() );
 		this.model.trigger("change");
 	},
-	knobChange: function(v) {
-		var delta = v - this.knobPrevious;
-		this.knobPrevious = v;
+	patternKnobChange: function(v) {
+		var delta = v - this.patternKnobPrevious;
+		this.patternKnobPrevious = v;
 	    if (delta > 0) {
-			this.knobValue+=1;
+			this.patternKnobValue+=1;
 			this.rhythmUp();
 		}
 		else if (delta < 0) {
-			this.knobValue-=1;
+			this.patternKnobValue-=1;
 			this.rhythmDown();
 		}
 	},
@@ -53,7 +53,7 @@ RhythmWidget = Backbone.View.extend( {
 		this.pulsesInput.val( this.field.pulses );
 		this.pulsesPerStepInput.val( this.field.pulsesPerStep );
 		this.offsetInput.val( this.field.offset );
-		this.knob.val(this.knobValue);
+		this.patternKnob.val(this.patternKnobValue);
 		return this;
 	},
 	render: function() {
@@ -62,11 +62,11 @@ RhythmWidget = Backbone.View.extend( {
 		this.pulsesInput = this.$("input.pulses");
 		this.pulsesPerStepInput = this.$("input.pulsesPerStep");
 		this.offsetInput = this.$("input.offset");
-		this.knob = this.$("input.knob").knob( {
+		this.patternKnob = this.$("input.pattern-knob").knob( {
 			min : 0,
 			max : 100,
 			stopper : true,
-			change : _.bind(this.knobChange,this),
+			change : _.bind(this.patternKnobChange,this),
 		});
         this.delegateEvents(this.events);
 		return this.update();
