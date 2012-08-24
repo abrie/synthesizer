@@ -67,6 +67,20 @@ body {
 	border: 1px solid black;
 }
 
+.fields {
+	display: table;
+}
+
+.knobs {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.inputs {
+	display: table-cell;
+	vertical-align: middle;
+}
+
 li.node {
 	border: 1px solid black;
 }
