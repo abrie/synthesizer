@@ -9,10 +9,6 @@ ul {
 	-webkit-padding-start: 0px;
 }
 
-ul.nodes {
-	padding-left: 5em;
-}
-
 #menu {
 	position: fixed;
 	top: 0px;
@@ -75,6 +71,11 @@ ul.nodes {
 	border: 1px solid black;
 }
 
+.instrument {
+	border: 1px solid rgb(100,100,100);
+	margin-bottom: 1em;
+}
+
 .widgets {
 }
 
@@ -103,7 +104,23 @@ li.node {
 
 div.name {
 	display: inline-block;
-	width: 6em;
+	width: 5em;
+}
+
+input.steps {
+	width: 2em;
+}
+
+input.pulses {
+	width: 2em;
+}
+
+input.pulsesPerStep {
+	width: 2em;
+}
+
+input.offset {
+	width: 2em;
 }
 
 input.seed {
