@@ -93,6 +93,12 @@ ul {
 	vertical-align: middle;
 }
 
+.piano {
+	display: table-cell;
+	vertical-align: middle;
+	padding-right: 30px;
+}
+
 .inputs {
 	display: table-cell;
 	vertical-align: middle;
