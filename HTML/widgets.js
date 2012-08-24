@@ -167,14 +167,20 @@ LFSRWidget = Backbone.View.extend( {
 		this.field.pool = inputToArray( this.poolInput );
 		this.model.trigger("change");
 	},
+	update: function() {
+        this.seedInput.val(this.field.seed);
+        this.maskInput.val(this.field.mask);
+		this.poolInput.val(this.field.pool);
+		return this;
+	},
 	render: function() {
 		this.$el.html( this.template() );
 		this.$(".name").html( this.fieldName );
-        this.seedInput = this.$("input.seed").val(this.field.seed);
-        this.maskInput = this.$("input.mask").val(this.field.mask);
-		this.poolInput = this.$("input.pool").val(this.field.pool);
+        this.seedInput = this.$("input.seed");
+        this.maskInput = this.$("input.mask");
+		this.poolInput = this.$("input.pool");
         this.delegateEvents(this.events);
-		return this;            
+		return this.update();            
 	}
 });
 
@@ -197,13 +203,18 @@ SequentialWidget = Backbone.View.extend( {
 		this.field.pool = inputToArray( this.poolInput );
 		this.model.trigger("change");
 	},
+	update: function() {
+        this.stepInput.val(this.field.step);
+		this.poolInput.val(this.field.pool);
+		return this;
+	},
 	render: function() {
 		this.$el.html( this.template() );
 		this.$(".name").html(this.fieldName);
-        this.stepInput = this.$("input.step").val(this.field.step);
-		this.poolInput = this.$("input.pool").val(this.field.pool);
+        this.stepInput = this.$("input.step");
+		this.poolInput = this.$("input.pool");
         this.delegateEvents(this.events);
-		return this;            
+		return this.update();            
 	}
 });
 
