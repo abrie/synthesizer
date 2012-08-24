@@ -56,7 +56,7 @@ EmitterModel = Backbone.Model.extend( {
 				note : { seed:1, mask:0xC0, pool:[36] },
 				onVelocity : { seed:1, mask:0xC0, pool:[64,54,44,34,65]},
 				offVelocity : { seed:1, mask:0xC0, pool:[60]},
-				duration :{ seed:1, mask:0xC0, pool:[1]}
+				duration :{ seed:1, mask:0xC0, pool:[24]}
 			},
 		};
 	},
