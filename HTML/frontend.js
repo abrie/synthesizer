@@ -230,7 +230,7 @@ InstrumentView = Backbone.View.extend( {
 		this.$(".rhythm").html( this.rhythmWidget.render().el );
 
 		this.model.rootNodes().each( function(model) {
-			this.$("> ul.nodes").append( this.renderView(model) );
+			this.$("> ul.nodes").prepend( this.renderView(model) );
 		}, this);
 		return this;            
 	}
@@ -267,7 +267,7 @@ AppView = Backbone.View.extend( {
 		this.$el.empty();
 		this.model.get("instruments").each( function(instrument) {
 			var view = new InstrumentView( { model:instrument } );
-			this.$el.append( view.render().el );
+			this.$el.prepend( view.render().el );
 		}, this );
 	},
 });       
