@@ -12,8 +12,6 @@ RhythmWidget = Backbone.View.extend( {
 		this.knobPrevious = 0;
 	},
 	events: {
-		"click button.rhythmUp" : "rhythmUp",
-		"click button.rhythmDown" : "rhythmDown",
 		"change input.steps" : "rhythmChanged",
 		"change input.pulses" : "rhythmChanged",
 		"change input.pulsesPerStep" : "rhythmChanged",
