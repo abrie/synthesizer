@@ -227,10 +227,10 @@ InstrumentView = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
-		this.$(".rhythm").html( this.rhythmWidget.render().el );
+		this.$(".widgets").append( this.rhythmWidget.render().el );
 
 		this.model.rootNodes().each( function(model) {
-			this.$("> ul.nodes").prepend( this.renderView(model) );
+			this.$(".nodes > ul.nodes").prepend( this.renderView(model) );
 		}, this);
 		return this;            
 	}

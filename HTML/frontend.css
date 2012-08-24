@@ -75,8 +75,16 @@ ul.nodes {
 	border: 1px solid black;
 }
 
-.fields {
+.widgets {
+}
+
+.controls {
 	display: table;
+}
+
+.label {
+	display: table-cell;
+	vertical-align: middle;
 }
 
 .knobs {

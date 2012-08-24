@@ -16,10 +16,9 @@
 			<button class="branch">+branch</button>
 			<button class="emitter">+emitter</button>
 		</div>
-		<div class="fields">
-			<div class="rhythm"></div>
+		<div class="widgets"></div>
+		<div class="nodes"><ul class="nodes"></ul>
 		</div>
-        <ul class="nodes"></ul>
 	</script>
 
 	<script type="text/template" id="node-template">
@@ -28,20 +27,22 @@
     </script>
 	
 	<script type="text/template" id="rhythmWidget-template">
-		<div class="name">rhythm</div>
-		<div class="knobs">
-			<input class="knob"
-				data-width="75"
-				data-height="75"
-				data-thickness=".5"
-				data-cursor="true"
-				data-displayInput="false">
-		</div>
-		<div class="inputs">
-			<input class="steps" placeholder="steps">
-			<input class="pulses" placeholder="pulses">
-			<input class="pulsesPerStep" placeholder="pulsesPerStep">
-			<input class="offset" placeholder="offset">
+		<div class="controls">
+			<div class="label">rhythm</div>
+			<div class="knobs">
+				<input class="knob"
+					data-width="75"
+					data-height="75"
+					data-thickness=".5"
+					data-cursor="true"
+					data-displayInput="false">
+			</div>
+			<div class="inputs">
+				<input class="steps" placeholder="steps">
+				<input class="pulses" placeholder="pulses">
+				<input class="pulsesPerStep" placeholder="pulsesPerStep">
+				<input class="offset" placeholder="offset">
+			</div>
 		</div>
 	</script>
 
