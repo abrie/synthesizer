@@ -166,7 +166,7 @@ InstrumentModel = Backbone.Model.extend( {
 			type: "root",
 			pool : new NodeCollection(),
 			parameters : {
-				rhythm: { steps:1, pulses:1, pulsesPerStep:24, offset:0 }
+				rhythm: { steps:1, pulses:1, ticksPerStep:24, offset:0 }
 			}
 		};
 	},
@@ -282,6 +282,7 @@ $("#new").click( function() {
 
 function publishAppModel() {
 	var message = { toFeelers: appModel.toJSON() };
+	console.log("publish:",message);
 	send_data(message);
 }
 

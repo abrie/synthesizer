@@ -121,7 +121,7 @@ input.pulses {
 	width: 2em;
 }
 
-input.pulsesPerStep {
+input.ticksPerStep {
 	width: 2em;
 }
 

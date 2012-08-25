@@ -30,6 +30,7 @@ function open_interfaceWebSocket( host, message_processor ) {
 
 function send_data( json ) {
 	ws.send( JSON.stringify(json) );
+	console.log("publish:", JSON.stringify(json));
 }
 
 function transmit_note_on( channel, note_number ) {
