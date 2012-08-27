@@ -3,7 +3,7 @@ RhythmWidget = Backbone.View.extend( {
 	className: "rhythmWidget",
 	template: _.template( $('#rhythmWidget-template').html() ),
 	initialize: function(model, fieldName) {
-		console.log("initialize LFSRWidget. model:",model,"fieldName:",fieldName);
+		console.log("initialize RhythymWidget. model:",model,"fieldName:",fieldName);
 		this.model = model;
 		this.model.bind("change", this.update, this);
 		this.fieldName = fieldName;
@@ -18,6 +18,7 @@ RhythmWidget = Backbone.View.extend( {
 		"change input.pulses" : "rhythmChanged",
 		"change input.ticksPerStep" : "rhythmChanged",
 		"change input.offset" : "rhythmChanged",
+		"change input.retrigger" : "rhythmChanged",
 	},
 	rhythmUp: function() {
 		var modified = modifyRhythm( this.field.steps, this.field.pulses, 1 );
@@ -46,6 +47,7 @@ RhythmWidget = Backbone.View.extend( {
 		this.field.pulses = parseInt( this.pulsesInput.val() );
 		this.field.ticksPerStep = parseInt( this.ticksPerStepInput.val() );
 		this.field.offset = parseInt( this.offsetInput.val() );
+		this.field.retrigger = this.retriggerInput.is(":checked");
 		this.model.trigger("change");
 	},
 	patternKnobChange: function(v) {
@@ -78,6 +80,7 @@ RhythmWidget = Backbone.View.extend( {
 		this.ticksPerStepInput.val( this.field.ticksPerStep );
 		this.offsetInput.val( this.field.offset );
 		this.patternKnob.val(this.patternKnobValue);
+		this.retriggerInput.attr("checked",this.field.retrigger);
 		return this;
 	},
 	render: function() {
@@ -86,6 +89,7 @@ RhythmWidget = Backbone.View.extend( {
 		this.pulsesInput = this.$("input.pulses");
 		this.ticksPerStepInput = this.$("input.ticksPerStep");
 		this.offsetInput = this.$("input.offset");
+		this.retriggerInput = this.$("input.retrigger");
 
 		this.patternKnob = this.$("input.pattern-knob").knob( {
 			min : 0,
