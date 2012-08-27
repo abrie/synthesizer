@@ -113,6 +113,9 @@ div.name {
 	width: 5em;
 }
 
+input.retrigger {
+}
+
 input.steps {
 	width: 2em;
 }
