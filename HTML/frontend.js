@@ -4,6 +4,7 @@ DragDropMixin = {
 		this.$el.bind("dragover",_.bind(this.dragOver, this));
 		this.$el.bind("dragleave",_.bind(this.dragLeave, this));
 		this.$el.bind("drop",_.bind(this.drop, this));
+		this.containedBy = undefined;
 	},
     dragStart: function(e) {
 		dragNode = this.model;
@@ -19,31 +20,15 @@ DragDropMixin = {
 	},
 	drop: function(e) {
 		this.$el.removeClass("dragOver");
-		if( !this.model.get("pool").contains( dragNode ) )
+		if( !this.model.contains( dragNode ) )
 		{
-			this.model.get("pool").add( dragNode );
-			dragNode.containedBy.get("pool").remove( dragNode );
-			dragNode.containedBy = this.model;
+			dragNode.containedBy.remove( dragNode );
+			this.model.add( dragNode );
 		}
 		e.preventDefault();
 		e.stopPropagation();
 	}
 };
-
-NodeCollection = Backbone.Collection.extend({ });
-
-NodeModel = Backbone.Model.extend( {
-	defaults: function() {
-		return {
-			name: uid(),
-			type: "branch",
-			pool: new NodeCollection(),
-		};
-	},
-	initialize: function() {
-		this.containedBy = null;
-	}
-});
 
 EmitterModel = Backbone.Model.extend( {
 	defaults: function() {
@@ -126,52 +111,32 @@ EmitterView = Backbone.View.extend( {
 });
 _.extend(EmitterView.prototype, DragDropMixin);
 
-NodeView = Backbone.View.extend( {
-	tagname: "li",
-	className: "node",
-    attributes: { "draggable" : true },
-	template: _.template( $("#node-template").html() ),
-	initialize: function() {
-		_.bindAll(this, "render");
-		this.model.bind("change", this.render);
-		this.model.get("pool").bind("add", this.render);
-		this.model.get("pool").bind("remove", this.render);
-		this.$el.attr("id",this.model.get("name"));
-		this.initializeDragDrop();
-	},
-	render: function() {
-		this.$el.html( this.template( this.model.toJSON() ) );
-		this.$(".name").html("node:"+this.model.get("name"));
-		this.model.get("pool").each( function(node) {
-			var type = node.get("type");
-			if (type === "branch") {
-				var view = new NodeView({model:node});
-				this.$("> ul.pool").append( view.render().el );
-			}
-			else if (type == "emitter") {
-				var view = new EmitterView({model:node});
-				this.$("> ul.pool").append( view.render().el );
-			}
-			
-		}, this);
-		return this;            
-	}
-});
-_.extend(NodeView.prototype, DragDropMixin);
+NodeCollection = Backbone.Collection.extend({ });
 
 InstrumentModel = Backbone.Model.extend( {
 	defaults: function() {
 		return {
 			name: uid(),
-			type: "root",
 			pool : new NodeCollection(),
 			parameters : {
-				rhythm: { steps:1, pulses:1, ticksPerStep:24, offset:0 }
+				rhythm: { steps:1, pulses:1, ticksPerStep:24, offset:0, retrigger:false }
 			}
 		};
 	},
-	rootNodes: function() {
-		return this.get("pool");
+	add: function(model) {
+		this.get("pool").add(model);
+		model.containedBy = this;
+		model.bind("change", publishAppModel);
+		return this;
+	},
+	remove: function(model) {
+		this.get("pool").remove(model);
+		model.unbind("change", publishAppModel);
+		model.containedBy = undefined;
+		return this;
+	},
+	contains: function(model) {
+		return this.get("pool").contains(model);
 	},
 	parameters: function() {
 		return this.get("parameters");
@@ -188,40 +153,35 @@ InstrumentView = Backbone.View.extend( {
 	initialize: function() {
 		console.log("instrument initialize");
 		_.bindAll(this, "render");
-		this.model.rootNodes().bind("add", this.render, this);
-		this.model.rootNodes().bind("remove", this.render, this);
+		this.model.get("pool").bind("add", this.render, this);
+		this.model.get("pool").bind("remove", this.render, this);
 		this.$el.attr("id",this.model.get("name"));
 		this.rhythmWidget = new RhythmWidget( this.model, "rhythm" );
-		this.cachedViews = {};
 		this.initializeDragDrop();
 	},
 	events: {
 		"click button.branch" : "newBranch",
 		"click button.emitter" : "newEmitter",
 	},
-	newBranch: function() {
-		var node = new NodeModel();
-		node.containedBy = this.model;
-		node.bind("change", publishAppModel);
-		this.model.rootNodes().add(node);
+	newBranch: function(e) {
+		var node = new InstrumentModel();
+		node.set("type","branch");
+		this.model.add(node);
+		e.stopImmediatePropagation();
 	},
-	newEmitter: function() {
+	newEmitter: function(e) {
 		var node = new EmitterModel();
-		node.containedBy = this.model;
-		node.bind("change", publishAppModel);
-		this.model.rootNodes().add(node);
+		this.model.add(node);
+		e.stopImmediatePropagation();
 	},
 	renderView: function(model) {
-		var result = this.cachedViews[model.cid];
-		if (result === undefined) {
-			var type = model.get("type");
-			if (type === "branch") {
-				result = new NodeView({model:model});
-			}
-			else if (type === "emitter") {
-				result = new EmitterView({model:model});
-			}
-			this.cachedViews[model.cid] = result;
+		var result = undefined;
+		var type = model.get("type");
+		if (type === "branch") {
+			result = new InstrumentView({model:model});
+		}
+		else if (type === "emitter") {
+			result = new EmitterView({model:model});
 		}
 		return result.render().el;
 	},
@@ -229,22 +189,19 @@ InstrumentView = Backbone.View.extend( {
 		this.$el.html( this.template( this.model.toJSON() ) );
 		this.$(".widgets").append( this.rhythmWidget.render().el );
 
-		this.model.rootNodes().each( function(model) {
-			this.$(".nodes > ul.nodes").prepend( this.renderView(model) );
+		console.log("selector yielded:",$(".nodes > ul"));
+		this.model.get("pool").each( function(model) {
+			this.$(".nodes > ul").prepend( this.renderView(model) );
 		}, this);
 		return this;            
 	}
 });
 _.extend(InstrumentView.prototype, DragDropMixin);
 
-InstrumentModelCollection = Backbone.Collection.extend( {
-	model : InstrumentModel,
-} );
-
 AppModel = Backbone.Model.extend( {
 	defaults: function() {
 		return {
-			instruments : new InstrumentModelCollection()
+			instruments : new NodeCollection()
 		};
 	},
 	addInstrument: function(instrument) {
@@ -276,13 +233,13 @@ var appModel = new AppModel();
 var appView = new AppView( { model: appModel } );
 $("#new").click( function() {
 	var instrumentModel = new InstrumentModel();
+	instrumentModel.set("type","root");
 	instrumentModel.bind("change", publishAppModel);
 	appView.addInstrument( instrumentModel );
 });
 
 function publishAppModel() {
 	var message = { toFeelers: appModel.toJSON() };
-	console.log("publish:",message);
 	send_data(message);
 }
 
@@ -296,7 +253,7 @@ $("#render").click( function() {
 });
 
 function message_processor(evt) {
-	console.log(evt);
+	console.log("received:",evt);
 }
 
 open_interfaceWebSocket("ws://yeux.local:12345/service", message_processor );

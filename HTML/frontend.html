@@ -12,20 +12,14 @@
 
 	<script type="text/template" id="instrument-template">
 		<div class="header">
-			instrument
+			instrument:<%=name%>
 			<button class="branch">+branch</button>
 			<button class="emitter">+emitter</button>
 		</div>
 		<div class="widgets"></div>
-		<div class="nodes"><ul class="nodes"></ul>
-		</div>
+		<div class="nodes"><ul class="nodes"></ul></div>
 	</script>
 
-	<script type="text/template" id="node-template">
-        <div class="name">node</div>
-        <ul class="pool"></ul>
-    </script>
-	
 	<script type="text/template" id="rhythmWidget-template">
 		<div class="controls">
 			<div class="label">rhythm</div>
@@ -48,6 +42,7 @@
 				<input class="pulses" placeholder="pulses">
 				<input class="ticksPerStep" placeholder="ticksPerStep">
 				<input class="offset" placeholder="offset">
+				<input class="retrigger" type="checkbox">
 			</div>
 		</div>
 	</script>
@@ -67,7 +62,7 @@
 
     <script type="text/template" id="emitter-template">
 		<div class="controls">
-			<div class="label">emitter</div>
+			<div class="label">emitter:<%=name%></div>
 			<div class="knobs">
 				<select class="indexer"></select>
 			</div>
