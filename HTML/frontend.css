@@ -94,9 +94,10 @@ ul {
 }
 
 .piano {
+	border: 1px solid black;
+	width: 740px;
 	display: table-cell;
 	vertical-align: middle;
-	padding-right: 30px;
 }
 
 .inputs {
@@ -117,6 +118,10 @@ input.retrigger {
 }
 
 input.steps {
+	width: 2em;
+}
+
+input.step {
 	width: 2em;
 }
 
