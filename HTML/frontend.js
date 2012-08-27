@@ -189,9 +189,8 @@ InstrumentView = Backbone.View.extend( {
 		this.$el.html( this.template( this.model.toJSON() ) );
 		this.$(".widgets").append( this.rhythmWidget.render().el );
 
-		console.log("selector yielded:",$(".nodes > ul"));
 		this.model.get("pool").each( function(model) {
-			this.$(".nodes > ul").prepend( this.renderView(model) );
+			this.$("> .nodes > ul.nodes").prepend( this.renderView(model) );
 		}, this);
 		return this;            
 	}
