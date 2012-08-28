@@ -79,13 +79,8 @@ ul {
 .widgets {
 }
 
-.controls {
+.widget {
 	display: table;
-}
-
-.label {
-	display: table-cell;
-	vertical-align: middle;
 }
 
 .knobs {
@@ -93,14 +88,35 @@ ul {
 	vertical-align: middle;
 }
 
-.piano {
-	border: 1px solid black;
-	width: 740px;
+.fields {
 	display: table-cell;
 	vertical-align: middle;
 }
 
-.inputs {
+.field {
+	display: inline-block;
+}
+
+.knob {
+	display: inline-block;
+}
+
+.field > .label {
+	display: block;
+}
+
+.field > input {
+	width: 3em;
+}
+
+.knob > .label {
+	display: block;
+	text-align: center;
+}
+
+.piano {
+	border: 1px solid black;
+	width: 740px;
 	display: table-cell;
 	vertical-align: middle;
 }
@@ -112,29 +128,6 @@ li.node {
 div.name {
 	display: inline-block;
 	width: 5em;
-}
-
-input.retrigger {
-}
-
-input.steps {
-	width: 2em;
-}
-
-input.step {
-	width: 2em;
-}
-
-input.pulses {
-	width: 2em;
-}
-
-input.ticksPerStep {
-	width: 2em;
-}
-
-input.offset {
-	width: 2em;
 }
 
 input.seed {

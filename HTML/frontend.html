@@ -20,28 +20,46 @@
 		<div class="nodes"><ul class="nodes"></ul></div>
 	</script>
 
-	<script type="text/template" id="rhythmWidget-template">
-		<div class="controls">
-			<div class="label">rhythm</div>
-			<div class="knobs">
-				<input class="pattern-knob"
-					data-width="75"
-					data-height="75"
-					data-thickness=".5"
-					data-cursor="true"
-					data-displayInput="false">
-				<input class="offset-knob"
+	<script type="text/template" id="template-rhythm-widget">
+		<div class="knobs">
+			<div class="knob">
+				<div class="label">pattern</div>
+				<input class="knob-pattern"
 					data-width="75"
 					data-height="75"
 					data-thickness=".5"
 					data-cursor="true"
 					data-displayInput="false">
 			</div>
-			<div class="inputs">
+			<div class="knob">
+				<div class="label">offset</div>
+				<input class="knob-offset"
+					data-width="75"
+					data-height="75"
+					data-thickness=".5"
+					data-cursor="true"
+					data-displayInput="false">
+			</div>
+		</div>
+		<div class="fields">
+			<div class="field">
+				<div class="label">steps</div>
 				<input class="steps" placeholder="steps">
+			</div>
+			<div class="field">
+				<div class="label">pulses</div>
 				<input class="pulses" placeholder="pulses">
+			</div>
+			<div class="field">
+				<div class="label">t/s</div>
 				<input class="ticksPerStep" placeholder="ticksPerStep">
+			</div>
+			<div class="field">
+				<div class="label">offset</div>
 				<input class="offset" placeholder="offset">
+			</div>
+			<div class="field">
+				<div class="label">retrigger</div>
 				<input class="retrigger" type="checkbox">
 			</div>
 		</div>

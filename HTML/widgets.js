@@ -1,7 +1,7 @@
 RhythmWidget = Backbone.View.extend( {
 	tagname: "div",
-	className: "rhythmWidget",
-	template: _.template( $('#rhythmWidget-template').html() ),
+	className: "rhythm widget",
+	template: _.template( $('#template-rhythm-widget').html() ),
 	initialize: function(model, fieldName) {
 		console.log("initialize RhythymWidget. model:",model,"fieldName:",fieldName);
 		this.model = model;
@@ -91,14 +91,14 @@ RhythmWidget = Backbone.View.extend( {
 		this.offsetInput = this.$("input.offset");
 		this.retriggerInput = this.$("input.retrigger");
 
-		this.patternKnob = this.$("input.pattern-knob").knob( {
+		this.patternKnob = this.$("input.knob-pattern").knob( {
 			min : 0,
 			max : 100,
 			stopper : true,
 			change : _.bind(this.patternKnobChange,this),
 		});
 
-		this.offsetKnob = this.$("input.offset-knob").knob( {
+		this.offsetKnob = this.$("input.knob-offset").knob( {
 			min : 0,
 			max : 14,
 			stopper : true,
