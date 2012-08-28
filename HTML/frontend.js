@@ -60,7 +60,7 @@ EmitterView = Backbone.View.extend( {
 	tagname: "li",
     attributes: { "draggable" : true },
 	className: "emitter",
-	template: _.template( $("#emitter-template").html() ),
+	template: _.template( $("#template-emitter").html() ),
 	initialize: function() {
 		this.bind("all", this.render, this);
 		this.model.bind("change", this.render, this);
@@ -98,11 +98,11 @@ EmitterView = Backbone.View.extend( {
 		this.indexerSelect.val( this.model.parameter("indexer") );
 		
 		var indexer = this.model.parameter("indexer");
-		this.$(".note").html(this.renderView(indexer, "note"));
-		this.$(".channel").html(this.renderView(indexer, "channel"));
-		this.$(".duration").html(this.renderView(indexer, "duration"));
-		this.$(".onVelocity").html(this.renderView(indexer, "onVelocity"));
-		this.$(".offVelocity").html(this.renderView(indexer, "offVelocity"));
+		this.$(".note").replaceWith(this.renderView(indexer, "note"));
+		this.$(".channel").replaceWith(this.renderView(indexer, "channel"));
+		this.$(".duration").replaceWith(this.renderView(indexer, "duration"));
+		this.$(".onVelocity").replaceWith(this.renderView(indexer, "onVelocity"));
+		this.$(".offVelocity").replaceWith(this.renderView(indexer, "offVelocity"));
         
 		this.$(".piano").html( this.pianoWidget.render().el );
 
@@ -149,7 +149,7 @@ InstrumentModel = Backbone.Model.extend( {
 InstrumentView = Backbone.View.extend( {
 	tagName: "li",
     className: "instrument",
-	template: _.template( $('#instrument-template').html() ),
+	template: _.template( $('#template-instrument').html() ),
 	initialize: function() {
 		console.log("instrument initialize");
 		_.bindAll(this, "render");

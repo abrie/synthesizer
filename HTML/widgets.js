@@ -1,7 +1,7 @@
 RhythmWidget = Backbone.View.extend( {
 	tagname: "div",
 	className: "rhythm widget",
-	template: _.template( $('#template-rhythm-widget').html() ),
+	template: _.template( $('#template-widget-rhythm').html() ),
 	initialize: function(model, fieldName) {
 		console.log("initialize RhythymWidget. model:",model,"fieldName:",fieldName);
 		this.model = model;
@@ -112,8 +112,8 @@ RhythmWidget = Backbone.View.extend( {
 
 PianoWidget = Backbone.View.extend( {
 	tagName: "div",
-	className: "pianoWidget",
-	pianoWidget_template: _.template( $("#pianoWidget-template").html() ),
+	className: "piano widget",
+	pianoWidget_template: _.template( $("#template-widget-piano").html() ),
 	pianokey_template: _.template( $("#pianokey-template").html() ),
 	initialize: function( ) {
 		this.field = this.model.parameter("note");
@@ -182,8 +182,8 @@ PianoWidget = Backbone.View.extend( {
 
 LFSRWidget = Backbone.View.extend( {
 	tagname: "div",
-	className: "lfsrWidget",
-	template: _.template( $("#lfsrWidget-template").html() ),
+	className: "widget lfsr",
+	template: _.template( $("#template-widget-lfsr").html() ),
 	initialize: function(model,fieldName) {
 		console.log("initialize LFSRWidget. model:",model,"fieldName:",fieldName);
 		this.model = model;
@@ -209,7 +209,7 @@ LFSRWidget = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.template() );
-		this.$(".name").html( this.fieldName );
+		this.$(".fields > .label").html( this.fieldName );
         this.seedInput = this.$("input.seed");
         this.maskInput = this.$("input.mask");
 		this.poolInput = this.$("input.pool");
@@ -220,8 +220,8 @@ LFSRWidget = Backbone.View.extend( {
 
 SequentialWidget = Backbone.View.extend( {
 	tagname: "div",
-	className: "sequentialWidget",
-	template: _.template( $("#sequentialWidget-template").html() ),
+	className: "widget sequential",
+	template: _.template( $("#template-widget-sequential").html() ),
 	initialize: function(model,fieldName) {
 		console.log("initialize SequentialWidget. model:",model,"fieldName:",fieldName);
 		this.model = model;
@@ -229,23 +229,23 @@ SequentialWidget = Backbone.View.extend( {
 		this.field = this.model.parameter(this.fieldName);
 	},
 	events: {
-		"change input.direction" : "parameterChanged",
+		"change input.delta" : "parameterChanged",
 		"change input.pool" : "parameterChanged",
 	},
 	parameterChanged: function(e) {
-		this.field.step = parseInt( this.stepInput.val() );
+		this.field.delta = parseInt( this.deltaInput.val() );
 		this.field.pool = inputToArray( this.poolInput );
 		this.model.trigger("change");
 	},
 	update: function() {
-        this.stepInput.val(this.field.step);
+        this.deltaInput.val(this.field.delta);
 		this.poolInput.val(this.field.pool);
 		return this;
 	},
 	render: function() {
 		this.$el.html( this.template() );
-		this.$(".name").html(this.fieldName);
-        this.stepInput = this.$("input.step");
+		this.$(".fields > .label").html(this.fieldName);
+        this.deltaInput = this.$("input.delta");
 		this.poolInput = this.$("input.pool");
         this.delegateEvents(this.events);
 		return this.update();            

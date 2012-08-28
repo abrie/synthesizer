@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="frontend.css" type="text/css" />
 		<link rel="stylesheet" href="piano.css" type="text/css" />
 
-	<script type="text/template" id="instrument-template">
+	<script type="text/template" id="template-instrument">
 		<div class="header">
 			instrument:<%=name%>
 			<button class="branch">+branch</button>
@@ -20,7 +20,7 @@
 		<div class="nodes"><ul class="nodes"></ul></div>
 	</script>
 
-	<script type="text/template" id="template-rhythm-widget">
+	<script type="text/template" id="template-widget-rhythm">
 		<div class="knobs">
 			<div class="knob">
 				<div class="label">pattern</div>
@@ -42,6 +42,7 @@
 			</div>
 		</div>
 		<div class="fields">
+			<div class="label">rhythm</div>
 			<div class="field">
 				<div class="label">steps</div>
 				<input class="steps" placeholder="steps">
@@ -65,38 +66,54 @@
 		</div>
 	</script>
 
-	<script type="text/template" id="lfsrWidget-template">
-		<div class="name"></div>
-		<input class="seed" placeholder="seed"></input>
-		<input class="mask" placeholder="mask"></input>
-		<input class="pool" placeholder="pool"></input>
-	</script>
-
-	<script type="text/template" id="sequentialWidget-template">
-		<div class="name"></div>
-		<input class="step" placeholder="step"></input>
-		<input class="pool" placeholder="pool"></input>
-	</script>
-
-    <script type="text/template" id="emitter-template">
-		<div class="controls">
-			<div class="label">emitter:<%=name%></div>
-			<div class="knobs">
-				<select class="indexer"></select>
+	<script type="text/template" id="template-widget-lfsr">
+		<div class="fields">
+			<div class="label">LFSRWidgetLabelRequired</div>
+			<div class="field">
+				<div class="label">seed</div>
+				<input class="seed" placeholder="seed"></input>
 			</div>
-			<div class="inputs">
-				<div class="note"></div>
-				<div class="channel"></div>
-				<div class="duration"></div>
-				<div class="onVelocity"></div>
-				<div class="offVelocity"></div>
-			</div> 
-			<div class="piano"></div>
+			<div class="field">
+				<div class="label">mask</div>
+				<input class="mask" placeholder="mask"></input>
+			</div>
+			<div class="field">
+				<div class="label">pool</div>
+				<input class="pool" placeholder="pool"></input>
 			</div>
 		</div>
 	</script>
 
-	<script type="text/template" id="pianoWidget-template">
+	<script type="text/template" id="template-widget-sequential">
+		<div class="fields">
+			<div class="label">SequentialWidgetLabelRequired</div>
+			<div class="field">
+				<div class="label">delta</div>
+				<input class="delta" placeholder="delta"></input>
+			</div>
+			<div class="field">
+				<div class="label">pool</div>
+				<input class="pool" placeholder="pool"></input>
+			</div>
+		</div>
+	</script>
+
+    <script type="text/template" id="template-emitter">
+		<div class="header">
+			emitter:<%=name%>
+			<select class="indexer"></select>
+		</div>
+		<div class="widgets">
+			<div class="note"></div>
+			<div class="channel"></div>
+			<div class="duration"></div>
+			<div class="onVelocity"></div>
+			<div class="offVelocity"></div>
+		</div> 
+		<div class="piano"></div>
+	</script>
+
+	<script type="text/template" id="template-widget-piano">
 		<ul class="pianokeys"></ul>
 	</script>
 

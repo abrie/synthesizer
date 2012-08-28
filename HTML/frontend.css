@@ -7,6 +7,8 @@ body {
 
 ul {
 	-webkit-padding-start: 0px;
+	padding-left: 50px;
+	width: 100%;
 }
 
 #menu {
@@ -72,15 +74,16 @@ ul {
 }
 
 .instrument {
-	border: 1px solid rgb(100,100,100);
 	margin-bottom: 1em;
 }
 
 .widgets {
+	display: table;
 }
 
 .widget {
-	display: table;
+	display: table-cell;;
+	padding: 1px;
 }
 
 .knobs {
@@ -88,16 +91,26 @@ ul {
 	vertical-align: middle;
 }
 
-.fields {
-	display: table-cell;
-	vertical-align: middle;
-}
-
-.field {
+.knob {
 	display: inline-block;
 }
 
-.knob {
+.label {
+	display: block;
+	text-align: center;
+}
+
+.fields {
+	display: table-cell;
+	vertical-align: middle;
+	background: rgb(190,190,190);
+}
+
+.fields > .label {
+	background: rgb(200,200,200);
+}
+
+.field {
 	display: inline-block;
 }
 
@@ -109,37 +122,10 @@ ul {
 	width: 3em;
 }
 
-.knob > .label {
-	display: block;
-	text-align: center;
-}
-
 .piano {
-	border: 1px solid black;
 	width: 740px;
 	display: table-cell;
 	vertical-align: middle;
-}
-
-li.node {
-	border: 1px solid black;
-}
-
-div.name {
-	display: inline-block;
-	width: 5em;
-}
-
-input.seed {
-	width: 2em;
-}
-
-input.mask {
-	width: 2em;
-}
-
-input.pool {
-	width: 4em;
 }
 
 #nonsense {
