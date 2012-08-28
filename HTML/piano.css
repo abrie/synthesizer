@@ -2,14 +2,15 @@ ul.pianokeys {
 	margin-top: 1px;
 	list-style-type: none;
 	overflow: hidden;
+	padding: 0;
 }
 
-ul.pianokeys > li.pianokey:first-child {
+ul.pianokeys:first-child {
 	border-left: 1px solid rgb(120,120,120);
 	border-bottom-left-radius: 5px;
 }
 
-ul.pianokeys li:last-child {
+ul.pianokeys:last-child {
 	border-bottom-right-radius: 5px;
 }
 
