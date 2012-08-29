@@ -37,11 +37,11 @@ EmitterModel = Backbone.Model.extend( {
 			type: "emitter",
 			parameters: {
 				indexer: "lfsr",
-				channel : { seed:1, mask:0xC0, rate:1, pool:[0] },
-				note : { seed:1, mask:0xC0, rate:1, pool:[36] },
-				onVelocity : { seed:1, mask:0xC0, rate:1, pool:[64,54,44,34,65]},
-				offVelocity : { seed:1, mask:0xC0, rate:1, pool:[60]},
-				duration :{ seed:1, mask:0xC0, rate:1, pool:[24]}
+				channel : { seed:1, mask:0xC0, delta:1, rate:1, pool:[0] },
+				note : { seed:1, mask:0xC0, delta:1, rate:1, pool:[36] },
+				onVelocity : { seed:1, mask:0xC0, delta:1, rate:1, pool:[80]},
+				offVelocity : { seed:1, mask:0xC0, delta:1, rate:1, pool:[60]},
+				duration :{ seed:1, mask:0xC0, delta:1, rate:1, pool:[24]}
 			},
 		};
 	},
