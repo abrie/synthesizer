@@ -37,11 +37,11 @@ EmitterModel = Backbone.Model.extend( {
 			type: "emitter",
 			parameters: {
 				indexer: "lfsr",
-				channel : { seed:1, mask:0xC0, pool:[0] },
-				note : { seed:1, mask:0xC0, pool:[36] },
-				onVelocity : { seed:1, mask:0xC0, pool:[64,54,44,34,65]},
-				offVelocity : { seed:1, mask:0xC0, pool:[60]},
-				duration :{ seed:1, mask:0xC0, pool:[24]}
+				channel : { seed:1, mask:0xC0, rate:1, pool:[0] },
+				note : { seed:1, mask:0xC0, rate:1, pool:[36] },
+				onVelocity : { seed:1, mask:0xC0, rate:1, pool:[64,54,44,34,65]},
+				offVelocity : { seed:1, mask:0xC0, rate:1, pool:[60]},
+				duration :{ seed:1, mask:0xC0, rate:1, pool:[24]}
 			},
 		};
 	},
@@ -119,7 +119,7 @@ InstrumentModel = Backbone.Model.extend( {
 			name: uid(),
 			pool : new NodeCollection(),
 			parameters : {
-				rhythm: { steps:1, pulses:1, ticksPerStep:24, offset:0, retrigger:false }
+				rhythm: { steps:1, pulses:1, ticksPerStep:24, offset:0, retrigger:false, rate:1 }
 			}
 		};
 	},

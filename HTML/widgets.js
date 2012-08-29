@@ -19,6 +19,7 @@ RhythmWidget = Backbone.View.extend( {
 		"change input.ticksPerStep" : "rhythmChanged",
 		"change input.offset" : "rhythmChanged",
 		"change input.retrigger" : "rhythmChanged",
+		"change input.rate" : "rhythmChanged",
 	},
 	rhythmUp: function() {
 		var modified = modifyRhythm( this.field.steps, this.field.pulses, 1 );
@@ -48,6 +49,7 @@ RhythmWidget = Backbone.View.extend( {
 		this.field.ticksPerStep = parseInt( this.ticksPerStepInput.val() );
 		this.field.offset = parseInt( this.offsetInput.val() );
 		this.field.retrigger = this.retriggerInput.is(":checked");
+		this.field.rate = parseInt( this.rateInput.val() );
 		this.model.trigger("change");
 	},
 	patternKnobChange: function(v) {
@@ -80,6 +82,7 @@ RhythmWidget = Backbone.View.extend( {
 		this.ticksPerStepInput.val( this.field.ticksPerStep );
 		this.offsetInput.val( this.field.offset );
 		this.patternKnob.val(this.patternKnobValue);
+		this.rateInput.val(this.field.rate);
 		this.retriggerInput.attr("checked",this.field.retrigger);
 		return this;
 	},
@@ -89,6 +92,7 @@ RhythmWidget = Backbone.View.extend( {
 		this.pulsesInput = this.$("input.pulses");
 		this.ticksPerStepInput = this.$("input.ticksPerStep");
 		this.offsetInput = this.$("input.offset");
+		this.rateInput = this.$("input.rate");
 		this.retriggerInput = this.$("input.retrigger");
 
 		this.patternKnob = this.$("input.knob-pattern").knob( {
@@ -194,17 +198,20 @@ LFSRWidget = Backbone.View.extend( {
 		"change input.seed" : "parameterChanged",
 		"change input.mask" : "parameterChanged",
 		"change input.pool" : "parameterChanged",
+		"change input.rate" : "parameterChanged",
 	},
 	parameterChanged: function(e) {
 		this.field.seed = parseInt( this.seedInput.val() );
 		this.field.mask = parseInt( this.maskInput.val() );
 		this.field.pool = inputToArray( this.poolInput );
+		this.field.rate = parseInt( this.rateInput.val() );
 		this.model.trigger("change");
 	},
 	update: function() {
         this.seedInput.val(this.field.seed);
         this.maskInput.val(this.field.mask);
 		this.poolInput.val(this.field.pool);
+		this.rateInput.val(this.field.rate);
 		return this;
 	},
 	render: function() {
@@ -213,6 +220,7 @@ LFSRWidget = Backbone.View.extend( {
         this.seedInput = this.$("input.seed");
         this.maskInput = this.$("input.mask");
 		this.poolInput = this.$("input.pool");
+		this.rateInput = this.$("input.rate");
         this.delegateEvents(this.events);
 		return this.update();            
 	}
@@ -230,15 +238,18 @@ SequentialWidget = Backbone.View.extend( {
 	},
 	events: {
 		"change input.delta" : "parameterChanged",
+		"change input.rate" : "parameterChanged",
 		"change input.pool" : "parameterChanged",
 	},
 	parameterChanged: function(e) {
 		this.field.delta = parseInt( this.deltaInput.val() );
+		this.field.rate = parseInt( this.rateInput.val() );
 		this.field.pool = inputToArray( this.poolInput );
 		this.model.trigger("change");
 	},
 	update: function() {
         this.deltaInput.val(this.field.delta);
+        this.rateInput.val(this.field.rate);
 		this.poolInput.val(this.field.pool);
 		return this;
 	},
@@ -247,6 +258,7 @@ SequentialWidget = Backbone.View.extend( {
 		this.$(".fields > .label").html(this.fieldName);
         this.deltaInput = this.$("input.delta");
 		this.poolInput = this.$("input.pool");
+		this.rateInput = this.$("input.rate");
         this.delegateEvents(this.events);
 		return this.update();            
 	}
