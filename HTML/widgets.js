@@ -176,7 +176,7 @@ PianoWidget = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.pianoWidget_template() );
-		for( var i = 2*12; i < 7*12; i++ ) {
+		for( var i = 1*12; i < 7*12; i++ ) {
 			this.$("ul.pianokeys").append(this.makePianokey(i));
 		}
         this.delegateEvents(this.events);
