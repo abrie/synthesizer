@@ -119,7 +119,15 @@ InstrumentModel = Backbone.Model.extend( {
 			name: uid(),
 			pool : new NodeCollection(),
 			parameters : {
-				rhythm: { steps:1, pulses:1, ticksPerStep:24, offset:0, retrigger:false, rate:1 }
+				rhythm: {
+					steps:1,
+					pulses:1,
+					ticksPerStep:24,
+					offset:0,
+					retrigger:false,
+					delta: 1, // used by indexer
+					rate:1 // used by indexer (this needs a name change; 'repeat' or pulsesPerIndex
+				}
 			}
 		};
 	},
