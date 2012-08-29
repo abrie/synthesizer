@@ -1,8 +1,9 @@
 ul.pianokeys {
 	margin-top: 1px;
 	list-style-type: none;
-	overflow: hidden;
 	padding: 0;
+	width: 950px;
+	overflow: hidden;
 }
 
 ul.pianokeys:first-child {
