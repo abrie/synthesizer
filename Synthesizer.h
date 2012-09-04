@@ -11,6 +11,7 @@
     NSMutableArray *connections;
     dispatch_queue_t queue;
     BOOL midiStarted;
+    NSUInteger midiClocks;
 }
 
 - (id)initWithMidi:(MIDI *)_midi withHTTP:(BackendHTTPServer *)_http withQueue:(dispatch_queue_t)_queue;

@@ -50,6 +50,13 @@
     [feelers setNodeStatesWithInstruments:instruments];
 }
 
+- (void)sendMessage:(NSString *)message
+{
+    [connections enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [obj sendMessage:message];
+    }];
+}
+
 - (void)offChannel:(unsigned int)channel note:(unsigned int)note velocity:(unsigned int)velocity
 {
     [midi sendOffToChannel:channel number:note velocity:velocity];
@@ -63,7 +70,9 @@
 -(void)midiStart
 {
     midiStarted = YES;
+    midiClocks = 0;
     NSLog(@"Midi start.");
+    [self sendMessage:@"{\"midi\":\"start\"}"];
 }
 
 -(void)midiClock
@@ -76,6 +85,12 @@
         [feelers sample];
         [feelers advance];
     });
+    
+      midiClocks++;
+    if (midiClocks == 24) {
+        [self sendMessage:@"{\"midi\":\"24\"}"];
+        midiClocks = 0;
+    }
 }
 
 -(void)midiTick
@@ -86,12 +101,14 @@
 -(void)midiContinue
 {
     midiStarted = YES;
+    [self sendMessage:@"{\"midi\":\"continue\"}"];
     NSLog(@"Midi continue.");
 }
 
 -(void)midiStop
 {
     midiStarted = NO;
+    [self sendMessage:@"{\"midi\":\"stop\"}"];
     NSLog(@"Midi stop.");
 }
 
