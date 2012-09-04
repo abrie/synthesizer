@@ -7,6 +7,7 @@
     self = [super init];
     if (self) {
         queue = _queue;
+        connections = [[NSMutableArray alloc] init];
         
         feelers = [[Feelers alloc] init];
         [feelers setNoteEventDelegate:self];
@@ -29,6 +30,18 @@
         [self processMessage:message];
         
     });
+}
+
+- (void)clientConnected:(BackendWebSocketConnection *)connection
+{
+    NSLog(@"clientConnected");
+    [connections addObject:connection];
+}
+
+- (void)clientDisconnected:(BackendWebSocketConnection *)connection
+{
+    NSLog(@"clientDisconnected");
+    [connections removeObject:connection];
 }
 
 - (void)processMessage:(NSDictionary *)message

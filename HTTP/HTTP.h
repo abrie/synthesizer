@@ -4,10 +4,13 @@
 #import "BackendHTTPConnection.h"
 
 @class BackendHTTPConfig;
+@class BackendWebSocketConnection;
 
 @protocol HTTPProtocol <NSObject>
 
 - (void)messageFromClient:(NSDictionary *)message;
+- (void)clientConnected:(BackendWebSocketConnection *)connection;
+- (void)clientDisconnected:(BackendWebSocketConnection *)connection;
 
 @end
 

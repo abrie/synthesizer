@@ -8,6 +8,7 @@
     Feelers *feelers;
     MIDI *midi;
     BackendHTTPServer *http;
+    NSMutableArray *connections;
     dispatch_queue_t queue;
     BOOL midiStarted;
 }
