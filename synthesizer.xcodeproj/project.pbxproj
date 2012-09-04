@@ -12,7 +12,6 @@
 		20DC119015BB050000DC5CF1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20DC118F15BB050000DC5CF1 /* Cocoa.framework */; };
 		20E7949B15D611BF009DCFD0 /* BackendHTTPConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7949215D611BF009DCFD0 /* BackendHTTPConfig.m */; };
 		20E7949C15D611BF009DCFD0 /* BackendHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7949415D611BF009DCFD0 /* BackendHTTPConnection.m */; };
-		20E7949D15D611BF009DCFD0 /* BackendSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7949615D611BF009DCFD0 /* BackendSync.m */; };
 		20E7949E15D611BF009DCFD0 /* BackendWebSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7949815D611BF009DCFD0 /* BackendWebSocketConnection.m */; };
 		20E7949F15D611BF009DCFD0 /* HTTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7949A15D611BF009DCFD0 /* HTTP.m */; };
 		20E81C3115D69B5A00758972 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E81C2315D69B5A00758972 /* AppDelegate.m */; };
@@ -40,8 +39,6 @@
 		20E7949215D611BF009DCFD0 /* BackendHTTPConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackendHTTPConfig.m; sourceTree = "<group>"; };
 		20E7949315D611BF009DCFD0 /* BackendHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackendHTTPConnection.h; sourceTree = "<group>"; };
 		20E7949415D611BF009DCFD0 /* BackendHTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackendHTTPConnection.m; sourceTree = "<group>"; };
-		20E7949515D611BF009DCFD0 /* BackendSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackendSync.h; sourceTree = "<group>"; };
-		20E7949615D611BF009DCFD0 /* BackendSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackendSync.m; sourceTree = "<group>"; };
 		20E7949715D611BF009DCFD0 /* BackendWebSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackendWebSocketConnection.h; sourceTree = "<group>"; };
 		20E7949815D611BF009DCFD0 /* BackendWebSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackendWebSocketConnection.m; sourceTree = "<group>"; };
 		20E7949915D611BF009DCFD0 /* HTTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTP.h; sourceTree = "<group>"; };
@@ -134,8 +131,6 @@
 				20E7949215D611BF009DCFD0 /* BackendHTTPConfig.m */,
 				20E7949315D611BF009DCFD0 /* BackendHTTPConnection.h */,
 				20E7949415D611BF009DCFD0 /* BackendHTTPConnection.m */,
-				20E7949515D611BF009DCFD0 /* BackendSync.h */,
-				20E7949615D611BF009DCFD0 /* BackendSync.m */,
 				20E7949715D611BF009DCFD0 /* BackendWebSocketConnection.h */,
 				20E7949815D611BF009DCFD0 /* BackendWebSocketConnection.m */,
 				20E7949915D611BF009DCFD0 /* HTTP.h */,
@@ -225,7 +220,6 @@
 			files = (
 				20E7949B15D611BF009DCFD0 /* BackendHTTPConfig.m in Sources */,
 				20E7949C15D611BF009DCFD0 /* BackendHTTPConnection.m in Sources */,
-				20E7949D15D611BF009DCFD0 /* BackendSync.m in Sources */,
 				20E7949E15D611BF009DCFD0 /* BackendWebSocketConnection.m in Sources */,
 				20E7949F15D611BF009DCFD0 /* HTTP.m in Sources */,
 				200C081E15D6962000F4A0DD /* Synthesizer.m in Sources */,
