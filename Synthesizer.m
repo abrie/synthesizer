@@ -62,9 +62,10 @@
     [midi sendOffToChannel:channel number:note velocity:velocity];
 }
 
-- (void)onChannel:(unsigned int)channel note:(unsigned int)note velocity:(unsigned int)velocity
+- (void)onChannel:(NoteEvent *)event;
 {
-    [midi sendOnToChannel:channel number:note velocity:velocity];
+    [midi sendOnToChannel:[event channel] number:[event noteNumber] velocity:[event onVelocity]];
+    [self sendMessage:[NSString stringWithFormat:@"{\"type\":\"emitter\",\"name\":\"%@\"}", [event emitter]]];
 }
 
 -(void)midiStart
@@ -72,7 +73,7 @@
     midiStarted = YES;
     midiClocks = 0;
     NSLog(@"Midi start.");
-    [self sendMessage:@"{\"midi\":\"start\"}"];
+    [self sendMessage:@"{\"type\":\"midi_start\"}"];
 }
 
 -(void)midiClock
@@ -88,7 +89,7 @@
     
       midiClocks++;
     if (midiClocks == 24) {
-        [self sendMessage:@"{\"midi\":\"24\"}"];
+        [self sendMessage:@"{\"type\":\"midi\",\"message\":\"24\"}"];
         midiClocks = 0;
     }
 }
@@ -101,14 +102,14 @@
 -(void)midiContinue
 {
     midiStarted = YES;
-    [self sendMessage:@"{\"midi\":\"continue\"}"];
+    [self sendMessage:@"{\"type\":\"midi\",\"message\":\"continue\"}"];
     NSLog(@"Midi continue.");
 }
 
 -(void)midiStop
 {
     midiStarted = NO;
-    [self sendMessage:@"{\"midi\":\"stop\"}"];
+    [self sendMessage:@"{\"type\":\"midi\",\"message\":\"stop\"}"];
     NSLog(@"Midi stop.");
 }
 
