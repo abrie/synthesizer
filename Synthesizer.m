@@ -50,10 +50,28 @@
     [feelers setNodeStatesWithInstruments:instruments];
 }
 
-- (void)sendMessage:(NSString *)message
+- (NSMutableDictionary *)buildMidiMessage
 {
+    NSMutableDictionary *message = [[NSMutableDictionary alloc] init];
+    message[@"type"] = @"midi";
+    return message;
+}
+
+- (NSMutableDictionary *)buildEmitterMessage
+{
+    NSMutableDictionary *message = [[NSMutableDictionary alloc] init];
+    message[@"type"] = @"emitter";
+    return message;
+}
+
+- (void)sendMessage:(NSDictionary *)message
+{
+    __autoreleasing NSError *error;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:message options:0 error:&error];
+    NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  
     [connections enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [obj sendMessage:message];
+        [obj sendMessage:string];
     }];
 }
 
@@ -65,7 +83,10 @@
 - (void)onChannel:(NoteEvent *)event;
 {
     [midi sendOnToChannel:[event channel] number:[event noteNumber] velocity:[event onVelocity]];
-    [self sendMessage:[NSString stringWithFormat:@"{\"type\":\"emitter\",\"name\":\"%@\"}", [event emitter]]];
+    
+    NSMutableDictionary *message = [self buildEmitterMessage];
+    message[@"name"] = [event emitter];
+    [self sendMessage:message];
 }
 
 -(void)midiStart
@@ -73,7 +94,10 @@
     midiStarted = YES;
     midiClocks = 0;
     NSLog(@"Midi start.");
-    [self sendMessage:@"{\"type\":\"midi_start\"}"];
+    
+    NSMutableDictionary *message = [self buildMidiMessage];
+    message[@"event"] = @"start";
+    [self sendMessage:message];
 }
 
 -(void)midiClock
@@ -87,9 +111,12 @@
         [feelers advance];
     });
     
-      midiClocks++;
-    if (midiClocks == 24) {
-        [self sendMessage:@"{\"type\":\"midi\",\"message\":\"24\"}"];
+    if( midiClocks++ == 0 ) {
+        NSMutableDictionary *message = [self buildMidiMessage];
+        message[@"event"] = @"t24";
+        [self sendMessage:message];
+    }
+    else if( midiClocks == 24) {
         midiClocks = 0;
     }
 }
@@ -102,14 +129,18 @@
 -(void)midiContinue
 {
     midiStarted = YES;
-    [self sendMessage:@"{\"type\":\"midi\",\"message\":\"continue\"}"];
+    NSMutableDictionary *message = [self buildMidiMessage];
+    message[@"event"] = @"continue";
+    [self sendMessage:message];
     NSLog(@"Midi continue.");
 }
 
 -(void)midiStop
 {
     midiStarted = NO;
-    [self sendMessage:@"{\"type\":\"midi\",\"message\":\"stop\"}"];
+    NSMutableDictionary *message = [self buildMidiMessage];
+    message[@"event"] = @"stop";
+    [self sendMessage:message];
     NSLog(@"Midi stop.");
 }
 
