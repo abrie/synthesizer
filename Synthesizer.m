@@ -68,18 +68,17 @@
     }];
 }
 
-- (void)offChannel:(NoteEvent *)event
+- (void)onEventState:(NoteEvent *)event
 {
-    [midi sendOnToChannel:[event channel]
-                   number:[event noteNumber]
-                 velocity:[event offVelocity]];
-}
-
-- (void)onChannel:(NoteEvent *)event
-{
-    [midi sendOnToChannel:[event channel]
-                   number:[event noteNumber]
-                 velocity:[event onVelocity]];
+    if (event.state == OPEN) {
+        [midi sendOnToChannel:[event channel]
+                       number:[event noteNumber]
+                     velocity:[event onVelocity]];
+    } else if (event.state == CLOSED) {
+        [midi sendOnToChannel:[event channel]
+                       number:[event noteNumber]
+                     velocity:[event offVelocity]];
+    }
     
     NSMutableDictionary *message = [self buildMessage:@"emitter"];
     message[@"name"] = [event emitter];
