@@ -37,11 +37,11 @@ ul {
 	background: white;
 }
 
-.emitter {
+div.emitter {
 	border: 1px solid black;
 }
 
-.emitter[on=true] {
+div.emitter[on=true] {
 	-webkit-animation-duration: 0.25s;
     -webkit-animation-name: border-down;
 }
@@ -55,7 +55,7 @@ ul {
 	 }
 }
 
-.emitter[on=false] {
+div.emitter[on=false] {
 	-webkit-animation-duration: 0.25s;
     -webkit-animation-name: border-up;
 }
