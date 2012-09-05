@@ -259,8 +259,21 @@ $("#render").click( function() {
 	appView.render();
 });
 
-function message_processor(evt) {
-	console.log("received:",evt);
+var tickIndicator = $("#tick-indicator");
+var tickState = false;
+var swapTickState = function() { tickState = !tickState; return tickState; };
+function message_processor(message) {
+	var json = JSON.parse(message);
+	switch(json.type) {
+		case "midi": switch(json.message) {
+			case "24": tickIndicator.attr("on",swapTickState());
+			break;
+		};
+		break;
+		case "emitter": var emitterEl = $("#"+json.name );
+		emitterEl.attr("on", !(emitterEl.attr("on") == "true"));
+		break;
+	}
 }
 
 open_interfaceWebSocket("ws://yeux.local:12345/service", message_processor );

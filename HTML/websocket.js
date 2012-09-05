@@ -15,7 +15,7 @@ function open_interfaceWebSocket( host, message_processor ) {
 	};
 
 	ws.onmessage = function (evt) {
-		message_processor( evt );
+		message_processor( evt.data );
 	};
 
 	ws.onerror = function (evt) {

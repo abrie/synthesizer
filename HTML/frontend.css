@@ -33,6 +33,50 @@ ul {
 	background: rgb(151,170,201);
 }
 
+#tick-indicator[on=false] {
+	background: rgb(121,160,101);
+}
+
+.emitter {
+	border: 1px solid black;
+}
+
+.emitter[on=true] {
+	-webkit-animation-duration: 0.5s;
+    -webkit-animation-name: border-down;
+}
+
+@-webkit-keyframes border-up {     
+	  from {
+		border-radius: 30px;
+		border-width: 0px;
+		border-style: dashed;;
+		}
+	  to {
+		border-radius: 0px;
+		border-width: 3px;
+		border-style: solid;
+	 }
+}                           
+
+@-webkit-keyframes border-down {     
+	  from {
+		border-radius: 30px;
+		border-width: 0px;
+		border-style: dashed;
+		}
+	  to {
+		border-radius: 0px;
+		border-width: 3px;
+		border-style: solid;
+	 }
+}
+
+.emitter[on=false] {
+	-webkit-animation-duration: 0.5s;
+    -webkit-animation-name: border-up;
+}
+
 #content {
 	margin-top: 3em;
 }
