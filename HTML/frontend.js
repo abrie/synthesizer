@@ -265,14 +265,16 @@ var swapTickState = function() { tickState = !tickState; return tickState; };
 function message_processor(message) {
 	var json = JSON.parse(message);
 	switch(json.type) {
-		case "midi": switch(json.message) {
-			case "24": tickIndicator.attr("on",swapTickState());
+		case "midi": switch(json.event) {
+			case "t24":
+				tickIndicator.attr("on",swapTickState());
+				break;
+			};
 			break;
-		};
-		break;
-		case "emitter": var emitterEl = $("#"+json.name );
-		emitterEl.attr("on", !(emitterEl.attr("on") == "true"));
-		break;
+		case "emitter":
+			var eEl =$("#"+json.name );
+			eEl.attr("on", !(eEl.attr("on") == "true"));
+			break;
 	}
 }
 
