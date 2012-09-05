@@ -75,14 +75,18 @@
     }];
 }
 
-- (void)offChannel:(unsigned int)channel note:(unsigned int)note velocity:(unsigned int)velocity
+- (void)offChannel:(NoteEvent *)event
 {
-    [midi sendOffToChannel:channel number:note velocity:velocity];
+    [midi sendOnToChannel:[event channel]
+                   number:[event noteNumber]
+                 velocity:[event offVelocity]];
 }
 
-- (void)onChannel:(NoteEvent *)event;
+- (void)onChannel:(NoteEvent *)event
 {
-    [midi sendOnToChannel:[event channel] number:[event noteNumber] velocity:[event onVelocity]];
+    [midi sendOnToChannel:[event channel]
+                   number:[event noteNumber]
+                 velocity:[event onVelocity]];
     
     NSMutableDictionary *message = [self buildEmitterMessage];
     message[@"name"] = [event emitter];
