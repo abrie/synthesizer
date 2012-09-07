@@ -75,7 +75,7 @@
                        number:[event noteNumber]
                      velocity:[event onVelocity]];
     } else if (event.state == CLOSED) {
-        [midi sendOnToChannel:[event channel]
+        [midi sendOffToChannel:[event channel]
                        number:[event noteNumber]
                      velocity:[event offVelocity]];
     }
