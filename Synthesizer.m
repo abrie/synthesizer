@@ -98,14 +98,16 @@
 
 -(void)midiClock
 {
-    if (!midiStarted) {
-        return;
+    if (midiStarted) {
+        midiStarted = NO;
+        dispatch_async(queue, ^{
+            [feelers firstStep];
+        });
+    } else {
+        dispatch_async(queue, ^{
+            [feelers nextStep];
+        });
     }
-    
-    dispatch_async(queue, ^{
-        [feelers sample];
-        [feelers advance];
-    });
     
     if( midiClocks++ == 0 ) {
         NSMutableDictionary *message = [self buildMessage:@"midi"];
@@ -124,8 +126,7 @@
 
 -(void)midiContinue
 {
-    midiStarted = YES;
-    NSMutableDictionary *message = [self buildMessage:@"midi"];
+   NSMutableDictionary *message = [self buildMessage:@"midi"];
     message[@"event"] = @"continue";
     [self sendMessage:message];
     NSLog(@"Midi continue.");
@@ -133,8 +134,7 @@
 
 -(void)midiStop
 {
-    midiStarted = NO;
-    NSMutableDictionary *message = [self buildMessage:@"midi"];
+   NSMutableDictionary *message = [self buildMessage:@"midi"];
     message[@"event"] = @"stop";
     [self sendMessage:message];
     NSLog(@"Midi stop.");
