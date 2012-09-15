@@ -107,12 +107,12 @@ EmitterView = Backbone.View.extend( {
 		this.indexerSelect.val( this.model.parameter("indexer") );
 		
 		var indexer = this.model.parameter("indexer");
-		this.$(".widgets").append( this.rhythmWidget.render().el );
-		this.$(".note").replaceWith(this.renderView(indexer, "note"));
-		this.$(".channel").replaceWith(this.renderView(indexer, "channel"));
-		this.$(".duration").replaceWith(this.renderView(indexer, "duration"));
-		this.$(".onVelocity").replaceWith(this.renderView(indexer, "onVelocity"));
-		this.$(".offVelocity").replaceWith(this.renderView(indexer, "offVelocity"));
+		this.$(".widgets > .rhythm").replaceWith( this.rhythmWidget.render().el );
+		this.$(".widgets > .note").replaceWith(this.renderView(indexer, "note"));
+		this.$(".widgets > .channel").replaceWith(this.renderView(indexer, "channel"));
+		this.$(".widgets > .duration").replaceWith(this.renderView(indexer, "duration"));
+		this.$(".widgets > .onVelocity").replaceWith(this.renderView(indexer, "onVelocity"));
+		this.$(".widgets > .offVelocity").replaceWith(this.renderView(indexer, "offVelocity"));
         
 		this.$(".piano").html( this.pianoWidget.render().el );
 
