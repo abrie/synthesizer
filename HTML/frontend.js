@@ -36,6 +36,14 @@ EmitterModel = Backbone.Model.extend( {
 			name: uid(),
 			type: "emitter",
 			parameters: {
+				rhythm: {
+					steps:1,
+					pulses:1,
+					ticksPerStep:24,
+					offset:0,
+					retrigger:false,
+					delta: 1, // used by indexer
+					rate:1}, // used by indexer (this needs a name change; 'repeat' or pulsesPerIndex
 				indexer: "lfsr",
 				channel : { seed:1, mask:0xC0, delta:1, rate:1, pool:[0] },
 				note : { seed:1, mask:0xC0, delta:1, rate:1, pool:[36] },
@@ -66,6 +74,7 @@ EmitterView = Backbone.View.extend( {
 		this.model.bind("change", this.render, this);
 		this.$el.attr("id",this.model.get("name"));
 		this.pianoWidget = new PianoWidget({model:this.model});
+		this.rhythmWidget = new RhythmWidget( this.model, "rhythm" );
 		this.cachedViews = {};
 		this.initializeDragDrop();
 	},
@@ -98,6 +107,7 @@ EmitterView = Backbone.View.extend( {
 		this.indexerSelect.val( this.model.parameter("indexer") );
 		
 		var indexer = this.model.parameter("indexer");
+		this.$(".widgets").append( this.rhythmWidget.render().el );
 		this.$(".note").replaceWith(this.renderView(indexer, "note"));
 		this.$(".channel").replaceWith(this.renderView(indexer, "channel"));
 		this.$(".duration").replaceWith(this.renderView(indexer, "duration"));
