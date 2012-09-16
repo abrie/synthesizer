@@ -40,6 +40,7 @@ EmitterModel = Backbone.Model.extend( {
 					steps:1,
 					pulses:1,
 					ticksPerStep:24,
+					totalTicks:1,
 					offset:0,
 					retrigger:false,
 					delta: 1, // used by indexer
@@ -133,6 +134,7 @@ InstrumentModel = Backbone.Model.extend( {
 					steps:1,
 					pulses:1,
 					ticksPerStep:24,
+					totalTicks:24000,
 					offset:0,
 					retrigger:false,
 					delta: 1, // used by indexer

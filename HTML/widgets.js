@@ -17,6 +17,7 @@ RhythmWidget = Backbone.View.extend( {
 		"change input.steps" : "rhythmChanged",
 		"change input.pulses" : "rhythmChanged",
 		"change input.ticksPerStep" : "rhythmChanged",
+		"change input.totalTicks" : "rhythmChanged",
 		"change input.offset" : "rhythmChanged",
 		"change input.retrigger" : "rhythmChanged",
 		"change input.rate" : "rhythmChanged",
@@ -48,6 +49,7 @@ RhythmWidget = Backbone.View.extend( {
 		this.field.steps = parseInt( this.stepsInput.val() );
 		this.field.pulses = parseInt( this.pulsesInput.val() );
 		this.field.ticksPerStep = parseInt( this.ticksPerStepInput.val() );
+		this.field.totalTicks = parseInt( this.totalTicksInput.val() );
 		this.field.offset = parseInt( this.offsetInput.val() );
 		this.field.retrigger = this.retriggerInput.is(":checked");
 		this.field.rate = parseInt( this.rateInput.val() );
@@ -82,6 +84,7 @@ RhythmWidget = Backbone.View.extend( {
 		this.stepsInput.val( this.field.steps );
 		this.pulsesInput.val( this.field.pulses );
 		this.ticksPerStepInput.val( this.field.ticksPerStep );
+		this.totalTicksInput.val( this.field.totalTicks );
 		this.offsetInput.val( this.field.offset );
 		this.patternKnob.val(this.patternKnobValue);
 		this.rateInput.val(this.field.rate);
@@ -94,6 +97,7 @@ RhythmWidget = Backbone.View.extend( {
 		this.stepsInput = this.$("input.steps");
 		this.pulsesInput = this.$("input.pulses");
 		this.ticksPerStepInput = this.$("input.ticksPerStep");
+		this.totalTicksInput = this.$("input.totalTicks");
 		this.offsetInput = this.$("input.offset");
 		this.rateInput = this.$("input.rate");
 		this.deltaInput = this.$("input.delta");
