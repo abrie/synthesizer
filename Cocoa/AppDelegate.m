@@ -18,7 +18,7 @@
     midi = [[MIDI alloc] initWithName:@"feelers synthesizer"];
     http = [[BackendHTTPServer alloc] initWithDocumentRoot:[self defaultWebPath]];
     
-    backend = [[Backend alloc] initWithMidi:midi
+    backend = [[Synthesizer alloc] initWithMidi:midi
                                    withHTTP:http
                                   withQueue:dispatch_get_current_queue()];
     

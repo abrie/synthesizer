@@ -1,6 +1,6 @@
 #import "Synthesizer.h"
 
-@implementation Backend
+@implementation Synthesizer
 
 - (id)initWithMidi:(MIDI *)_midi withHTTP:(BackendHTTPServer *)_http withQueue:(dispatch_queue_t)_queue
 {
@@ -81,7 +81,7 @@
     }
     
     NSMutableDictionary *message = [self buildMessage:@"emitter"];
-    message[@"name"] = [event emitter];
+    //message[@"name"] = [event emitter];
     [self sendMessage:message];
 }
 

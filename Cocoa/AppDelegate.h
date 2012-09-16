@@ -8,7 +8,7 @@
 @private
     MIDI *midi;
     BackendHTTPServer *http;
-    Backend *backend;
+    Synthesizer *backend;
 }
 
 @property (assign) IBOutlet NSWindow *window;
