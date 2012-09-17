@@ -21,7 +21,6 @@ RhythmWidget = Backbone.View.extend( {
 		"change input.offset" : "rhythmChanged",
 		"change input.retrigger" : "rhythmChanged",
 		"change input.rate" : "rhythmChanged",
-		"change input.delta" : "rhythmChanged",
 	},
 	rhythmUp: function() {
 		var modified = modifyRhythm( this.field.steps, this.field.pulses, 1 );
@@ -53,7 +52,6 @@ RhythmWidget = Backbone.View.extend( {
 		this.field.offset = parseInt( this.offsetInput.val() );
 		this.field.retrigger = this.retriggerInput.is(":checked");
 		this.field.rate = parseInt( this.rateInput.val() );
-		this.field.delta = parseInt( this.deltaInput.val() );
 		this.model.trigger("change");
 	},
 	patternKnobChange: function(v) {
@@ -88,7 +86,6 @@ RhythmWidget = Backbone.View.extend( {
 		this.offsetInput.val( this.field.offset );
 		this.patternKnob.val(this.patternKnobValue);
 		this.rateInput.val(this.field.rate);
-		this.deltaInput.val(this.field.delta);
 		this.retriggerInput.attr("checked",this.field.retrigger);
 		return this;
 	},
@@ -100,7 +97,6 @@ RhythmWidget = Backbone.View.extend( {
 		this.totalTicksInput = this.$("input.totalTicks");
 		this.offsetInput = this.$("input.offset");
 		this.rateInput = this.$("input.rate");
-		this.deltaInput = this.$("input.delta");
 		this.retriggerInput = this.$("input.retrigger");
 
 		this.patternKnob = this.$("input.knob-pattern").knob( {
@@ -245,18 +241,15 @@ SequentialWidget = Backbone.View.extend( {
 		this.field = this.model.parameter(this.fieldName);
 	},
 	events: {
-		"change input.delta" : "parameterChanged",
 		"change input.rate" : "parameterChanged",
 		"change input.pool" : "parameterChanged",
 	},
 	parameterChanged: function(e) {
-		this.field.delta = parseInt( this.deltaInput.val() );
 		this.field.rate = parseInt( this.rateInput.val() );
 		this.field.pool = inputToArray( this.poolInput );
 		this.model.trigger("change");
 	},
 	update: function() {
-        this.deltaInput.val(this.field.delta);
         this.rateInput.val(this.field.rate);
 		this.poolInput.val(this.field.pool);
 		return this;
@@ -264,7 +257,6 @@ SequentialWidget = Backbone.View.extend( {
 	render: function() {
 		this.$el.html( this.template() );
 		this.$(".fields > .label").html(this.fieldName);
-        this.deltaInput = this.$("input.delta");
 		this.poolInput = this.$("input.pool");
 		this.rateInput = this.$("input.rate");
         this.delegateEvents(this.events);

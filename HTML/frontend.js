@@ -43,14 +43,13 @@ EmitterModel = Backbone.Model.extend( {
 					totalTicks:1,
 					offset:0,
 					retrigger:false,
-					delta: 1, // used by indexer
 					rate:1}, // used by indexer (this needs a name change; 'repeat' or pulsesPerIndex
 				indexer: "lfsr",
-				channel : { seed:1, mask:0xC0, delta:1, rate:1, pool:[0] },
-				note : { seed:1, mask:0xC0, delta:1, rate:1, pool:[36] },
-				onVelocity : { seed:1, mask:0xC0, delta:1, rate:1, pool:[80]},
-				offVelocity : { seed:1, mask:0xC0, delta:1, rate:1, pool:[60]},
-				duration :{ seed:1, mask:0xC0, delta:1, rate:1, pool:[24]}
+				channel : { seed:1, mask:0xC0, rate:1, pool:[0] },
+				note : { seed:1, mask:0xC0, rate:1, pool:[36] },
+				onVelocity : { seed:1, mask:0xC0, rate:1, pool:[80]},
+				offVelocity : { seed:1, mask:0xC0, rate:1, pool:[60]},
+				duration :{ seed:1, mask:0xC0, rate:1, pool:[24]}
 			},
 		};
 	},
@@ -137,7 +136,6 @@ InstrumentModel = Backbone.Model.extend( {
 					totalTicks:24000,
 					offset:0,
 					retrigger:false,
-					delta: 1, // used by indexer
 					rate:1 // used by indexer (this needs a name change; 'repeat' or pulsesPerIndex
 				}
 			}
