@@ -96,6 +96,11 @@
     [self sendMessage:message];
 }
 
+-(void)midiSetSongPosition:(NSUInteger)position
+{
+    NSLog(@"MIDI Song Position Pointer has no handler, yet.")
+}
+
 -(void)midiClock
 {
    dispatch_async(queue, ^{
