@@ -10,7 +10,6 @@
     BackendHTTPServer *http;
     NSMutableArray *connections;
     dispatch_queue_t queue;
-    BOOL midiStarted;
     NSUInteger midiClocks;
 }
 

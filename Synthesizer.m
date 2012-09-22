@@ -17,8 +17,6 @@
         
         http = _http;
         [http setMessageDelegate:self];
-        
-        midiStarted = NO;
     }
     
     return self;
@@ -87,10 +85,8 @@
 
 -(void)midiStart
 {
-    midiStarted = YES;
     midiClocks = 0;
-    NSLog(@"Midi start.");
-    
+   
     NSMutableDictionary *message = [self buildMessage:@"midi"];
     message[@"event"] = @"start";
     [self sendMessage:message];
@@ -98,7 +94,7 @@
 
 -(void)midiSetSongPosition:(NSUInteger)position
 {
-    NSLog(@"MIDI Song Position Pointer has no handler, yet.")
+    NSLog(@"MIDI Song Position Pointer has no handler, yet.");
 }
 
 -(void)midiClock
@@ -124,20 +120,16 @@
 
 -(void)midiContinue
 {
-    midiStarted = YES;
     NSMutableDictionary *message = [self buildMessage:@"midi"];
     message[@"event"] = @"continue";
     [self sendMessage:message];
-    NSLog(@"Midi continue.");
 }
 
 -(void)midiStop
 {
-    midiStarted = NO;
     NSMutableDictionary *message = [self buildMessage:@"midi"];
     message[@"event"] = @"stop";
     [self sendMessage:message];
-    NSLog(@"Midi stop.");
 }
 
 @end
