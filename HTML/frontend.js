@@ -123,7 +123,7 @@ _.extend(EmitterView.prototype, DragDropMixin);
 
 NodeCollection = Backbone.Collection.extend({ });
 
-InstrumentModel = Backbone.Model.extend( {
+BranchModel = Backbone.Model.extend( {
 	defaults: function() {
 		return {
 			name: uid(),
@@ -181,7 +181,7 @@ InstrumentView = Backbone.View.extend( {
 		"click button.emitter" : "newEmitter",
 	},
 	newBranch: function(e) {
-		var node = new InstrumentModel();
+		var node = new BranchModel();
 		node.set("type","branch");
 		this.model.add(node);
 		e.stopImmediatePropagation();
@@ -248,10 +248,10 @@ AppView = Backbone.View.extend( {
 var appModel = new AppModel(); 
 var appView = new AppView( { model: appModel } );
 $("#new").click( function() {
-	var instrumentModel = new InstrumentModel();
-	instrumentModel.set("type","root");
-	instrumentModel.bind("change", publishAppModel);
-	appView.addInstrument( instrumentModel );
+	var branchModel = new BranchModel();
+	branchModel.set("type","root");
+	branchModel.bind("change", publishAppModel);
+	appView.addInstrument( branchModel );
 });
 
 function publishAppModel() {
