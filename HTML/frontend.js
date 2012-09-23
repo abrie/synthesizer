@@ -163,12 +163,12 @@ BranchModel = Backbone.Model.extend( {
 	}
 });
 
-InstrumentView = Backbone.View.extend( {
+BranchView = Backbone.View.extend( {
 	tagName: "li",
-    className: "instrument",
-	template: _.template( $('#template-instrument').html() ),
+    className: "branch",
+	template: _.template( $('#template-branch').html() ),
 	initialize: function() {
-		console.log("instrument initialize");
+		console.log("branch initialize");
 		_.bindAll(this, "render");
 		this.model.get("pool").bind("add", this.render, this);
 		this.model.get("pool").bind("remove", this.render, this);
@@ -195,7 +195,7 @@ InstrumentView = Backbone.View.extend( {
 		var result = undefined;
 		var type = model.get("type");
 		if (type === "branch") {
-			result = new InstrumentView({model:model});
+			result = new BranchView({model:model});
 		}
 		else if (type === "emitter") {
 			result = new EmitterView({model:model});
@@ -212,16 +212,16 @@ InstrumentView = Backbone.View.extend( {
 		return this;            
 	}
 });
-_.extend(InstrumentView.prototype, DragDropMixin);
+_.extend(BranchView.prototype, DragDropMixin);
 
 AppModel = Backbone.Model.extend( {
 	defaults: function() {
 		return {
-			instruments : new NodeCollection()
+			branches : new NodeCollection()
 		};
 	},
-	addInstrument: function(instrument) {
-		this.get("instruments").add(instrument);
+	addBranch: function(branch) {
+		this.get("branches").add(branch);
 		return this;
 	}
 });
@@ -231,15 +231,15 @@ AppView = Backbone.View.extend( {
 	initialize: function() {
 		this.render();
 	},
-	addInstrument: function( instrument ) {
-		this.model.addInstrument( instrument );
+	addBranch: function( branch ) {
+		this.model.addBranch( branch );
 		this.render();
 		return this;
 	},
 	render: function() {
 		this.$el.empty();
-		this.model.get("instruments").each( function(instrument) {
-			var view = new InstrumentView( { model:instrument } );
+		this.model.get("branches").each( function(branch) {
+			var view = new BranchView( { model:branch } );
 			this.$el.prepend( view.render().el );
 		}, this );
 	},
@@ -251,7 +251,7 @@ $("#new").click( function() {
 	var branchModel = new BranchModel();
 	branchModel.set("type","root");
 	branchModel.bind("change", publishAppModel);
-	appView.addInstrument( branchModel );
+	appView.addBranch( branchModel );
 });
 
 function publishAppModel() {
