@@ -40,10 +40,10 @@ EmitterModel = Backbone.Model.extend( {
 					steps:1,
 					pulses:1,
 					ticksPerStep:24,
-					totalTicks:1,
+					totalTicks:24,
 					offset:0,
 					retrigger:false,
-					}, // used by indexer (this needs a name change; 'repeat' or pulsesPerIndex
+					}, 
 				indexer: "lfsr",
 				channel : { seed:1, mask:0xC0, pool:[0] },
 				note : { seed:1, mask:0xC0, pool:[36] },
