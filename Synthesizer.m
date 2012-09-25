@@ -43,8 +43,8 @@
 
 - (void)processMessage:(NSDictionary *)message
 {
-    NSArray *instruments = message[@"toFeelers"][@"nodes"];
-    [feelers setNodeStatesWithInstruments:instruments];
+    NSArray *states = message[@"toFeelers"][@"nodes"];
+    [feelers updateNodesWithStates:states];
 }
 
 - (NSMutableDictionary *)buildMessage:(NSString *)type
