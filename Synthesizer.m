@@ -85,8 +85,6 @@
 
 -(void)midiStart
 {
-    midiClocks = 0;
-   
     NSMutableDictionary *message = [self buildMessage:@"midi"];
     message[@"event"] = @"start";
     [self sendMessage:message];
@@ -94,23 +92,14 @@
 
 -(void)midiSetSongPosition:(NSUInteger)position
 {
-    NSLog(@"MIDI Song Position Pointer has no handler, yet.");
+    NSLog(@"MIDI Song Position Pointer has no handler, yet. Position:%ld",position);
 }
 
 -(void)midiClock
 {
-   dispatch_async(queue, ^{
-       [feelers advance];
-   });
-    
-    if( midiClocks++ == 0 ) {
-        NSMutableDictionary *message = [self buildMessage:@"midi"];
-        message[@"event"] = @"t24";
-        [self sendMessage:message];
-    }
-    else if( midiClocks == 24) {
-        midiClocks = 0;
-    }
+    dispatch_async(queue, ^{
+        [feelers advance];
+    });
 }
 
 -(void)midiTick

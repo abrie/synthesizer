@@ -10,7 +10,6 @@
     BackendHTTPServer *http;
     NSMutableArray *connections;
     dispatch_queue_t queue;
-    NSUInteger midiClocks;
 }
 
 - (id)initWithMidi:(MIDI *)_midi withHTTP:(BackendHTTPServer *)_http withQueue:(dispatch_queue_t)_queue;
