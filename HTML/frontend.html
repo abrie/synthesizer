@@ -17,7 +17,25 @@
 			<button class="emitter">+emitter</button>
 		</div>
 		<div class="widgets"></div>
-		<div class="nodes"><ul class="nodes"></ul></div>
+		<div class="pool"></div>
+	</script>
+
+	<script type="text/template" id="template-application">
+		<div class="header">
+			APPLICATION
+			<button class="root">+root</button>
+			<button class="branch">+branch</button>
+			<button class="emitter">+emitter</button>
+		</div>
+		<div class="application-nodes"></div>
+		<div class="widgets"></div>
+		<div class="selected-node"></div>
+	</script>
+
+	<script type="text/template" id="template-widget-node">
+		<div class="header">
+			<%=type%>:<%=name%>
+		</div>
 	</script>
 
 	<script type="text/template" id="template-widget-rhythm">
@@ -140,7 +158,7 @@
 			<button id="new">branch</button>
 		</div>
         <div>
-		<ul id="content"></ul>
+		<div id="content"></div>
         </div>
 		<div id="nonsense">project feelers w/ backbone 1960(c)(tm)(r)(xxx) !ENDEAYE!</div>
 		<script type="text/javascript" src="utilities.js"></script>

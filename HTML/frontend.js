@@ -66,13 +66,17 @@ EmitterModel = Backbone.Model.extend( {
 
 EmitterView = Backbone.View.extend( {
 	tagname: "li",
-    attributes: { "draggable" : true },
+	attributes: function() {
+		return {
+			draggable:true,
+			id:this.model.get("name"),
+		}
+	}, 
 	className: "emitter",
 	template: _.template( $("#template-emitter").html() ),
 	initialize: function() {
 		this.bind("all", this.render, this);
 		this.model.bind("change", this.render, this);
-		this.$el.attr("id",this.model.get("name"));
 		this.pianoWidget = new PianoWidget({model:this.model});
 		this.rhythmWidget = new RhythmWidget( this.model, "rhythm" );
 		this.cachedViews = {};
@@ -127,7 +131,7 @@ BranchModel = Backbone.Model.extend( {
 	defaults: function() {
 		return {
 			name: uid(),
-			pool : new NodeCollection(),
+			pool : [],
 			parameters : {
 				rhythm: {
 					steps:1,
@@ -140,20 +144,18 @@ BranchModel = Backbone.Model.extend( {
 			}
 		};
 	},
-	add: function(model) {
-		this.get("pool").add(model);
-		model.containedBy = this;
-		model.bind("change", publishAppModel);
+	add: function(node) {
+		appModel.addNode(node);
+		console.log("branchadd:"+node.get("name"));
+		this.get("pool").push( node.get("name") );
 		return this;
 	},
 	remove: function(model) {
-		this.get("pool").remove(model);
-		model.unbind("change", publishAppModel);
-		model.containedBy = undefined;
+		this.get("pool") = _.without(this.get("pool"), model.get("name")); 
 		return this;
 	},
 	contains: function(model) {
-		return this.get("pool").contains(model);
+		return this.get("pool").contains(model.get("name"));
 	},
 	parameters: function() {
 		return this.get("parameters");
@@ -164,15 +166,17 @@ BranchModel = Backbone.Model.extend( {
 });
 
 BranchView = Backbone.View.extend( {
-	tagName: "li",
+	tagName: "div",
     className: "branch",
+	attributes: function() {
+		return {
+			draggable:true,
+			id:this.model.get("name"),
+		}
+	}, 
 	template: _.template( $('#template-branch').html() ),
 	initialize: function() {
-		console.log("branch initialize");
 		_.bindAll(this, "render");
-		this.model.get("pool").bind("add", this.render, this);
-		this.model.get("pool").bind("remove", this.render, this);
-		this.$el.attr("id",this.model.get("name"));
 		this.rhythmWidget = new RhythmWidget( this.model, "rhythm" );
 		this.initializeDragDrop();
 	},
@@ -181,6 +185,7 @@ BranchView = Backbone.View.extend( {
 		"click button.emitter" : "newEmitter",
 	},
 	newBranch: function(e) {
+		console.log("branchView newBranch");
 		var node = new BranchModel();
 		node.set("type","branch");
 		this.model.add(node);
@@ -191,24 +196,14 @@ BranchView = Backbone.View.extend( {
 		this.model.add(node);
 		e.stopImmediatePropagation();
 	},
-	renderView: function(model) {
-		var result = undefined;
-		var type = model.get("type");
-		if (type === "branch") {
-			result = new BranchView({model:model});
-		}
-		else if (type === "emitter") {
-			result = new EmitterView({model:model});
-		}
-		return result.render().el;
-	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
 		this.$(".widgets").append( this.rhythmWidget.render().el );
 
-		this.model.get("pool").each( function(model) {
-			this.$("> .nodes > ul.nodes").prepend( this.renderView(model) );
+		_.each( this.model.get("pool"), function(modelName) {
+			this.$(".pool").append( modelName );
 		}, this);
+		this.delegateEvents(this.events);
 		return this;            
 	}
 });
@@ -217,36 +212,91 @@ _.extend(BranchView.prototype, DragDropMixin);
 AppModel = Backbone.Model.extend( {
 	defaults: function() {
 		return {
-			branches : new NodeCollection()
+			nodes : new NodeCollection()
 		};
 	},
-	addBranch: function(branch) {
-		this.get("branches").add(branch);
+	addNode: function(node) {
+		this.get("nodes").add(node);
 		return this;
+	},
+	getNodes: function() {
+		return this.get("nodes");
 	}
 });
 
 AppView = Backbone.View.extend( {
-	el: $("ul#content"),
+	el: $("div#content"),
+	template: _.template( $("#template-application").html() ),
 	initialize: function() {
+		_.bindAll(this, "render");
+		this.model.get("nodes").bind("add", this.render, this);
+		this.model.get("nodes").bind("remove", this.render, this);
+		this.selectedNode = undefined;
 		this.render();
 	},
-	addBranch: function( branch ) {
-		this.model.addBranch( branch );
+	events: {
+		"click button.root" : "newRoot",
+		"click button.branch" : "newBranch",
+		"click button.emitter" : "newEmitter",
+		"click .application-nodes > .node.widget" : "nodeClicked",
+	},
+	nodeClicked : function(e) {
+		var nodeName = $(e.currentTarget).attr("id");
+		var node = this.model.get("nodes").find( function(m) { 
+			return m.get("name") === nodeName; 
+		}); 
+		this.selectNode(node);
+	},
+	selectNode: function(node) {
+		var type = node.get("type");
+		if (type === "emitter") {
+			this.selectedNode = new EmitterView({model:node});
+		}
+		else if (type === "branch") {
+			this.selectedNode = new BranchView({model:node});
+		}
+		else if (type === "root") {
+			this.selectedNode = new BranchView({model:node});
+		}
+		else {
+			console.log("unrecognized node type");
+		}
 		this.render();
-		return this;
+	},
+	newEmitter: function(e) {
+		var emitter = new EmitterModel();
+		this.model.get("nodes").add(emitter);
+		this.selectNode(emitter);
+		this.model.addNode(emitter);
+	},
+	newBranch: function(e) {
+		var branch = new BranchModel();
+		branch.set("type","branch");
+		this.selectNode(branch);
+		this.model.addNode(branch);
+	},
+	newRoot: function(e) {
+		var root = new BranchModel();
+		root.set("type","root");
+		this.selectNode(root);
+		this.model.addNode(root);
 	},
 	render: function() {
-		this.$el.empty();
-		this.model.get("branches").each( function(branch) {
-			var view = new BranchView( { model:branch } );
-			this.$el.prepend( view.render().el );
+		this.$el.html( this.template( this.model.toJSON() ) );
+		if (this.selectedNode) {
+			this.$(".selected-node").html( this.selectedNode.render().el );
+		}
+		this.model.getNodes().each( function(node) {
+			var nodeWidget = new NodeWidget({model:node});
+			this.$(".application-nodes").append( nodeWidget.render().el );
 		}, this );
+		console.log("rendered AppView");
 	},
 });       
 
 var appModel = new AppModel(); 
 var appView = new AppView( { model: appModel } );
+
 $("#new").click( function() {
 	var branchModel = new BranchModel();
 	branchModel.set("type","root");

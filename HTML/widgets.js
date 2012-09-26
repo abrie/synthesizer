@@ -1,3 +1,21 @@
+NodeWidget = Backbone.View.extend({
+	tagname: "div",
+	className: "node widget",
+	attributes: function() {
+		return {
+			id:this.model.get("name"),
+		}
+	}, 
+	template: _.template( $('#template-widget-node').html() ),
+	initialize: function() {
+		console.log("initialize NodeWidget:",this);
+	},
+	render: function() {
+		this.$el.html( this.template( this.model.toJSON() ) );
+		return this;
+	},
+});
+
 RhythmWidget = Backbone.View.extend( {
 	tagname: "div",
 	className: "rhythm widget",
