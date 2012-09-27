@@ -286,13 +286,6 @@ AppView = Backbone.View.extend( {
 var appModel = new AppModel(); 
 var appView = new AppView( { model: appModel } );
 
-$("#new").click( function() {
-	var branchModel = new BranchModel();
-	branchModel.set("type","root");
-	branchModel.bind("change", publishAppModel);
-	appView.addBranch( branchModel );
-});
-
 function publishAppModel() {
 	var message = { toFeelers: appModel.toJSON() };
 	send_data(message);
