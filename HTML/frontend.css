@@ -38,7 +38,6 @@ ul {
 }
 
 div.emitter {
-	border: 1px solid black;
 }
 
 div.emitter[on=true] {
