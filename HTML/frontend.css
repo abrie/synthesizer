@@ -157,10 +157,8 @@ div.emitter[on=false] {
 	width: 3em;
 }
 
-.piano {
+.piano.widget {
 	width: 740px;
-	display: table-cell;
-	vertical-align: middle;
 }
 
 .node.widget {

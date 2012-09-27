@@ -117,8 +117,7 @@ EmitterView = Backbone.View.extend( {
 		this.$(".parameters > .duration").replaceWith(this.renderView(indexer, "duration"));
 		this.$(".parameters > .onVelocity").replaceWith(this.renderView(indexer, "onVelocity"));
 		this.$(".parameters > .offVelocity").replaceWith(this.renderView(indexer, "offVelocity"));
-        
-		this.$(".piano").html( this.pianoWidget.render().el );
+		this.$(".parameters > .piano").replaceWith(this.pianoWidget.render().el);
 
 		return this;            
 	}
