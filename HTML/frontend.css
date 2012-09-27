@@ -118,7 +118,7 @@ div.emitter[on=false] {
 }
 
 .widget {
-	display: table-cell;;
+	display: table-cell;
 	padding: 1px;
 }
 
@@ -162,6 +162,17 @@ div.emitter[on=false] {
 	width: 740px;
 	display: table-cell;
 	vertical-align: middle;
+}
+
+.node.widget {
+	border: 1px solid rgb(200,200,200);
+	cursor: pointer;
+}
+
+.node.widget:hover {
+	border: 1px solid rgb(100,100,100);
+	background: black;
+	color: white;
 }
 
 #nonsense {

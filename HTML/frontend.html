@@ -12,23 +12,23 @@
 
 	<script type="text/template" id="template-branch">
 		<div class="header">
-			branch:<%=name%>
+			<%=type%>:<%=name%>
 			<button class="branch">+branch</button>
 			<button class="emitter">+emitter</button>
 		</div>
-		<div class="widgets"></div>
-		<div class="pool"></div>
+		<div class="parameters widgets">
+			<div class="rhythm"></div>
+		</div>
+		<div class="node-list widgets"></div>
 	</script>
 
 	<script type="text/template" id="template-application">
 		<div class="header">
 			APPLICATION
 			<button class="root">+root</button>
-			<button class="branch">+branch</button>
 			<button class="emitter">+emitter</button>
 		</div>
-		<div class="application-nodes"></div>
-		<div class="widgets"></div>
+		<div class="node-list widgets"></div>
 		<div class="selected-node"></div>
 	</script>
 
@@ -118,10 +118,10 @@
 
     <script type="text/template" id="template-emitter">
 		<div class="header">
-			emitter:<%=name%>
+			<%=type%>:<%=name%>
 			<select class="indexer"></select>
 		</div>
-		<div class="widgets">
+		<div class="parameters widgets">
 			<div class="rhythm"></div>
 			<div class="note"></div>
 			<div class="channel"></div>

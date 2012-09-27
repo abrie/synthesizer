@@ -111,12 +111,12 @@ EmitterView = Backbone.View.extend( {
 		this.indexerSelect.val( this.model.parameter("indexer") );
 		
 		var indexer = this.model.parameter("indexer");
-		this.$(".widgets > .rhythm").replaceWith( this.rhythmWidget.render().el );
-		this.$(".widgets > .note").replaceWith(this.renderView(indexer, "note"));
-		this.$(".widgets > .channel").replaceWith(this.renderView(indexer, "channel"));
-		this.$(".widgets > .duration").replaceWith(this.renderView(indexer, "duration"));
-		this.$(".widgets > .onVelocity").replaceWith(this.renderView(indexer, "onVelocity"));
-		this.$(".widgets > .offVelocity").replaceWith(this.renderView(indexer, "offVelocity"));
+		this.$(".parameters > .rhythm").replaceWith( this.rhythmWidget.render().el );
+		this.$(".parameters > .note").replaceWith(this.renderView(indexer, "note"));
+		this.$(".parameters > .channel").replaceWith(this.renderView(indexer, "channel"));
+		this.$(".parameters > .duration").replaceWith(this.renderView(indexer, "duration"));
+		this.$(".parameters > .onVelocity").replaceWith(this.renderView(indexer, "onVelocity"));
+		this.$(".parameters > .offVelocity").replaceWith(this.renderView(indexer, "offVelocity"));
         
 		this.$(".piano").html( this.pianoWidget.render().el );
 
@@ -198,10 +198,10 @@ BranchView = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
-		this.$(".widgets").append( this.rhythmWidget.render().el );
+		this.$("> .parameters > .rhythm").append( this.rhythmWidget.render().el );
 
 		_.each( this.model.get("pool"), function(modelName) {
-			this.$(".pool").append( modelName );
+			this.$("> .node-list").append( modelName );
 		}, this);
 		this.delegateEvents(this.events);
 		return this;            
@@ -236,9 +236,8 @@ AppView = Backbone.View.extend( {
 	},
 	events: {
 		"click button.root" : "newRoot",
-		"click button.branch" : "newBranch",
 		"click button.emitter" : "newEmitter",
-		"click .application-nodes > .node.widget" : "nodeClicked",
+		"click .node-list > .widget" : "nodeClicked",
 	},
 	nodeClicked : function(e) {
 		var nodeName = $(e.currentTarget).attr("id");
@@ -252,10 +251,7 @@ AppView = Backbone.View.extend( {
 		if (type === "emitter") {
 			this.selectedNode = new EmitterView({model:node});
 		}
-		else if (type === "branch") {
-			this.selectedNode = new BranchView({model:node});
-		}
-		else if (type === "root") {
+		else if (type === "branch" || type === "root") {
 			this.selectedNode = new BranchView({model:node});
 		}
 		else {
@@ -269,12 +265,6 @@ AppView = Backbone.View.extend( {
 		this.selectNode(emitter);
 		this.model.addNode(emitter);
 	},
-	newBranch: function(e) {
-		var branch = new BranchModel();
-		branch.set("type","branch");
-		this.selectNode(branch);
-		this.model.addNode(branch);
-	},
 	newRoot: function(e) {
 		var root = new BranchModel();
 		root.set("type","root");
@@ -284,11 +274,11 @@ AppView = Backbone.View.extend( {
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
 		if (this.selectedNode) {
-			this.$(".selected-node").html( this.selectedNode.render().el );
+			this.$("> .selected-node").html( this.selectedNode.render().el );
 		}
 		this.model.getNodes().each( function(node) {
 			var nodeWidget = new NodeWidget({model:node});
-			this.$(".application-nodes").append( nodeWidget.render().el );
+			this.$("> .node-list").append( nodeWidget.render().el );
 		}, this );
 		console.log("rendered AppView");
 	},
