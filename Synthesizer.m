@@ -10,13 +10,13 @@
         connections = [[NSMutableArray alloc] init];
         
         feelers = [[Feelers alloc] init];
-        [feelers setNoteEventDelegate:self];
-        
+       
         midi = _midi;
         [midi setRealtimeDelegate:self];
         
         http = _http;
         [http setMessageDelegate:self];
+        
     }
     
     return self;
@@ -97,6 +97,14 @@
 
 -(void)midiClock
 {
+    dispatch_async(queue, ^{
+        NSArray *events = [feelers pop];
+        [events enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
+        {
+            [self onEventState:obj];
+        }];
+    });
+    
     dispatch_async(queue, ^{
         [feelers advance];
     });
