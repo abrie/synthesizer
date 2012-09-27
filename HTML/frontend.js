@@ -233,7 +233,7 @@ AppView = Backbone.View.extend( {
 	},
 	events: {
 		"click button.root" : "newRoot",
-		"click .node-list > .widget" : "nodeClicked",
+		"click .node-list > .node.widget" : "nodeClicked",
 	},
 	nodeClicked : function(e) {
 		var nodeName = $(e.currentTarget).attr("id");
