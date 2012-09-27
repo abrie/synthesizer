@@ -8,7 +8,6 @@ NodeWidget = Backbone.View.extend({
 	}, 
 	template: _.template( $('#template-widget-node').html() ),
 	initialize: function() {
-		console.log("initialize NodeWidget:",this);
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
@@ -21,7 +20,6 @@ RhythmWidget = Backbone.View.extend( {
 	className: "rhythm widget",
 	template: _.template( $('#template-widget-rhythm').html() ),
 	initialize: function(model, fieldName) {
-		console.log("initialize RhythymWidget. model:",model,"fieldName:",fieldName);
 		this.model = model;
 		this.model.bind("change", this.update, this);
 		this.fieldName = fieldName;
@@ -207,7 +205,6 @@ LFSRWidget = Backbone.View.extend( {
 	className: "widget lfsr",
 	template: _.template( $("#template-widget-lfsr").html() ),
 	initialize: function(model,fieldName) {
-		console.log("initialize LFSRWidget. model:",model,"fieldName:",fieldName);
 		this.model = model;
 		this.fieldName = fieldName;
 		this.field = this.model.parameter(this.fieldName);
@@ -245,7 +242,6 @@ SequentialWidget = Backbone.View.extend( {
 	className: "widget sequential",
 	template: _.template( $("#template-widget-sequential").html() ),
 	initialize: function(model,fieldName) {
-		console.log("initialize SequentialWidget. model:",model,"fieldName:",fieldName);
 		this.model = model;
 		this.fieldName = fieldName;
 		this.field = this.model.parameter(this.fieldName);

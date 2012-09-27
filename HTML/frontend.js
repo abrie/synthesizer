@@ -145,7 +145,6 @@ BranchModel = Backbone.Model.extend( {
 	},
 	add: function(node) {
 		appModel.addNode(node);
-		console.log("branchadd:"+node.get("name"));
 		this.get("pool").push( node.get("name") );
 		return this;
 	},
@@ -184,7 +183,6 @@ BranchView = Backbone.View.extend( {
 		"click button.emitter" : "newEmitter",
 	},
 	newBranch: function(e) {
-		console.log("branchView newBranch");
 		var node = new BranchModel();
 		node.set("type","branch");
 		this.model.add(node);
@@ -272,7 +270,6 @@ AppView = Backbone.View.extend( {
 			var nodeWidget = new NodeWidget({model:node});
 			this.$("> .node-list").append( nodeWidget.render().el );
 		}, this );
-		console.log("rendered AppView");
 	},
 });       
 
