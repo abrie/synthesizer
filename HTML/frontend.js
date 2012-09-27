@@ -235,7 +235,6 @@ AppView = Backbone.View.extend( {
 	},
 	events: {
 		"click button.root" : "newRoot",
-		"click button.emitter" : "newEmitter",
 		"click .node-list > .widget" : "nodeClicked",
 	},
 	nodeClicked : function(e) {
@@ -257,12 +256,6 @@ AppView = Backbone.View.extend( {
 			console.log("unrecognized node type");
 		}
 		this.render();
-	},
-	newEmitter: function(e) {
-		var emitter = new EmitterModel();
-		this.model.get("nodes").add(emitter);
-		this.selectNode(emitter);
-		this.model.addNode(emitter);
 	},
 	newRoot: function(e) {
 		var root = new BranchModel();
