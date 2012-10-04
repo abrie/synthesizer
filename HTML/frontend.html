@@ -27,6 +27,7 @@
 			APPLICATION
 			<button class="root">+root</button>
 		</div>
+		<div class="generators"></div>
 		<div class="node-list widgets"></div>
 		<div class="selected-node"></div>
 	</script>
@@ -131,6 +132,14 @@
 		</div> 
 	</script>
 
+	<script type="text/template" id="template-generator">
+		mag:<%= mag %> tps:<%= tps %> 
+		<button class="increment-pattern">+pattern</button>
+		<button class="decrement-pattern">-pattern</button>
+		<button class="increment-tps">+tps</button>
+		<button class="decrement-tps">-tps</button>
+	</script>
+
 	<script type="text/template" id="template-widget-piano">
 		<ul class="pianokeys"></ul>
 	</script>
@@ -162,6 +171,7 @@
 		<script type="text/javascript" src="utilities.js"></script>
 		<script type="text/javascript" src="websocket.js"></script>
 		<script type="text/javascript" src="widgets.js"></script>
+		<script type="text/javascript" src="patterns.js"></script>
 		<script type="text/javascript" src="frontend.js"></script>
 	</body>
 </html>

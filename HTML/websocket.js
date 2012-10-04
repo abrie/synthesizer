@@ -6,12 +6,13 @@ function uid() {
 	return S4();
 }
 
-function open_interfaceWebSocket( host, message_processor ) {
+function open_interfaceWebSocket( host, message_processor, onOpen ) {
 	ws = new WebSocket( host ) ;
 
 	ws.onopen = function()
 	{
 		$("#connection-status").removeClass("disconnected").addClass("connected").text("");
+		onOpen();
 	};
 
 	ws.onmessage = function (evt) {

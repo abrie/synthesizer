@@ -206,11 +206,70 @@ BranchView = Backbone.View.extend( {
 });
 _.extend(BranchView.prototype, DragDropMixin);
 
+GeneratorModel = Backbone.Model.extend( {
+	defaults: function() {
+		return {
+			mag: 0,
+			tps: 24,
+			}
+		}
+});
+
+GeneratorCollection = Backbone.Collection.extend({model:GeneratorModel});
+
+GeneratorView = Backbone.View.extend( {
+	tagName: "div",
+    className: "generator",
+	template: _.template( $('#template-generator').html() ),
+	initialize: function() {
+		_.bindAll(this, "render");
+		this.model.bind("change", this.changed, this);
+	},
+	events: {
+		"click button.increment-pattern" : "increment_mag",
+		"click button.decrement-pattern" : "decrement_mag",
+		"click button.increment-tps" : "increment_tps",
+		"click button.decrement-tps" : "decrement_tps",
+	},
+	changed: function() {
+		this.render();
+	},
+	increment_mag: function() {
+		var mag = this.model.get("mag");
+		this.model.set("mag", mag+1);
+		this.render();
+	},
+	decrement_mag: function() {
+		var mag = this.model.get("mag");
+		this.model.set("mag", mag-1);
+		this.render();
+	},
+	increment_tps: function() {
+		var tps = this.model.get("tps");
+		this.model.set("tps", tps*2);
+		this.render();
+	},
+	decrement_tps: function() {
+		var tps = this.model.get("tps");
+		this.model.set("tps", tps/2);
+		this.render();
+	},
+	render: function() {
+		this.$el.html( this.template( this.model.toJSON() ) );
+		return this;            
+	}
+});
+
 AppModel = Backbone.Model.extend( {
 	defaults: function() {
 		return {
-			nodes : new NodeCollection()
+			nodes : new NodeCollection(),
+			generators : new GeneratorCollection(), 
 		};
+	},
+	reset: function() {
+		this.get("nodes").reset();
+		return this;
 	},
 	addNode: function(node) {
 		this.get("nodes").add(node);
@@ -218,7 +277,10 @@ AppModel = Backbone.Model.extend( {
 	},
 	getNodes: function() {
 		return this.get("nodes");
-	}
+	},
+	getGenerators: function() {
+		return this.get("generators");
+	},
 });
 
 AppView = Backbone.View.extend( {
@@ -228,12 +290,20 @@ AppView = Backbone.View.extend( {
 		_.bindAll(this, "render");
 		this.model.get("nodes").bind("add", this.render, this);
 		this.model.get("nodes").bind("remove", this.render, this);
+		this.model.get("generators").bind("change", this.generatorChanged, this);
 		this.selectedNode = undefined;
 		this.render();
 	},
 	events: {
 		"click button.root" : "newRoot",
 		"click .node-list > .node.widget" : "nodeClicked",
+	},
+	generatorChanged: function() {
+		appModel.reset();
+		this.model.get("generators").each( function(g) {
+			generate_models( g.get("mag"), [36,40,43,48], [1], g.get("tps") );
+		});
+		this.render();
 	},
 	nodeClicked : function(e) {
 		var nodeName = $(e.currentTarget).attr("id");
@@ -270,11 +340,30 @@ AppView = Backbone.View.extend( {
 			var nodeWidget = new NodeWidget({model:node});
 			this.$("> .node-list").append( nodeWidget.render().el );
 		}, this );
+		this.model.getGenerators().each( function(generator) {
+			var generatorView = new GeneratorView({model:generator});
+			this.$("> .generators").append( generatorView.render().el );
+		}, this );
 	},
 });       
 
 var appModel = new AppModel(); 
+appModel.getGenerators().add( new GeneratorModel() );
 var appView = new AppView( { model: appModel } );
+
+// process generated pattern
+// function generate_tree(mag, notes, channel, ticksPerStep)
+function generate_models(mag,notes,channels,ticksPerStep) {
+	var tree = generate_tree( mag,notes,channels,ticksPerStep); 
+	_.each( tree, function(dict) {
+		if (dict.type === "branch" || dict.type == "root") {
+			appModel.addNode( new BranchModel(dict) );
+		}
+		else if (dict.type === "emitter") {
+			appModel.addNode( new EmitterModel(dict) );
+		}
+	}, this);
+}
 
 function publishAppModel() {
 	var message = { toFeelers: appModel.toJSON() };
@@ -309,5 +398,5 @@ function message_processor(message) {
 	}
 }
 
-open_interfaceWebSocket("ws://yeux.local:12345/service", message_processor );
+open_interfaceWebSocket("ws://yeux.local:12345/service", message_processor, publishAppModel );
 $("#sync").click( publishAppModel );
