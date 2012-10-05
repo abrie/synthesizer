@@ -8,7 +8,6 @@
 		<script type="text/javascript" src="lib/backbone.js"></script>
 		<script type="text/javascript" src="lib/jquery.knob.js"></script>
 		<link rel="stylesheet" href="frontend.css" type="text/css" />
-		<link rel="stylesheet" href="piano.css" type="text/css" />
 
 	<script type="text/template" id="template-branch">
 		<div class="header">
@@ -123,13 +122,21 @@
 			<select class="indexer"></select>
 		</div>
 		<div class="parameters widgets">
-			<div class="rhythm"></div>
-			<div class="note"></div>
-			<div class="channel"></div>
-			<div class="duration"></div>
-			<div class="onVelocity"></div>
-			<div class="offVelocity"></div>
-			<div class="piano"></div>
+			<div class="widget-row">
+				<div class="piano"></div>
+			</div>
+			<div class="widget-row">
+				<div class="rhythm"></div>
+			</div>
+			<div class="widget-row">
+				<div class="widget-group">
+					<div class="note"></div>
+					<div class="channel"></div>
+					<div class="duration"></div>
+					<div class="onVelocity"></div>
+					<div class="offVelocity"></div>
+				</div>
+			</div>
 		</div> 
 	</script>
 

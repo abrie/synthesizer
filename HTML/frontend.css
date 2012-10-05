@@ -125,6 +125,14 @@ div.emitter[on=false] {
 	padding: 1px;
 }
 
+.widget-group {
+	display: table-cell;
+}
+
+.widget-row {
+	display: table-row;
+}
+
 .knobs {
 	display: table-cell;
 	vertical-align: middle;

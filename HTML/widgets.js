@@ -103,7 +103,7 @@ RhythmWidget = Backbone.View.extend( {
 		return this;
 	},
 	render: function() {
-		this.$el.html( this.template() );
+		this.$el.html( this.template( this.model.toJSON() ) );
 		this.stepsInput = this.$("input.steps");
 		this.pulsesInput = this.$("input.pulses");
 		this.ticksPerStepInput = this.$("input.ticksPerStep");

@@ -112,13 +112,13 @@ EmitterView = Backbone.View.extend( {
 		this.indexerSelect.val( this.model.parameter("indexer") );
 		
 		var indexer = this.model.parameter("indexer");
-		this.$(".parameters > .rhythm").replaceWith( this.rhythmWidget.render().el );
-		this.$(".parameters > .note").replaceWith(this.renderView(indexer, "note"));
-		this.$(".parameters > .channel").replaceWith(this.renderView(indexer, "channel"));
-		this.$(".parameters > .duration").replaceWith(this.renderView(indexer, "duration"));
-		this.$(".parameters > .onVelocity").replaceWith(this.renderView(indexer, "onVelocity"));
-		this.$(".parameters > .offVelocity").replaceWith(this.renderView(indexer, "offVelocity"));
-		this.$(".parameters > .piano").replaceWith(this.pianoWidget.render().el);
+		this.$(".rhythm").replaceWith( this.rhythmWidget.render().el );
+		this.$(".note").replaceWith(this.renderView(indexer, "note"));
+		this.$(".channel").replaceWith(this.renderView(indexer, "channel"));
+		this.$(".duration").replaceWith(this.renderView(indexer, "duration"));
+		this.$(".onVelocity").replaceWith(this.renderView(indexer, "onVelocity"));
+		this.$("offVelocity").replaceWith(this.renderView(indexer, "offVelocity"));
+		this.$(".piano").replaceWith(this.pianoWidget.render().el);
 
 		return this;            
 	}
@@ -199,7 +199,9 @@ BranchView = Backbone.View.extend( {
 		this.$("> .parameters > .rhythm").append( this.rhythmWidget.render().el );
 
 		_.each( this.model.get("pool"), function(modelName) {
-			this.$("> .node-list").append( modelName );
+			var nodeModel = appModel.getNodeNamed(modelName);
+			var nodeWidget = new NodeWidget({model:nodeModel});
+			this.$("> .node-list").append( nodeWidget.render().el );
 		}, this);
 		this.delegateEvents(this.events);
 		return this;            
@@ -278,6 +280,11 @@ AppModel = Backbone.Model.extend( {
 	},
 	getNodes: function() {
 		return this.get("nodes");
+	},
+	getNodeNamed: function(name) {
+		console.log(name);
+		var resultArray = this.get("nodes").where( {name:name} );
+		return resultArray[0];
 	},
 	getGenerators: function() {
 		return this.get("generators");
