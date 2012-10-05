@@ -37,14 +37,7 @@ function generate_emitter( pattern, notes, channels, ticksPerStep ) {
 		name: uid(),
 		type: "emitter",
 		parameters: {
-			rhythm: {
-				steps:pattern.steps,
-				pulses:pattern.pulses,
-				ticksPerStep: ticksPerStep,
-				totalTicks: pattern.steps * ticksPerStep,
-				offset:pattern.offset,
-			 	retrigger:false,
-			}, 
+			rhythm: generate_rhythm(pattern, ticksPerStep),
 			indexer: "lfsr",
 			channel : { seed:1, mask:0xC0, pool:channels },
 			note : { seed:1, mask:0xC0, pool:notes },
@@ -53,6 +46,17 @@ function generate_emitter( pattern, notes, channels, ticksPerStep ) {
 			duration :{ seed:1, mask:0xC0, pool:[ticksPerStep]}
 		},
 	};
+}
+
+function generate_rhythm( pattern, ticksPerStep ) {
+	return {
+		steps:pattern.steps,
+		pulses:pattern.pulses,
+		ticksPerStep: ticksPerStep,
+		totalTicks: pattern.steps * ticksPerStep,
+		offset:pattern.offset,
+		retrigger:false,
+	} 
 }
 
 function generate_tree(steps, pulses, offset, notes, channel, ticksPerStep)
