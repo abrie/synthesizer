@@ -214,8 +214,14 @@ GeneratorModel = Backbone.Model.extend( {
 		return {
 			mag: 0,
 			tps: 24,
+			parameters : {
+				note : {pool:[36]}
 			}
 		}
+	},
+	parameter: function(name) {
+		return this.get("parameters")[name];
+	}
 });
 
 GeneratorCollection = Backbone.Collection.extend({model:GeneratorModel});
@@ -226,16 +232,17 @@ GeneratorView = Backbone.View.extend( {
 	template: _.template( $('#template-generator').html() ),
 	initialize: function() {
 		_.bindAll(this, "render");
-		this.model.bind("change", this.changed, this);
+		this.pianoWidget = new PianoWidget({model:this.model});
 	},
 	events: {
 		"click button.increment-pattern" : "increment_mag",
 		"click button.decrement-pattern" : "decrement_mag",
+		"click button.multiply-pattern" : "multiply_mag",
+		"click button.divide-pattern" : "divide_mag",
 		"click button.increment-tps" : "increment_tps",
 		"click button.decrement-tps" : "decrement_tps",
-	},
-	changed: function() {
-		this.render();
+		"click button.multiply-tps" : "multiply_tps",
+		"click button.divide-tps" : "divide_tps",
 	},
 	increment_mag: function() {
 		var mag = this.model.get("mag");
@@ -247,18 +254,39 @@ GeneratorView = Backbone.View.extend( {
 		this.model.set("mag", mag-1);
 		this.render();
 	},
+	multiply_mag: function() {
+		var mag = this.model.get("mag");
+		this.model.set("mag", mag*2);
+		this.render();
+	},
+	divide_mag: function() {
+		var mag = this.model.get("mag");
+		this.model.set("mag", mag/2);
+		this.render();
+	},
 	increment_tps: function() {
+		var tps = this.model.get("tps");
+		this.model.set("tps", tps+1);
+		this.render();
+	},
+	decrement_tps: function() {
+		var tps = this.model.get("tps");
+		this.model.set("tps", tps-1);
+		this.render();
+	},
+	multiply_tps: function() {
 		var tps = this.model.get("tps");
 		this.model.set("tps", tps*2);
 		this.render();
 	},
-	decrement_tps: function() {
+	divide_tps: function() {
 		var tps = this.model.get("tps");
 		this.model.set("tps", tps/2);
 		this.render();
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
+		this.$(".piano").replaceWith(this.pianoWidget.render().el);
 		return this;            
 	}
 });
@@ -272,6 +300,7 @@ AppModel = Backbone.Model.extend( {
 	},
 	reset: function() {
 		this.get("nodes").reset();
+		this.get("nodes").trigger("reset");
 		return this;
 	},
 	addNode: function(node) {
@@ -298,6 +327,7 @@ AppView = Backbone.View.extend( {
 		_.bindAll(this, "render");
 		this.model.get("nodes").bind("add", this.render, this);
 		this.model.get("nodes").bind("remove", this.render, this);
+		this.model.get("nodes").bind("reset", this.reset, this);
 		this.model.get("generators").bind("change", this.generatorChanged, this);
 		this.selectedNode = undefined;
 		this.render();
@@ -307,10 +337,13 @@ AppView = Backbone.View.extend( {
 		"click button.root" : "newRoot",
 		"click .node-list > .node.widget" : "nodeClicked",
 	},
+	reset: function() {
+		this.selectedNode = undefined;
+	},
 	generatorChanged: function() {
 		appModel.reset();
 		this.model.get("generators").each( function(g) {
-			generate_models( g.get("mag"), [36,40,43,48], [1], g.get("tps") );
+			generate_models( g.get("mag"), g.parameter("note").pool, [1], g.get("tps") );
 		});
 		this.render();
 	},
