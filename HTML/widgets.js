@@ -101,7 +101,6 @@ PianoWidget = Backbone.View.extend( {
 		this.hoverKey = undefined;
 	},
 	events: {
-        "mousedown li.pianokey" : "pianoKeyPress",
 		"mouseup canvas.pianoCanvas" : "pianoKeyRelease",
 		"mouseleave canvas.pianoCanvas" : "canvasMouseStoppedHovering",
 		"mousemove canvas.pianoCanvas" : "canvasMouseHovering",

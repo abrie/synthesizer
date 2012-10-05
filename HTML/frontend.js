@@ -214,13 +214,17 @@ GeneratorModel = Backbone.Model.extend( {
 		return {
 			mag: 0,
 			tps: 24,
-			parameters : {
-				note : {pool:[36]}
-			}
+			emitter: undefined,
 		}
 	},
+	initialize: function() {
+		var emitter = new EmitterModel();
+		emitter.bind("change", function() { this.trigger("change"); }, this);
+		this.set("emitter", emitter);
+
+	},
 	parameter: function(name) {
-		return this.get("parameters")[name];
+		return this.get("emitter").parameter(name);
 	}
 });
 
@@ -232,7 +236,7 @@ GeneratorView = Backbone.View.extend( {
 	template: _.template( $('#template-generator').html() ),
 	initialize: function() {
 		_.bindAll(this, "render");
-		this.pianoWidget = new PianoWidget({model:this.model});
+		this.emitterView = new EmitterView({model:this.model.get("emitter")});
 	},
 	events: {
 		"click button.increment-pattern" : "increment_mag",
@@ -286,7 +290,7 @@ GeneratorView = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
-		this.$(".piano").replaceWith(this.pianoWidget.render().el);
+		this.$(".emitter").html( this.emitterView.render().el);
 		return this;            
 	}
 });
@@ -325,9 +329,9 @@ AppView = Backbone.View.extend( {
 	template: _.template( $("#template-application").html() ),
 	initialize: function() {
 		_.bindAll(this, "render");
-		this.model.get("nodes").bind("add", this.render, this);
-		this.model.get("nodes").bind("remove", this.render, this);
-		this.model.get("nodes").bind("reset", this.reset, this);
+		this.model.get("nodes").bind("add", this.renderNodes, this);
+		this.model.get("nodes").bind("remove", this.renderNodes, this);
+		this.model.get("nodes").bind("reset", this.resetNodes, this);
 		this.model.get("generators").bind("change", this.generatorChanged, this);
 		this.selectedNode = undefined;
 		this.render();
@@ -342,8 +346,9 @@ AppView = Backbone.View.extend( {
 	},
 	generatorChanged: function() {
 		appModel.reset();
+		console.log("generator changed");
 		this.model.get("generators").each( function(g) {
-			generate_models( g.get("mag"), g.parameter("note").pool, [1], g.get("tps") );
+			generate_models( g.get("mag"), g.get("emitter").parameter("note").pool, [1], g.get("tps") );
 		});
 		this.render();
 	},
@@ -377,8 +382,7 @@ AppView = Backbone.View.extend( {
 		this.selectNode(root);
 		this.model.addNode(root);
 	},
-	render: function() {
-		this.$el.html( this.template( this.model.toJSON() ) );
+	renderNodes: function() {
 		if (this.selectedNode) {
 			this.$("> .selected-node").html( this.selectedNode.render().el );
 		}
@@ -386,6 +390,10 @@ AppView = Backbone.View.extend( {
 			var nodeWidget = new NodeWidget({model:node});
 			this.$("> .node-list").append( nodeWidget.render().el );
 		}, this );
+	},
+	render: function() {
+		this.$el.html( this.template( this.model.toJSON() ) );
+		this.renderNodes();
 		this.model.getGenerators().each( function(generator) {
 			var generatorView = new GeneratorView({model:generator});
 			this.$("> .generators").append( generatorView.render().el );
