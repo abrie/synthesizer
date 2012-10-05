@@ -133,15 +133,6 @@ div.emitter[on=false] {
 	display: table-row;
 }
 
-.knobs {
-	display: table-cell;
-	vertical-align: middle;
-}
-
-.knob {
-	display: inline-block;
-}
-
 .label {
 	display: block;
 	text-align: center;

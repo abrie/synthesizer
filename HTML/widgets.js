@@ -24,10 +24,6 @@ RhythmWidget = Backbone.View.extend( {
 		this.model.bind("change", this.update, this);
 		this.fieldName = fieldName;
 		this.field = this.model.parameter(this.fieldName);
-		this.patternKnobValue = 0;
-		this.patternKnobPrevious = 0;
-		this.offsetKnobValue = 0;
-		this.offsetKnobPrevious = 0;
 	},
 	events: {
 		"change input.steps" : "rhythmChanged",
@@ -68,37 +64,12 @@ RhythmWidget = Backbone.View.extend( {
 		this.field.retrigger = this.retriggerInput.is(":checked");
 		this.model.trigger("change");
 	},
-	patternKnobChange: function(v) {
-		var delta = v - this.patternKnobPrevious;
-		this.patternKnobPrevious = v;
-	    if (delta > 0) {
-			this.patternKnobValue+=1;
-			this.rhythmUp();
-		}
-		else if (delta < 0) {
-			this.patternKnobValue-=1;
-			this.rhythmDown();
-		}
-	},
-	offsetKnobChange: function(v) {
-		var delta = v - this.offsetKnobPrevious;
-		this.offsetKnobPrevious = v;
-	    if (delta > 0) {
-			this.offsetKnobValue+=1;
-			this.rhythmOffsetUp();
-		}
-		else if (delta < 0) {
-			this.offsetKnobValue-=1;
-			this.rhythmOffsetDown();
-		}
-	},
 	update: function() {
 		this.stepsInput.val( this.field.steps );
 		this.pulsesInput.val( this.field.pulses );
 		this.ticksPerStepInput.val( this.field.ticksPerStep );
 		this.totalTicksInput.val( this.field.totalTicks );
 		this.offsetInput.val( this.field.offset );
-		this.patternKnob.val(this.patternKnobValue);
 		this.retriggerInput.attr("checked",this.field.retrigger);
 		return this;
 	},
@@ -110,20 +81,6 @@ RhythmWidget = Backbone.View.extend( {
 		this.totalTicksInput = this.$("input.totalTicks");
 		this.offsetInput = this.$("input.offset");
 		this.retriggerInput = this.$("input.retrigger");
-
-		this.patternKnob = this.$("input.knob-pattern").knob( {
-			min : 0,
-			max : 100,
-			stopper : true,
-			change : _.bind(this.patternKnobChange,this),
-		});
-
-		this.offsetKnob = this.$("input.knob-offset").knob( {
-			min : 0,
-			max : 14,
-			stopper : true,
-			change : _.bind(this.offsetKnobChange,this),
-		});
 
         this.delegateEvents(this.events);
 		return this.update();
