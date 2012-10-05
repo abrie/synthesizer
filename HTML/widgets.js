@@ -137,10 +137,16 @@ PianoWidget = Backbone.View.extend( {
 	pianokey_template: _.template( $("#pianokey-template").html() ),
 	initialize: function( ) {
 		this.field = this.model.parameter("note");
+		this.canvas = undefined;
+		this.ctx = undefined;
+		this.numberOfOctaves = 4;
+		this.numberOfKeys = 12*this.numberOfOctaves;
+		this.hoverKey = undefined;
 	},
 	events: {
         "mousedown li.pianokey" : "pianoKeyPress",
-		"mouseup li.pianokey" : "pianoKeyRelease"
+		"mouseup canvas.pianoCanvas" : "pianoKeyRelease",
+		"mousemove canvas.pianoCanvas" : "canvasMouseMove",
 	},
 	noteNumberOfPianokey : function(pianoKey) {
 		return parseInt( $(pianoKey).attr("note_number") );
@@ -166,20 +172,18 @@ PianoWidget = Backbone.View.extend( {
 		this.model.trigger("change");
 	},
 	pianoKeyPress: function(e) {
-		var noteNumber = this.noteNumberOfPianokey( e.currentTarget );
+		var noteNumber = this.getNoteNumberForCoordinate(e.offsetX,e.offsetY);
 		// no action on press... (TODO:send a midi note-on message)
 		return false;
 	},
 	pianoKeyRelease: function(e) {
-		var noteNumber = this.noteNumberOfPianokey( e.currentTarget );
+		var noteNumber = this.getNoteNumberForCoordinate(e.offsetX,e.offsetY);
 		var isProgrammed = this.isPianokeyProgrammed( noteNumber );
 		if (isProgrammed) {
 			this.removePianokey(noteNumber);
-			$(e.currentTarget).attr("state","off");
 		}
 		else {
 			this.addPianokey(noteNumber);
-			$(e.currentTarget).attr("state","on");
 		}
 		return false;
 	},
@@ -190,11 +194,80 @@ PianoWidget = Backbone.View.extend( {
 			state: this.isPianokeyProgrammed(noteNumber) ? "on" : "off" 
 		});
 	},
+	isHoverKey : function(number) {
+		return number === this.hoverKey;
+	},
+	drawCanvas : function() {
+		var width = this.canvas.width;
+		var keyWidth = this.canvas.width / (this.numberOfOctaves*7);
+		var keyHeight = this.canvas.height;
+		this.ctx.strokeStyle = "#000000";
+		this.ctx.lineWidth = 1;
+		var x = 0;
+		for( var i = 0; i < this.numberOfKeys; i++ ) {
+			if (this.whiteOrBlackPianokey(i) === "white") {
+				if (this.isHoverKey(i)) {
+					this.ctx.fillStyle = "#FF9090";
+				}
+				else {
+					this.ctx.fillStyle = this.isPianokeyProgrammed(i) ? "#FF9000" : "#FFFFFF";
+				}
+				this.ctx.fillRect(x,0,keyWidth,keyHeight); 
+				this.ctx.strokeRect(x,0,keyWidth,keyHeight);
+				x+=keyWidth;
+			}
+		}
+		var x = keyWidth/2;
+		this.ctx.strokeStyle = "#FFFFFF";
+		this.ctx.lineWidth = 1;
+		for( var i = 0; i < this.numberOfKeys; i++ ) {
+			if (this.whiteOrBlackPianokey(i) === "black") {
+				if (this.isHoverKey(i)) {
+					this.ctx.fillStyle = "#FF9090";
+				}
+				else {
+					this.ctx.fillStyle = this.isPianokeyProgrammed(i) ? "#FF9000" : "#000000";
+				}
+				this.ctx.fillRect(x+1,0,keyWidth-1,keyHeight/2); 
+				this.ctx.strokeRect(x+1,0,keyWidth-1,keyHeight/2);
+				x+=keyWidth;
+			}
+			if (i%12 === 5 || i%12 === 11) {
+				x+=keyWidth;
+			}
+		}
+	},
+	getNoteNumberForCoordinate : function(x,y) {
+		var keyWidth = this.canvas.width / (this.numberOfOctaves*7);
+		var midKey = Math.floor( keyWidth / 2 );
+		var keyHeight = this.canvas.height;
+		var octave = Math.floor( x / (7*keyWidth) );
+		var div = Math.floor( x / keyWidth ) - octave*7;
+		var mod = Math.floor( x % keyWidth );
+		var val = [0,2,4,5,7,9,11][div];
+		if (y < keyHeight/2) {
+			switch(val) {
+				case 0: if (mod>midKey) { val++; }; break;
+				case 2: if (mod>midKey) { val++; } else { val--; }; break;
+				case 4: if (mod<midKey) { val--; }; break;
+				case 5: if (mod>midKey) { val++; }; break;
+				case 7: if (mod>midKey) { val++; } else { val--; }; break;
+				case 9: if (mod>midKey) { val++; } else { val--; }; break;
+				case 11: if (mod<midKey) { val--; } break;
+			}
+		}
+
+		return val+octave*12;
+	},
+	canvasMouseMove : function(e) {
+		this.hoverKey = this.getNoteNumberForCoordinate(e.offsetX,e.offsetY);
+		this.drawCanvas();
+	},
 	render: function() {
 		this.$el.html( this.pianoWidget_template() );
-		for( var i = 1*12; i < 7*12; i++ ) {
-			this.$("ul.pianokeys").append(this.makePianokey(i));
-		}
+		this.canvas = this.$("canvas.pianoCanvas")[0];
+		this.ctx = this.canvas.getContext("2d");
+		this.drawCanvas();
         this.delegateEvents(this.events);
 		return this;
 	}     

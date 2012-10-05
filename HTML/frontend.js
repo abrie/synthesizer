@@ -80,6 +80,7 @@ EmitterView = Backbone.View.extend( {
 		this.pianoWidget = new PianoWidget({model:this.model});
 		this.rhythmWidget = new RhythmWidget( this.model, "rhythm" );
 		this.cachedViews = {};
+		this.cachedPiano = undefined;
 		this.initializeDragDrop();
 	},
 	events: {
@@ -295,6 +296,7 @@ AppView = Backbone.View.extend( {
 		this.render();
 	},
 	events: {
+		"click button.hide" : "hideNode",
 		"click button.root" : "newRoot",
 		"click .node-list > .node.widget" : "nodeClicked",
 	},
@@ -311,6 +313,10 @@ AppView = Backbone.View.extend( {
 			return m.get("name") === nodeName; 
 		}); 
 		this.selectNode(node);
+	},
+	hideNode: function() {
+		this.selectedNode = undefined;
+		this.render();
 	},
 	selectNode: function(node) {
 		var type = node.get("type");
