@@ -11,6 +11,10 @@ ul {
 	width: 100%;
 }
 
+canvas.pianoCanvas {
+	cursor: pointer;
+}
+
 #menu {
 	position: fixed;
 	top: 0px;

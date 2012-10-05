@@ -146,7 +146,8 @@ PianoWidget = Backbone.View.extend( {
 	events: {
         "mousedown li.pianokey" : "pianoKeyPress",
 		"mouseup canvas.pianoCanvas" : "pianoKeyRelease",
-		"mousemove canvas.pianoCanvas" : "canvasMouseMove",
+		"mouseleave canvas.pianoCanvas" : "canvasMouseStoppedHovering",
+		"mousemove canvas.pianoCanvas" : "canvasMouseHovering",
 	},
 	noteNumberOfPianokey : function(pianoKey) {
 		return parseInt( $(pianoKey).attr("note_number") );
@@ -214,26 +215,18 @@ PianoWidget = Backbone.View.extend( {
 				}
 				this.ctx.fillRect(x,0,keyWidth,keyHeight); 
 				this.ctx.strokeRect(x,0,keyWidth,keyHeight);
-				x+=keyWidth;
+				x+=keyWidth;  
 			}
-		}
-		var x = keyWidth/2;
-		this.ctx.strokeStyle = "#FFFFFF";
-		this.ctx.lineWidth = 1;
-		for( var i = 0; i < this.numberOfKeys; i++ ) {
-			if (this.whiteOrBlackPianokey(i) === "black") {
-				if (this.isHoverKey(i)) {
+
+			if (this.whiteOrBlackPianokey(i-1) === "black") {
+				if (this.isHoverKey(i-1)) {
 					this.ctx.fillStyle = "#FF9090";
 				}
 				else {
-					this.ctx.fillStyle = this.isPianokeyProgrammed(i) ? "#FF9000" : "#000000";
+					this.ctx.fillStyle = this.isPianokeyProgrammed(i-1) ? "#FF9000" : "#AAAAAA";
 				}
-				this.ctx.fillRect(x+1,0,keyWidth-1,keyHeight/2); 
-				this.ctx.strokeRect(x+1,0,keyWidth-1,keyHeight/2);
-				x+=keyWidth;
-			}
-			if (i%12 === 5 || i%12 === 11) {
-				x+=keyWidth;
+				this.ctx.fillRect(x-keyWidth-keyWidth/2,0,keyWidth,keyHeight/2); 
+				this.ctx.strokeRect(x-keyWidth-keyWidth/2,0,keyWidth,keyHeight/2);
 			}
 		}
 	},
@@ -259,7 +252,11 @@ PianoWidget = Backbone.View.extend( {
 
 		return val+octave*12;
 	},
-	canvasMouseMove : function(e) {
+	canvasMouseStoppedHovering : function(e) {
+		this.hoverKey = undefined;
+		this.drawCanvas();
+	},
+	canvasMouseHovering : function(e) {
 		this.hoverKey = this.getNoteNumberForCoordinate(e.offsetX,e.offsetY);
 		this.drawCanvas();
 	},
