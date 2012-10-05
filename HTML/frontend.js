@@ -341,7 +341,7 @@ AppView = Backbone.View.extend( {
 		"click button.root" : "newRoot",
 		"click .node-list > .node.widget" : "nodeClicked",
 	},
-	reset: function() {
+	resetNodes: function() {
 		this.selectedNode = undefined;
 	},
 	generatorChanged: function() {
