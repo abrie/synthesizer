@@ -225,6 +225,15 @@ GeneratorModel = Backbone.Model.extend( {
 	},
 	parameter: function(name) {
 		return this.get("emitter").parameter(name);
+	},
+	generate: function() {
+		return generate_tree( 
+		this.parameter("rhythm").steps,
+		this.parameter("rhythm").pulses,
+		this.parameter("rhythm").offset,
+		this.parameter("note").pool,
+		this.parameter("channel").pool, 
+		this.parameter("rhythm").ticksPerStep);
 	}
 });
 
@@ -348,7 +357,7 @@ AppView = Backbone.View.extend( {
 		appModel.reset();
 		console.log("generator changed");
 		this.model.get("generators").each( function(g) {
-			generate_models( g.get("mag"), g.get("emitter").parameter("note").pool, [1], g.get("tps") );
+			generate_models( g.generate() );
 		});
 		this.render();
 	},
@@ -407,8 +416,7 @@ var appView = new AppView( { model: appModel } );
 
 // process generated pattern
 // function generate_tree(mag, notes, channel, ticksPerStep)
-function generate_models(mag,notes,channels,ticksPerStep) {
-	var tree = generate_tree( mag,notes,channels,ticksPerStep); 
+function generate_models(tree) {
 	_.each( tree, function(dict) {
 		if (dict.type === "branch" || dict.type == "root") {
 			appModel.addNode( new BranchModel(dict) );

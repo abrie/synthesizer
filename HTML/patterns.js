@@ -55,11 +55,11 @@ function generate_emitter( pattern, notes, channels, ticksPerStep ) {
 	};
 }
 
-function generate_tree(mag, notes, channel, ticksPerStep)
+function generate_tree(steps, pulses, offset, notes, channel, ticksPerStep)
 {
-	var k_pattern = incrementPattern( {steps:1,pulses:1,offset:0}, mag );
+	var k_pattern = {steps:steps,pulses:pulses,offset:offset};
 	var emitter_a = generate_emitter( k_pattern, notes, channel, ticksPerStep );
-	var i_pattern = {steps:1,pulses:1,offset:0};
+	var i_pattern = {steps:1,pulses:1,offset:k_pattern.offset};
 
 	var root_a = {
 		name: uid(),
@@ -71,7 +71,7 @@ function generate_tree(mag, notes, channel, ticksPerStep)
 				pulses:i_pattern.pulses,
 				ticksPerStep:k_pattern.steps * ticksPerStep,
 				totalTicks:999999,
-				offset:0,
+				offset:k_pattern.offset,
 				retrigger:false,
 			}
 		}
