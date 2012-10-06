@@ -26,38 +26,22 @@ RhythmWidget = Backbone.View.extend( {
 		this.field = this.model.parameter(this.fieldName);
 	},
 	events: {
-		"change input.steps" : "rhythmChanged",
-		"change input.pulses" : "rhythmChanged",
+		"change input.steps" : "rhythmStepsChanged",
+		"change input.pulses" : "rhythmPulsesChanged",
 		"change input.ticksPerStep" : "rhythmChanged",
 		"change input.totalTicks" : "rhythmChanged",
 		"change input.offset" : "rhythmChanged",
 		"change input.retrigger" : "rhythmChanged",
 	},
-	rhythmUp: function() {
-		var modified = modifyRhythm( this.field.steps, this.field.pulses, 1 );
-		this.field.steps = modified.steps;
-		this.field.pulses = modified.pulses;
+	rhythmStepsChanged: function(e) {
+		this.field.steps = parseInt( $(e.target).val() );
 		this.model.trigger("change");
 	},
-	rhythmDown: function() {
-		var modified = modifyRhythm( this.field.steps, this.field.pulses, -1 );
-		this.field.steps = modified.steps;
-		this.field.pulses = modified.pulses;
-		this.model.trigger("change");
-	},
-	rhythmOffsetUp: function() {
-		var modified = this.field.offset+1;
-		this.field.offset = modified > this.field.steps ? this.field.steps : modified;
-		this.model.trigger("change");
-	},
-	rhythmOffsetDown: function() {
-		var modified = this.field.offset-1;
-		this.field.offset = modified < 0 ? 0 : modified;
+	rhythmPulsesChanged: function(e) {
+		this.field.pulses = parseInt( $(e.target).val() );
 		this.model.trigger("change");
 	},
 	rhythmChanged: function() {
-		this.field.steps = parseInt( this.stepsInput.val() );
-		this.field.pulses = parseInt( this.pulsesInput.val() );
 		this.field.ticksPerStep = parseInt( this.ticksPerStepInput.val() );
 		this.field.totalTicks = parseInt( this.totalTicksInput.val() );
 		this.field.offset = parseInt( this.offsetInput.val() );
@@ -65,8 +49,8 @@ RhythmWidget = Backbone.View.extend( {
 		this.model.trigger("change");
 	},
 	update: function() {
-		this.stepsInput.val( this.field.steps );
-		this.pulsesInput.val( this.field.pulses );
+		this.$("input.steps").val( this.field.steps ); 
+		this.$("input.pulses").val( this.field.pulses );
 		this.ticksPerStepInput.val( this.field.ticksPerStep );
 		this.totalTicksInput.val( this.field.totalTicks );
 		this.offsetInput.val( this.field.offset );
@@ -75,8 +59,6 @@ RhythmWidget = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
-		this.stepsInput = this.$("input.steps");
-		this.pulsesInput = this.$("input.pulses");
 		this.ticksPerStepInput = this.$("input.ticksPerStep");
 		this.totalTicksInput = this.$("input.totalTicks");
 		this.offsetInput = this.$("input.offset");

@@ -214,26 +214,37 @@ GeneratorModel = Backbone.Model.extend( {
 		return {
 			name: uid(),
 			type: "generator",
+			rSteps: 1,
+			rPulses: 1,
 			emitter: undefined,
 		}
 	},
 	initialize: function() {
 		var emitter = new EmitterModel();
-		emitter.bind("change", function() { this.trigger("change"); }, this);
+		emitter.bind("change", this.emitterChanged, this);
 		this.set("emitter", emitter);
 
 	},
 	parameter: function(name) {
 		return this.get("emitter").parameter(name);
 	},
+	emitterChanged: function() {
+		this.trigger("change");
+	},
+	treeParameters: function() {
+		return {
+			rSteps: this.get("rSteps"),
+			rPulses: this.get("rPulses"),
+			steps: this.parameter("rhythm").steps,
+			pulses: this.parameter("rhythm").pulses,
+			offset: this.parameter("rhythm").offset,
+			notes: this.parameter("note").pool,
+			channels: this.parameter("channel").pool, 
+			ticksPerStep: this.parameter("rhythm").ticksPerStep,
+		};
+	},
 	generate: function() {
-		return generate_tree( 
-		this.parameter("rhythm").steps,
-		this.parameter("rhythm").pulses,
-		this.parameter("rhythm").offset,
-		this.parameter("note").pool,
-		this.parameter("channel").pool, 
-		this.parameter("rhythm").ticksPerStep);
+		return generate_tree( this.treeParameters() );
 	}
 });
 
@@ -248,10 +259,22 @@ GeneratorView = Backbone.View.extend( {
 		this.emitterView = new EmitterView({model:this.model.get("emitter")});
 	},
 	events: {
+		"change input.r-pulses": "rPulsesEdited",
+		"change input.r-steps": "rStepsEdited",
+	},
+	rStepsEdited: function(e) {
+		this.model.set("rSteps", parseInt( $(e.target).val() ) );
+	},
+	rPulsesEdited: function(e) {
+		this.model.set("rPulses", parseInt( $(e.target).val() ) );
 	},
 	render: function() {
+		console.log(this);
 		this.$el.html( this.template( this.model.toJSON() ) );
+		this.$("input.r-steps").val( this.model.get("rSteps") );
+		this.$("input.r-pulses").val( this.model.get("rPulses") );
 		this.$(".emitter").html( this.emitterView.render().el);
+        this.delegateEvents(this.events);
 		return this;            
 	}
 });
@@ -280,7 +303,6 @@ AppModel = Backbone.Model.extend( {
 		return this.get("nodes");
 	},
 	getNodeNamed: function(name) {
-		console.log(name);
 		var resultArray = this.get("nodes").where( {name:name} );
 		return resultArray[0];
 	},
@@ -321,26 +343,26 @@ AppView = Backbone.View.extend( {
 		publishAppModel();
 		this.render();
 	},
-	generatorClicked : function(e) {
-		var nodeName = $(e.currentTarget).attr("id");
-		var node = this.model.get("generators").find( function(m) { 
-			return m.get("name") === nodeName; 
+	generatorTabClicked : function(e) {
+		var name = $(e.currentTarget).attr("id");
+		var tab = this.model.get("generators").find( function(m) { 
+			return m.get("name") === name; 
 		}); 
-		this.selectGenerator(node);
+		this.selectGenerator(tab);
 	},
-	nodeClicked : function(e) {
-		var nodeName = $(e.currentTarget).attr("id");
-		var node = this.model.get("nodes").find( function(m) { 
-			return m.get("name") === nodeName; 
+	nodeTabClicked : function(e) {
+		var name = $(e.currentTarget).attr("id");
+		var tab = this.model.get("nodes").find( function(m) { 
+			return m.get("name") === name; 
 		}); 
-		this.selectNode(node);
+		this.selectNode(tab);
 	},
 	hideNode: function() {
 		this.selectedNode = undefined;
 		this.render();
 	},
-	selectGenerator: function(node) {
-		this.selectedGenerator = new GeneratorView({model:node});
+	selectGenerator: function(tab) {
+		this.selectedGenerator = new GeneratorView({model:tab});
 		this.render();
 	},
 	selectNode: function(node) {
@@ -382,7 +404,6 @@ AppView = Backbone.View.extend( {
 		}
 		
 		this.model.getGenerators().each( function(generator) {
-			console.log(generator);
 			var nodeWidget = new TabWidget({model:generator});
 			this.$("> .generator-list").append( nodeWidget.render().el );
 		}, this );
