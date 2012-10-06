@@ -161,7 +161,7 @@ div.emitter[on=false] {
 }
 
 .field > input[type="range"] {
-	width: 9em;
+	width: 18em;
 }
 
 .piano.widget {
