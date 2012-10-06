@@ -37,23 +37,23 @@ function generate_emitter( pattern, emitter ) {
 		name: uid(),
 		type: "emitter",
 		parameters: {
-			rhythm: generate_rhythm(pattern, emitter.parameter("rhythm").ticksPerStep),
+			rhythm: generate_rhythmParameters(pattern),
 			indexer: "lfsr",
 			channel : emitter.parameter("channel"),
 			note : emitter.parameter("note"),
 			onVelocity : emitter.parameter("onVelocity"),
 			offVelocity : emitter.parameter("offVelocity"),
-			duration :{ seed:1, mask:0xC0, pool:[emitter.parameter("rhythm").ticksPerStep]}
+			duration :{ seed:1, mask:0xC0, pool:[pattern.ticksPerStep]}
 		},
 	};
 }
 
-function generate_rhythm( pattern, ticksPerStep ) {
+function generate_rhythmParameters( pattern ) {
 	return {
 		steps:pattern.steps,
 		pulses:pattern.pulses,
-		ticksPerStep: ticksPerStep,
-		totalTicks: pattern.steps * ticksPerStep,
+		ticksPerStep: pattern.ticksPerStep,
+		totalTicks: pattern.steps * pattern.ticksPerStep,
 		offset:pattern.offset,
 		retrigger:false,
 	} 
@@ -64,8 +64,10 @@ function generate_tree( parameters )
 	var k_pattern = {
 		steps:parameters.emitter.parameter("rhythm").steps,
 		pulses:parameters.emitter.parameter("rhythm").pulses,
-		offset:parameters.emitter.parameter("rhythm").offset
+		offset:parameters.emitter.parameter("rhythm").offset,
+		ticksPerStep:parameters.emitter.parameter("rhythm").ticksPerStep
 	};
+
 	var emitter_a = generate_emitter( k_pattern, parameters.emitter  );
 	var i_pattern = {steps:parameters.rSteps,pulses:parameters.rPulses,offset:k_pattern.offset};
 
@@ -77,7 +79,7 @@ function generate_tree( parameters )
 			rhythm: {
 				steps:i_pattern.steps,
 				pulses:i_pattern.pulses,
-				ticksPerStep:k_pattern.steps * parameters.emitter.parameter("rhythm").ticksPerStep,
+				ticksPerStep:k_pattern.steps * k_pattern.ticksPerStep,
 				totalTicks:999999,
 				offset:k_pattern.offset,
 				retrigger:false,
