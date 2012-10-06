@@ -55,6 +55,7 @@ EmitterModel = Backbone.Model.extend( {
 	},
 	initialize: function() {
 		this.containedBy = null;
+		console.log("emitterModel intialized");
 	},
 	parameters: function() {
 		return this.get("parameters");
@@ -228,18 +229,15 @@ GeneratorModel = Backbone.Model.extend( {
 		return this.get("emitter").parameter(name);
 	},
 	emitterChanged: function() {
+		console.log("emitterChanged");
+		console.log(this.get("emitter"));
 		this.trigger("change",this);
 	},
 	treeParameters: function() {
 		return {
 			rSteps: this.get("rSteps"),
 			rPulses: this.get("rPulses"),
-			steps: this.parameter("rhythm").steps,
-			pulses: this.parameter("rhythm").pulses,
-			offset: this.parameter("rhythm").offset,
-			notes: this.parameter("note").pool,
-			channels: this.parameter("channel").pool, 
-			ticksPerStep: this.parameter("rhythm").ticksPerStep,
+			emitter: this.get("emitter"),
 		};
 	},
 	generate: function() {
@@ -339,6 +337,7 @@ AppView = Backbone.View.extend( {
 	},
 	resetNodes: function() {
 		this.selectedNode = undefined;
+		this.render();
 	},
 	generatorAdded: function() {
 		appModel.reset();
