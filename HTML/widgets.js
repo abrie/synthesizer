@@ -141,30 +141,33 @@ PianoWidget = Backbone.View.extend( {
 		var keyWidth = this.canvas.width / (this.numberOfOctaves*7);
 		var keyHeight = this.canvas.height;
 		this.ctx.strokeStyle = "#000000";
-		this.ctx.lineWidth = 1;
 		var x = 0;
 		for( var i = 0; i < this.numberOfKeys; i++ ) {
 			if (this.whiteOrBlackPianokey(i) === "white") {
-				if (this.isHoverKey(i)) {
-					this.ctx.fillStyle = "#FF9090";
-				}
-				else {
-					this.ctx.fillStyle = this.isPianokeyProgrammed(i) ? "#FF9000" : "#FFFFFF";
-				}
+				this.ctx.strokeStyle = "#000000";
+				this.ctx.lineWidth = 1;
+				this.ctx.fillStyle = this.isPianokeyProgrammed(i) ? "#FF9000" : "#FFFFFF";
 				this.ctx.fillRect(x,0,keyWidth,keyHeight); 
 				this.ctx.strokeRect(x,0,keyWidth,keyHeight);
+				if (this.isHoverKey(i)) {
+					this.ctx.lineWidth = 2;
+					this.ctx.strokeStyle = "#0";
+					this.ctx.strokeRect(x,0,keyWidth,keyHeight);
+				}
 				x+=keyWidth;  
 			}
 
 			if (this.whiteOrBlackPianokey(i-1) === "black") {
-				if (this.isHoverKey(i-1)) {
-					this.ctx.fillStyle = "#FF9090";
-				}
-				else {
-					this.ctx.fillStyle = this.isPianokeyProgrammed(i-1) ? "#FF9000" : "#AAAAAA";
-				}
+				this.ctx.strokeStyle = "#000000";
+				this.ctx.lineWidth = 1;
+				this.ctx.fillStyle = this.isPianokeyProgrammed(i-1) ? "#FF9000" : "#AAAAAA";
 				this.ctx.fillRect(x-keyWidth-keyWidth/2,0,keyWidth,keyHeight/2); 
 				this.ctx.strokeRect(x-keyWidth-keyWidth/2,0,keyWidth,keyHeight/2);
+				if (this.isHoverKey(i-1)) {
+					this.ctx.lineWidth = 2;
+					this.ctx.strokeStyle = "#0";
+					this.ctx.strokeRect(x-keyWidth-keyWidth/2,0,keyWidth,keyHeight/2);
+				}
 			}
 		}
 	},
