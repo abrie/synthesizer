@@ -27,12 +27,13 @@
 			<button class="root">+root</button>
 			<button class="generator">+generator</button>
 		</div>
-		<div class="generators"></div>
+		<div class="generator-list widgets"></div>
+		<div class="selected-generator"></div>
 		<div class="node-list widgets"></div>
 		<div class="selected-node"></div>
 	</script>
 
-	<script type="text/template" id="template-widget-node">
+	<script type="text/template" id="template-widget-tab">
 		<div class="header">
 			<%=type%>:<%=name%>
 		</div>
@@ -121,7 +122,7 @@
 	</script>
 
 	<script type="text/template" id="template-generator">
-		mag:<%= mag %> tps:<%= tps %> 
+		generator:<%= name %> 
 		<div class="widgets">
 			<div class="emitter"></div>
 		</div>

@@ -200,8 +200,8 @@ BranchView = Backbone.View.extend( {
 
 		_.each( this.model.get("pool"), function(modelName) {
 			var nodeModel = appModel.getNodeNamed(modelName);
-			var nodeWidget = new NodeWidget({model:nodeModel});
-			this.$("> .node-list").append( nodeWidget.render().el );
+			var tabWidget = new TabWidget({model:nodeModel});
+			this.$("> .node-list").append( tabWidget.render().el );
 		}, this);
 		this.delegateEvents(this.events);
 		return this;            
@@ -212,8 +212,8 @@ _.extend(BranchView.prototype, DragDropMixin);
 GeneratorModel = Backbone.Model.extend( {
 	defaults: function() {
 		return {
-			mag: 0,
-			tps: 24,
+			name: uid(),
+			type: "generator",
 			emitter: undefined,
 		}
 	},
@@ -268,6 +268,10 @@ AppModel = Backbone.Model.extend( {
 		this.get("nodes").trigger("reset");
 		return this;
 	},
+	addGenerator: function(node) {
+		this.get("generators").add(node);
+		return this;
+	},
 	addNode: function(node) {
 		this.get("nodes").add(node);
 		return this;
@@ -296,13 +300,15 @@ AppView = Backbone.View.extend( {
 		this.model.get("generators").bind("add", this.generatorChanged, this);
 		this.model.get("generators").bind("change", this.generatorChanged, this);
 		this.selectedNode = undefined;
+		this.selectedGenerator = undefined;
 		this.render();
 	},
 	events: {
 		"click button.hide" : "hideNode",
 		"click button.root" : "newRoot",
 		"click button.generator" : "newGenerator",
-		"click .node-list > .node.widget" : "nodeClicked",
+		"click .generator-list > .tab.widget" : "generatorTabClicked",
+		"click .node-list > .tab.widget" : "nodeTabClicked",
 	},
 	resetNodes: function() {
 		this.selectedNode = undefined;
@@ -315,6 +321,13 @@ AppView = Backbone.View.extend( {
 		publishAppModel();
 		this.render();
 	},
+	generatorClicked : function(e) {
+		var nodeName = $(e.currentTarget).attr("id");
+		var node = this.model.get("generators").find( function(m) { 
+			return m.get("name") === nodeName; 
+		}); 
+		this.selectGenerator(node);
+	},
 	nodeClicked : function(e) {
 		var nodeName = $(e.currentTarget).attr("id");
 		var node = this.model.get("nodes").find( function(m) { 
@@ -324,6 +337,10 @@ AppView = Backbone.View.extend( {
 	},
 	hideNode: function() {
 		this.selectedNode = undefined;
+		this.render();
+	},
+	selectGenerator: function(node) {
+		this.selectedGenerator = new GeneratorView({model:node});
 		this.render();
 	},
 	selectNode: function(node) {
@@ -340,7 +357,9 @@ AppView = Backbone.View.extend( {
 		this.render();
 	},
 	newGenerator: function(e) {
-		this.model.getGenerators().add( new GeneratorModel() );
+		var generator = new GeneratorModel();
+		this.selectGenerator(generator);
+		this.model.addGenerator(generator);
 	},
 	newRoot: function(e) {
 		var root = new BranchModel();
@@ -353,17 +372,25 @@ AppView = Backbone.View.extend( {
 			this.$("> .selected-node").html( this.selectedNode.render().el );
 		}
 		this.model.getNodes().each( function(node) {
-			var nodeWidget = new NodeWidget({model:node});
+			var nodeWidget = new TabWidget({model:node});
 			this.$("> .node-list").append( nodeWidget.render().el );
+		}, this );
+	},
+	renderGenerators: function() {
+		if (this.selectedGenerator) {
+			this.$("> .selected-generator").html( this.selectedGenerator.render().el );
+		}
+		
+		this.model.getGenerators().each( function(generator) {
+			console.log(generator);
+			var nodeWidget = new TabWidget({model:generator});
+			this.$("> .generator-list").append( nodeWidget.render().el );
 		}, this );
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
 		this.renderNodes();
-		this.model.getGenerators().each( function(generator) {
-			var generatorView = new GeneratorView({model:generator});
-			this.$("> .generators").append( generatorView.render().el );
-		}, this );
+		this.renderGenerators();
 	},
 });       
 

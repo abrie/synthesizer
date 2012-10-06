@@ -1,12 +1,12 @@
-NodeWidget = Backbone.View.extend({
+TabWidget = Backbone.View.extend({
 	tagname: "div",
-	className: "node widget",
+	className: "tab widget",
 	attributes: function() {
 		return {
 			id:this.model.get("name"),
 		}
 	}, 
-	template: _.template( $('#template-widget-node').html() ),
+	template: _.template( $('#template-widget-tab').html() ),
 	initialize: function() {
 	},
 	render: function() {

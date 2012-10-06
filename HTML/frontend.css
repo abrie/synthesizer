@@ -164,12 +164,12 @@ div.emitter[on=false] {
 	width: 740px;
 }
 
-.node.widget {
+.tab.widget {
 	border: 1px solid rgb(200,200,200);
 	cursor: pointer;
 }
 
-.node.widget:hover {
+.tab.widget:hover {
 	border: 1px solid rgb(100,100,100);
 	background: black;
 	color: white;
