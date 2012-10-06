@@ -341,6 +341,7 @@ AppView = Backbone.View.extend( {
 		this.model.get("nodes").bind("add", this.renderNodes, this);
 		this.model.get("nodes").bind("remove", this.renderNodes, this);
 		this.model.get("nodes").bind("reset", this.resetNodes, this);
+		this.model.get("generators").bind("add", this.generatorChanged, this);
 		this.model.get("generators").bind("change", this.generatorChanged, this);
 		this.selectedNode = undefined;
 		this.render();
@@ -348,6 +349,7 @@ AppView = Backbone.View.extend( {
 	events: {
 		"click button.hide" : "hideNode",
 		"click button.root" : "newRoot",
+		"click button.generator" : "newGenerator",
 		"click .node-list > .node.widget" : "nodeClicked",
 	},
 	resetNodes: function() {
@@ -355,10 +357,10 @@ AppView = Backbone.View.extend( {
 	},
 	generatorChanged: function() {
 		appModel.reset();
-		console.log("generator changed");
 		this.model.get("generators").each( function(g) {
 			generate_models( g.generate() );
 		});
+		publishAppModel();
 		this.render();
 	},
 	nodeClicked : function(e) {
@@ -384,6 +386,9 @@ AppView = Backbone.View.extend( {
 			console.log("unrecognized node type");
 		}
 		this.render();
+	},
+	newGenerator: function(e) {
+		this.model.getGenerators().add( new GeneratorModel() );
 	},
 	newRoot: function(e) {
 		var root = new BranchModel();
@@ -411,7 +416,6 @@ AppView = Backbone.View.extend( {
 });       
 
 var appModel = new AppModel(); 
-appModel.getGenerators().add( new GeneratorModel() );
 var appView = new AppView( { model: appModel } );
 
 // process generated pattern
