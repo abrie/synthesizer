@@ -248,54 +248,6 @@ GeneratorView = Backbone.View.extend( {
 		this.emitterView = new EmitterView({model:this.model.get("emitter")});
 	},
 	events: {
-		"click button.increment-pattern" : "increment_mag",
-		"click button.decrement-pattern" : "decrement_mag",
-		"click button.multiply-pattern" : "multiply_mag",
-		"click button.divide-pattern" : "divide_mag",
-		"click button.increment-tps" : "increment_tps",
-		"click button.decrement-tps" : "decrement_tps",
-		"click button.multiply-tps" : "multiply_tps",
-		"click button.divide-tps" : "divide_tps",
-	},
-	increment_mag: function() {
-		var mag = this.model.get("mag");
-		this.model.set("mag", mag+1);
-		this.render();
-	},
-	decrement_mag: function() {
-		var mag = this.model.get("mag");
-		this.model.set("mag", mag-1);
-		this.render();
-	},
-	multiply_mag: function() {
-		var mag = this.model.get("mag");
-		this.model.set("mag", mag*2);
-		this.render();
-	},
-	divide_mag: function() {
-		var mag = this.model.get("mag");
-		this.model.set("mag", mag/2);
-		this.render();
-	},
-	increment_tps: function() {
-		var tps = this.model.get("tps");
-		this.model.set("tps", tps+1);
-		this.render();
-	},
-	decrement_tps: function() {
-		var tps = this.model.get("tps");
-		this.model.set("tps", tps-1);
-		this.render();
-	},
-	multiply_tps: function() {
-		var tps = this.model.get("tps");
-		this.model.set("tps", tps*2);
-		this.render();
-	},
-	divide_tps: function() {
-		var tps = this.model.get("tps");
-		this.model.set("tps", tps/2);
-		this.render();
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
