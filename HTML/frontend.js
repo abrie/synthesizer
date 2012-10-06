@@ -76,7 +76,6 @@ EmitterView = Backbone.View.extend( {
 	template: _.template( $("#template-emitter").html() ),
 	initialize: function() {
 		this.bind("all", this.render, this);
-		this.model.bind("change", this.render, this);
 		this.pianoWidget = new PianoWidget({model:this.model});
 		this.rhythmWidget = new RhythmWidget( this.model, "rhythm" );
 		this.cachedViews = {};
@@ -229,7 +228,7 @@ GeneratorModel = Backbone.Model.extend( {
 		return this.get("emitter").parameter(name);
 	},
 	emitterChanged: function() {
-		this.trigger("change");
+		this.trigger("change",this);
 	},
 	treeParameters: function() {
 		return {
@@ -257,6 +256,8 @@ GeneratorView = Backbone.View.extend( {
 	initialize: function() {
 		_.bindAll(this, "render");
 		this.emitterView = new EmitterView({model:this.model.get("emitter")});
+		this.rStepsInputs = undefined;
+		this.rPulsesInputs = undefined;
 	},
 	events: {
 		"change input.r-pulses": "rPulsesEdited",
@@ -268,12 +269,16 @@ GeneratorView = Backbone.View.extend( {
 	rPulsesEdited: function(e) {
 		this.model.set("rPulses", parseInt( $(e.target).val() ) );
 	},
+	update : function() {
+		this.rStepsInputs.val( this.model.get("rSteps") );
+		this.rPulsesInputs.val( this.model.get("rPulses") );
+	},
 	render: function() {
-		console.log(this);
 		this.$el.html( this.template( this.model.toJSON() ) );
-		this.$("input.r-steps").val( this.model.get("rSteps") );
-		this.$("input.r-pulses").val( this.model.get("rPulses") );
+		this.rStepsInputs = this.$("input.r-steps");
+		this.rPulsesInputs = this.$("input.r-pulses");
 		this.$(".emitter").html( this.emitterView.render().el);
+		this.update();
         this.delegateEvents(this.events);
 		return this;            
 	}
@@ -319,7 +324,7 @@ AppView = Backbone.View.extend( {
 		this.model.get("nodes").bind("add", this.renderNodes, this);
 		this.model.get("nodes").bind("remove", this.renderNodes, this);
 		this.model.get("nodes").bind("reset", this.resetNodes, this);
-		this.model.get("generators").bind("add", this.generatorChanged, this);
+		this.model.get("generators").bind("add", this.generatorAdded, this);
 		this.model.get("generators").bind("change", this.generatorChanged, this);
 		this.selectedNode = undefined;
 		this.selectedGenerator = undefined;
@@ -335,13 +340,23 @@ AppView = Backbone.View.extend( {
 	resetNodes: function() {
 		this.selectedNode = undefined;
 	},
-	generatorChanged: function() {
+	generatorAdded: function() {
 		appModel.reset();
 		this.model.get("generators").each( function(g) {
 			generate_models( g.generate() );
 		});
 		publishAppModel();
 		this.render();
+	},
+	generatorChanged: function(generator) {
+		appModel.reset();
+		this.model.get("generators").each( function(g) {
+			generate_models( g.generate() );
+		});
+		publishAppModel();
+		if(this.selectedGenerator.model.get("name") === generator.get("name")) {
+			this.selectedGenerator.update();
+		}
 	},
 	generatorTabClicked : function(e) {
 		var name = $(e.currentTarget).attr("id");
@@ -393,9 +408,10 @@ AppView = Backbone.View.extend( {
 		if (this.selectedNode) {
 			this.$("> .selected-node").html( this.selectedNode.render().el );
 		}
+		this.nodeTabs.empty();
 		this.model.getNodes().each( function(node) {
-			var nodeWidget = new TabWidget({model:node});
-			this.$("> .node-list").append( nodeWidget.render().el );
+			var nodeTab = new TabWidget({model:node});
+			this.nodeTabs.append( nodeTab.render().el );
 		}, this );
 	},
 	renderGenerators: function() {
@@ -403,15 +419,19 @@ AppView = Backbone.View.extend( {
 			this.$("> .selected-generator").html( this.selectedGenerator.render().el );
 		}
 		
+		this.generatorTabs.empty();
 		this.model.getGenerators().each( function(generator) {
-			var nodeWidget = new TabWidget({model:generator});
-			this.$("> .generator-list").append( nodeWidget.render().el );
+			var generatorTab = new TabWidget({model:generator});
+			this.generatorTabs.append( generatorTab.render().el );
 		}, this );
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
+		this.nodeTabs = this.$("> .node-list");
+		this.generatorTabs = this.$("> .generator-list");
 		this.renderNodes();
 		this.renderGenerators();
+		return this;
 	},
 });       
 
