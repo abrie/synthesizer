@@ -38,12 +38,12 @@ function generate_emitter( pattern, emitter ) {
 		type: "emitter",
 		parameters: {
 			rhythm: generate_rhythmParameters(pattern),
-			indexer: "lfsr",
-			channel : emitter.parameter("channel"),
-			note : emitter.parameter("note"),
-			onVelocity : emitter.parameter("onVelocity"),
-			offVelocity : emitter.parameter("offVelocity"),
-			duration :{ seed:1, mask:0xC0, pool:[pattern.ticksPerStep]}
+			indexer: emitter.parameter("indexer"),
+			channel : $.extend({},emitter.parameter("channel")),
+			note : $.extend({},emitter.parameter("note")),
+			onVelocity : $.extend({},emitter.parameter("onVelocity")),
+			offVelocity : $.extend({},emitter.parameter("offVelocity")),
+			duration :{ seed:1, mask:0xC0, pool:[pattern.ticksPerPulse]}
 		},
 	};
 }
@@ -53,9 +53,10 @@ function generate_rhythmParameters( pattern ) {
 		steps:pattern.steps,
 		pulses:pattern.pulses,
 		ticksPerStep: pattern.ticksPerStep,
-		totalTicks: pattern.steps * pattern.ticksPerStep,
+		ticksPerPulse: pattern.ticksPerPulse,
+		totalTicks: pattern.pulses * pattern.ticksPerPulse + (pattern.steps-pattern.pulses) * pattern.ticksPerStep,
 		offset:pattern.offset,
-		retrigger:false,
+		retrigger:pattern.retrigger,
 	} 
 }
 
@@ -65,7 +66,9 @@ function generate_tree( parameters )
 		steps:parameters.emitter.parameter("rhythm").steps,
 		pulses:parameters.emitter.parameter("rhythm").pulses,
 		offset:parameters.emitter.parameter("rhythm").offset,
-		ticksPerStep:parameters.emitter.parameter("rhythm").ticksPerStep
+		ticksPerStep:parameters.emitter.parameter("rhythm").ticksPerStep,
+		ticksPerPulse:parameters.emitter.parameter("rhythm").ticksPerPulse,
+		retrigger:parameters.emitter.parameter("rhythm").retrigger
 	};
 
 	var emitter_a = generate_emitter( k_pattern, parameters.emitter  );
@@ -77,12 +80,13 @@ function generate_tree( parameters )
 		pool : [emitter_a.name],
 		parameters : {
 			rhythm: {
-				steps:i_pattern.steps,
-				pulses:i_pattern.pulses,
-				ticksPerStep:k_pattern.steps * k_pattern.ticksPerStep,
+				steps:parameters.rSteps,
+				pulses:parameters.rPulses,
+				ticksPerStep:emitter_a.parameters.rhythm.totalTicks,
+				ticksPerPulse:emitter_a.parameters.rhythm.totalTicks,
 				totalTicks:999999,
-				offset:k_pattern.offset,
-				retrigger:false,
+				offset:parameters.rOffset,
+				retrigger:parameters.rRetrigger,
 			}
 		}
 	};

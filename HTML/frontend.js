@@ -40,6 +40,7 @@ EmitterModel = Backbone.Model.extend( {
 					steps:1,
 					pulses:1,
 					ticksPerStep:24,
+					ticksPerPulse:24,
 					totalTicks:24,
 					offset:0,
 					retrigger:false,
@@ -137,6 +138,7 @@ BranchModel = Backbone.Model.extend( {
 					steps:1,
 					pulses:1,
 					ticksPerStep:24,
+					ticksPerPulse:24,
 					totalTicks:24000,
 					offset:0,
 					retrigger:false,
@@ -216,6 +218,8 @@ GeneratorModel = Backbone.Model.extend( {
 			type: "generator",
 			rSteps: 1,
 			rPulses: 1,
+			rTicksPerStep: 1,
+			rTicksPerPulse: 1,
 			emitter: undefined,
 		}
 	},
@@ -237,6 +241,8 @@ GeneratorModel = Backbone.Model.extend( {
 		return {
 			rSteps: this.get("rSteps"),
 			rPulses: this.get("rPulses"),
+			rTicksPerStep: this.get("rTicksPerStep"),
+			rTicksPerPulse: this.get("rTicksPerPulse"),
 			emitter: this.get("emitter"),
 		};
 	},
@@ -256,10 +262,14 @@ GeneratorView = Backbone.View.extend( {
 		this.emitterView = new EmitterView({model:this.model.get("emitter")});
 		this.rStepsInputs = undefined;
 		this.rPulsesInputs = undefined;
+		this.rTicksPerStepInput = undefined;
+		this.rTicksPerPulse = undefined;
 	},
 	events: {
 		"change input.r-pulses": "rPulsesEdited",
 		"change input.r-steps": "rStepsEdited",
+		"change input.r-ticksPerPulse": "rTicksPerPulseEdited",
+		"change input.r-ticksPerStep": "rTicksPerStepEdited",
 	},
 	rStepsEdited: function(e) {
 		this.model.set("rSteps", parseInt( $(e.target).val() ) );
@@ -267,14 +277,24 @@ GeneratorView = Backbone.View.extend( {
 	rPulsesEdited: function(e) {
 		this.model.set("rPulses", parseInt( $(e.target).val() ) );
 	},
+	rTicksPerPulseEdited: function(e) {
+		this.model.set("rTicksPerPulse", parseInt( $(e.target).val() ) );
+	},
+	rTicksPerStepEdited: function(e) {
+		this.model.set("rticksPerStep", parseInt( $(e.target).val() ) );
+	},
 	update : function() {
 		this.rStepsInputs.val( this.model.get("rSteps") );
 		this.rPulsesInputs.val( this.model.get("rPulses") );
+		this.rTicksPerStepInput.val( this.model.get("rTicksPerStep") );
+		this.rTicksPerPulseInput.val( this.model.get("rTicksPerPulse") );
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
 		this.rStepsInputs = this.$("input.r-steps");
 		this.rPulsesInputs = this.$("input.r-pulses");
+		this.rTicksPerStepInput = this.$("input.r-ticksPerStep");
+		this.rTicksPerPulseInput = this.$("input.r-ticksPerPulse");
 		this.$(".emitter").html( this.emitterView.render().el);
 		this.update();
         this.delegateEvents(this.events);
@@ -438,7 +458,6 @@ var appModel = new AppModel();
 var appView = new AppView( { model: appModel } );
 
 // process generated pattern
-// function generate_tree(mag, notes, channel, ticksPerStep)
 function generate_models(tree) {
 	_.each( tree, function(dict) {
 		if (dict.type === "branch" || dict.type == "root") {
