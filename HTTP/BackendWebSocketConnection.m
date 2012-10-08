@@ -34,7 +34,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN | HTTP_LOG_FLAG_TRACE;
     NSData *data = [msg dataUsingEncoding:NSUTF8StringEncoding];
     __autoreleasing NSError *error;
     
-    NSDictionary *message = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    NSMutableDictionary *message = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     [[backendHTTPServer messageDelegate] messageFromClient:message];
 }
 

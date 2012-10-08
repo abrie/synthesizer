@@ -8,7 +8,7 @@
 
 @protocol HTTPProtocol <NSObject>
 
-- (void)messageFromClient:(NSDictionary *)message;
+- (void)messageFromClient:(NSMutableDictionary *)message;
 - (void)clientConnected:(BackendWebSocketConnection *)connection;
 - (void)clientDisconnected:(BackendWebSocketConnection *)connection;
 
