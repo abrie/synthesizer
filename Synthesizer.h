@@ -5,7 +5,8 @@
 
 @interface Synthesizer : NSObject <RealtimeProtocol, EventDelegate, HTTPProtocol> {
 @private
-    NSMutableDictionary *lastGeneratorSync;
+    NSMutableArray *lastGeneratorSync;
+    NSMutableArray *lastNodeSync;
     Feelers *feelers;
     MIDI *midi;
     BackendHTTPServer *http;

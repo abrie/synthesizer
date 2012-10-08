@@ -22,7 +22,7 @@
     return self;
 }
 
-- (void)messageFromClient:(NSDictionary *)message
+- (void)messageFromClient:(NSMutableDictionary *)message
 {
     dispatch_async(queue, ^{
         [self processMessage:message];
@@ -41,15 +41,21 @@
     [connections removeObject:connection];
 }
 
-- (void)processMessage:(NSDictionary *)message
+- (void)processMessage:(NSMutableDictionary *)message
 {
     if( message[@"toFeelers"][@"generators"] )
     {
-        lastGeneratorSync = message[@"toFeelers"][@"generators"];
+        NSMutableArray *list = message[@"toFeelers"][@"generators"];
+        if([list count] > 0) {
+            lastGeneratorSync = message[@"toFeelers"][@"generators"];
+        }
     }
     
-    NSArray *states = message[@"toFeelers"][@"nodes"];
+    NSMutableArray *states = message[@"toFeelers"][@"nodes"];
     if (states) {
+        if([states count] > 0) {
+            lastNodeSync = states;
+        }
         [feelers updateNodesWithStates:states];
     }
     
@@ -65,7 +71,7 @@
     if (sync)
     {
         NSMutableDictionary *message = [self buildMessage:@"sync"];
-        message[@"nodes"] = [feelers getNodeStates];
+        message[@"nodes"] = lastNodeSync;
         message[@"generators"] = lastGeneratorSync;
         [self sendMessage:message];
     }
