@@ -364,7 +364,7 @@ AppView = Backbone.View.extend( {
 	generatorAdded: function() {
 		appModel.reset();
 		this.model.get("generators").each( function(g) {
-			generate_models( g.generate() );
+			generate_models( g.generate(), {silent:false} );
 		});
 		publishAppModel();
 		this.render();
@@ -372,7 +372,7 @@ AppView = Backbone.View.extend( {
 	generatorChanged: function(generator) {
 		appModel.reset();
 		this.model.get("generators").each( function(g) {
-			generate_models( g.generate() );
+			generate_models( g.generate(), {silent:false} );
 		});
 		publishAppModel();
 		if(this.selectedGenerator.model.get("name") === generator.get("name")) {
@@ -467,13 +467,13 @@ var appModel = new AppModel();
 var appView = new AppView( { model: appModel } );
 
 // process generated pattern
-function generate_models(tree) {
+function generate_models(tree,options) {
 	_.each( tree, function(dict) {
 		if (dict.type === "branch" || dict.type == "root") {
-			appModel.addNode( new BranchModel(dict) );
+			appModel.addNode( new BranchModel(dict), options );
 		}
 		else if (dict.type === "emitter") {
-			appModel.addNode( new EmitterModel(dict) );
+			appModel.addNode( new EmitterModel(dict), options );
 		}
 	}, this);
 }
@@ -486,6 +486,8 @@ function publishAppModel() {
 function popSnapshot() {
 	var snapshot = snapshotStack.pop();
 	if (snapshot) {
+		appModel.reset();
+		generate_models(snapshot, {silent:true});
 		publishSnapshot(snapshot);
 	}
 	else {
@@ -516,6 +518,7 @@ function message_processor(message) {
 	switch(json.type) {
 		case "snapshot": 
 			console.log("snapshot recieved");
+			console.log(json.nodes);
 			snapshotStack.push(json.nodes);
 			break;
 	}
