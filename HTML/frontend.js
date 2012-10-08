@@ -224,7 +224,7 @@ GeneratorModel = Backbone.Model.extend( {
 		}
 	},
 	initialize: function() {
-		var emitter = new EmitterModel();
+		var emitter = new EmitterModel(this.get("emitter"));
 		emitter.bind("change", this.emitterChanged, this);
 		this.set("emitter", emitter);
 
@@ -478,9 +478,27 @@ function generate_models(tree,options) {
 	}, this);
 }
 
+function generate_generator_models(list,options) {
+	_.each( list, function(dict) {
+		appModel.addGenerator( new GeneratorModel(dict), options );
+	}, this);
+}
+
 function publishAppModel() {
 	var message = { toFeelers: appModel.toJSON() };
 	send_data(message);
+}
+
+function requestLastSync() {
+	var message = { toFeelers: {sync:"get"} };
+	send_data(message);
+}
+
+function restoreFromSync(sync) {
+    appModel.get("generators").reset();
+	generate_generator_models(sync.generators, {silent:true});
+	appModel.get("nodes").reset();
+    generate_models( sync.nodes, {silent:true} );
 }
 
 function popSnapshot() {
@@ -517,12 +535,16 @@ function message_processor(message) {
 	var json = JSON.parse(message);
 	switch(json.type) {
 		case "snapshot": 
-			console.log("snapshot recieved");
-			console.log(json.nodes);
+			console.log("snapshot received");
 			snapshotStack.push(json.nodes);
+			break;
+		case "sync": 
+			console.log("sync received");
+			restoreFromSync(json);
 			break;
 	}
 }
 
 open_interfaceWebSocket("ws://yeux.local:12345/service", message_processor, publishAppModel );
 $("#sync").click( publishAppModel );
+$("#get-last-sync").click( requestLastSync );

@@ -43,6 +43,11 @@
 
 - (void)processMessage:(NSDictionary *)message
 {
+    if( message[@"toFeelers"][@"generators"] )
+    {
+        lastGeneratorSync = message[@"toFeelers"][@"generators"];
+    }
+    
     NSArray *states = message[@"toFeelers"][@"nodes"];
     if (states) {
         [feelers updateNodesWithStates:states];
@@ -53,6 +58,15 @@
     {
         NSMutableDictionary *message = [self buildMessage:@"snapshot"];
         message[@"nodes"] = [feelers getNodeStates];
+        [self sendMessage:message];
+    }
+    
+    NSArray *sync = message[@"toFeelers"][@"sync"];
+    if (sync)
+    {
+        NSMutableDictionary *message = [self buildMessage:@"sync"];
+        message[@"nodes"] = [feelers getNodeStates];
+        message[@"generators"] = lastGeneratorSync;
         [self sendMessage:message];
     }
 }
