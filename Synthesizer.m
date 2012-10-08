@@ -44,7 +44,17 @@
 - (void)processMessage:(NSDictionary *)message
 {
     NSArray *states = message[@"toFeelers"][@"nodes"];
-    [feelers updateNodesWithStates:states];
+    if (states) {
+        [feelers updateNodesWithStates:states];
+    }
+    
+    NSArray *snapshot = message[@"toFeelers"][@"snapshot"];
+    if (snapshot)
+    {
+        NSMutableDictionary *message = [self buildMessage:@"snapshot"];
+        message[@"nodes"] = [feelers getNodeStates];
+        [self sendMessage:message];
+    }
 }
 
 - (NSMutableDictionary *)buildMessage:(NSString *)type

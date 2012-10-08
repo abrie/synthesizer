@@ -352,6 +352,8 @@ AppView = Backbone.View.extend( {
 		"click button.hide" : "hideNode",
 		"click button.root" : "newRoot",
 		"click button.generator" : "newGenerator",
+		"click button.snapshot" : "requestSnapshot",
+		"click button.pop" : "popSnapshot",
 		"click .generator-list > .tab.widget" : "generatorTabClicked",
 		"click .node-list > .tab.widget" : "nodeTabClicked",
 	},
@@ -390,6 +392,13 @@ AppView = Backbone.View.extend( {
 			return m.get("name") === name; 
 		}); 
 		this.selectNode(tab);
+	},
+	popSnapshot : function() {
+		popSnapshot();
+	},
+	requestSnapshot : function() {
+		var message = { toFeelers: {snapshot:[]} };
+		send_data(message);
 	},
 	hideNode: function() {
 		this.selectedNode = undefined;
@@ -474,6 +483,21 @@ function publishAppModel() {
 	send_data(message);
 }
 
+function popSnapshot() {
+	var snapshot = snapshotStack.pop();
+	if (snapshot) {
+		publishSnapshot(snapshot);
+	}
+	else {
+		console.log("snapshot stack empty.");
+	}
+}
+
+function publishSnapshot(snapshot) {
+	var message =  { toFeelers: {nodes:snapshot} };
+	send_data(message);
+}
+
 $("input[name='sync_mode']").change ( function() {
 	var mode = $("input[name='sync_mode']:checked").val();
 	transmit_sequencer_sync( mode );
@@ -485,19 +509,14 @@ $("#render").click( function() {
 
 var tickIndicator = $("#tick-indicator");
 var tickState = false;
+var snapshotStack = [];
 var swapTickState = function() { tickState = !tickState; return tickState; };
 function message_processor(message) {
 	var json = JSON.parse(message);
 	switch(json.type) {
-		case "midi": switch(json.event) {
-			case "t24":
-				tickIndicator.attr("on",swapTickState());
-				break;
-			};
-			break;
-		case "emitter":
-			var eEl =$("#"+json.name );
-			eEl.attr("on", !(eEl.attr("on") == "true"));
+		case "snapshot": 
+			console.log("snapshot recieved");
+			snapshotStack.push(json.nodes);
 			break;
 	}
 }
