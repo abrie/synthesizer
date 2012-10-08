@@ -82,7 +82,7 @@ PianoWidget = Backbone.View.extend( {
 		this.field = this.model.parameter("note");
 		this.canvas = undefined;
 		this.ctx = undefined;
-		this.numberOfOctaves = 8;
+		this.numberOfOctaves = 10;
 		this.numberOfKeys = 12*this.numberOfOctaves;
 		this.hoverKey = undefined;
 	},
