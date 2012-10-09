@@ -453,7 +453,7 @@ AppView = Backbone.View.extend( {
 	},
 	renderGenerators: function() {
 		if (this.selectedGenerator) {
-			this.$("> .selected-generator").html( this.selectedGenerator.render().el );
+			this.$(".selected-generator").html( this.selectedGenerator.render().el );
 		}
 		
 		this.generatorTabs.empty();
@@ -464,9 +464,9 @@ AppView = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
-		this.generatorTabs = this.$("> .generator-list");
+		this.generatorTabs = this.$(".generator-list");
 		this.renderGenerators();
-		this.nodeTabs = this.$("> .node-list");
+		this.nodeTabs = this.$(".node-list");
 		this.renderNodes();
 		return this;
 	},
@@ -516,7 +516,8 @@ function popSnapshot() {
 	var snapshot = snapshotStack.pop();
 	if (snapshot) {
 		appModel.resetNodes();
-		generate_models(snapshot, {silent:true});
+		generate_models(snapshot);
+		appView.render();
 		publishSnapshot(snapshot);
 	}
 	else {
