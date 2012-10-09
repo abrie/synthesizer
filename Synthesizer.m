@@ -75,6 +75,14 @@
         message[@"generators"] = lastGeneratorSync;
         [self sendMessage:message];
     }
+    
+    NSArray *midiMessage = message[@"toFeelers"][@"midi"];
+    if (midiMessage)
+    {
+        [midi sendCCToChannel:1
+                       number:0x4E
+                        value:5];
+    }
 }
 
 - (NSMutableDictionary *)buildMessage:(NSString *)type
@@ -95,22 +103,30 @@
     }];
 }
 
-- (void)onEventState:(NoteEvent *)event
+- (void)onEventState:(Event *)event
 {
-    if (event.state == OPEN) {
-        [midi sendOnToChannel:[event channel]
-                       number:[event noteNumber]
-                     velocity:[event onVelocity]];
+    if ([event isKindOfClass:[NoteEvent class]]) {
+        NoteEvent *noteEvent = (NoteEvent *)event;
+        if (event.state == OPEN) {
+            [midi sendOnToChannel:[noteEvent channel]
+                           number:[noteEvent noteNumber]
+                         velocity:[noteEvent onVelocity]];
+        }
+        else if (event.state == CLOSED) {
+            [midi sendOffToChannel:[noteEvent channel]
+                           number:[noteEvent noteNumber]
+                         velocity:[noteEvent offVelocity]];
+        }
     }
-    else if (event.state == CLOSED) {
-        [midi sendOffToChannel:[event channel]
-                       number:[event noteNumber]
-                     velocity:[event offVelocity]];
+    else if ([event isKindOfClass:[ControllerEvent class]]) {
+        ControllerEvent *ccEvent = (ControllerEvent *)event;
+        if (event.state == OPEN) {
+            [midi sendCCToChannel:[ccEvent channel]
+                           number:[ccEvent ccNumber]
+                            value:[ccEvent ccValue]];
+        }
     }
     
-    NSMutableDictionary *message = [self buildMessage:@"emitter"];
-    message[@"name"] = [event tag];
-    [self sendMessage:message];
 }
 
 -(void)midiStart
