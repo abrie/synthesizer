@@ -62,6 +62,13 @@ EmitterModel = Backbone.Model.extend( {
 	},
 	parameter: function(name) {
 		return this.parameters()[name];
+	},
+	replicate: function() {
+		var replicant = this.clone();
+		replicant.set("name",uid());
+		replicant.set("parameters", $.extend(true,{},this.get("parameters")));
+		replicant.unbind();
+		return replicant;
 	}
 });
 
@@ -243,6 +250,14 @@ GeneratorModel = Backbone.Model.extend( {
 			emitter: this.get("emitter"),
 		};
 	},
+	replicate: function() {
+		var replicant = this.clone();
+		replicant.set("name",uid());
+		replicant.unbind();
+		replicant.set("emitter", this.get("emitter").replicate());
+		replicant.get("emitter").bind("change", replicant.emitterChanged, replicant);
+		return replicant;
+	},
 	generate: function() {
 		return generate_tree( this.treeParameters() );
 	}
@@ -354,6 +369,7 @@ AppView = Backbone.View.extend( {
 		this.render();
 	},
 	events: {
+		"click button.clone": "cloneClicked",
 		"click button.hide" : "hideNode",
 		"click button.root" : "newRoot",
 		"click button.generator" : "newGenerator",
@@ -361,6 +377,14 @@ AppView = Backbone.View.extend( {
 		"click button.pop" : "popSnapshot",
 		"click .generator-list > .tab.widget" : "generatorTabClicked",
 		"click .node-list > .tab.widget" : "nodeTabClicked",
+	},
+	cloneClicked: function(e) {
+		console.log("clone generator.");
+		var clone = this.selectedGenerator.replicate();
+		console.log("clone:");
+		console.log(this.selectedGenerator);
+		console.log(clone);
+		appModel.addGenerator(clone);
 	},
 	resetNodes: function() {
 		this.selectedNode = undefined;
@@ -370,13 +394,17 @@ AppView = Backbone.View.extend( {
 		this.selectedGenerator = undefined;
 		this.renderGenerators();
 	},
-	generatorAdded: function() {
+	generatorAdded: function(generator) {
 		appModel.resetNodes();
 		this.model.get("generators").each( function(g) {
 			generate_models( g.generate(), {silent:false} );
 		});
 		publishAppModel();
-		this.render();
+		this.renderNodes();
+		this.renderGenerators();
+		this.selectedGenerator = generator;
+		this.renderSelectedGenerator();
+		
 	},
 	generatorChanged: function(generator) {
 		appModel.resetNodes();
@@ -384,8 +412,8 @@ AppView = Backbone.View.extend( {
 			generate_models( g.generate(), {silent:false} );
 		});
 		publishAppModel();
-		if(this.selectedGenerator.model.get("name") === generator.get("name")) {
-			this.selectedGenerator.update();
+		if(this.selectedGenerator == generator) {
+			this.renderSelectedGenerator();
 		}
 	},
 	generatorTabClicked : function(e) {
@@ -413,9 +441,9 @@ AppView = Backbone.View.extend( {
 		this.selectedNode = undefined;
 		this.render();
 	},
-	selectGenerator: function(tab) {
-		this.selectedGenerator = new GeneratorView({model:tab});
-		this.render();
+	selectGenerator: function(generator) {
+		this.selectedGenerator = generator;
+		this.renderSelectedGenerator();
 	},
 	selectNode: function(node) {
 		var type = node.get("type");
@@ -451,11 +479,14 @@ AppView = Backbone.View.extend( {
 			this.nodeTabs.append( nodeTab.render().el );
 		}, this );
 	},
-	renderGenerators: function() {
+	renderSelectedGenerator: function() {
 		if (this.selectedGenerator) {
-			this.$(".selected-generator").html( this.selectedGenerator.render().el );
+			this.selectedGeneratorView = new GeneratorView({model:this.selectedGenerator});
+			this.$(".selected-generator").html( this.selectedGeneratorView.render().el );
 		}
-		
+	},
+	renderGenerators: function() {
+		this.renderSelectedGenerator();
 		this.generatorTabs.empty();
 		this.model.getGenerators().each( function(generator) {
 			var generatorTab = new TabWidget({model:generator});
