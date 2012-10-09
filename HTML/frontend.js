@@ -56,7 +56,6 @@ EmitterModel = Backbone.Model.extend( {
 	},
 	initialize: function() {
 		this.containedBy = null;
-		console.log("emitterModel intialized");
 	},
 	parameters: function() {
 		return this.get("parameters");
@@ -233,8 +232,6 @@ GeneratorModel = Backbone.Model.extend( {
 		return this.get("emitter").parameter(name);
 	},
 	emitterChanged: function() {
-		console.log("emitterChanged");
-		console.log(this.get("emitter"));
 		this.trigger("change",this);
 	},
 	treeParameters: function() {
@@ -272,16 +269,20 @@ GeneratorView = Backbone.View.extend( {
 		"change input.r-ticksPerStep": "rTicksPerStepEdited",
 	},
 	rStepsEdited: function(e) {
-		this.model.set("rSteps", parseInt( $(e.target).val() ) );
+		var rSteps = parseInt( $(e.target).val() );    
+		this.model.set( {rSteps:rSteps, silent:true} );
 	},
 	rPulsesEdited: function(e) {
-		this.model.set("rPulses", parseInt( $(e.target).val() ) );
+		var rPulses = parseInt( $(e.target).val() );    
+		this.model.set( {rPulses:rPulses, silent:true} );
 	},
 	rTicksPerPulseEdited: function(e) {
-		this.model.set("rTicksPerPulse", parseInt( $(e.target).val() ) );
+		var rTicksPerPulse = parseInt( $(e.target).val() );    
+		this.model.set( {rTicksPerPulse:rTicksPerPulse, silent:true} );
 	},
 	rTicksPerStepEdited: function(e) {
-		this.model.set("rticksPerStep", parseInt( $(e.target).val() ) );
+		var rTicksPerStep = parseInt( $(e.target).val() );    
+		this.model.set( {rTicksPerStep:rTicksPerStep, silent:true} );
 	},
 	update : function() {
 		this.rStepsInputs.val( this.model.get("rSteps") );
@@ -309,17 +310,20 @@ AppModel = Backbone.Model.extend( {
 			generators : new GeneratorCollection(), 
 		};
 	},
-	reset: function() {
+	resetGenerators: function() {
+		this.get("generators").reset();
+		return this;
+	},
+	resetNodes: function() {
 		this.get("nodes").reset();
-		this.get("nodes").trigger("reset");
 		return this;
 	},
-	addGenerator: function(node) {
-		this.get("generators").add(node);
+	addGenerator: function(node, options) {
+		this.get("generators").add(node, options);
 		return this;
 	},
-	addNode: function(node) {
-		this.get("nodes").add(node);
+	addNode: function(node, options) {
+		this.get("nodes").add(node, options);
 		return this;
 	},
 	getNodes: function() {
@@ -344,6 +348,7 @@ AppView = Backbone.View.extend( {
 		this.model.get("nodes").bind("reset", this.resetNodes, this);
 		this.model.get("generators").bind("add", this.generatorAdded, this);
 		this.model.get("generators").bind("change", this.generatorChanged, this);
+		this.model.get("generators").bind("reset", this.resetGenerators, this);
 		this.selectedNode = undefined;
 		this.selectedGenerator = undefined;
 		this.render();
@@ -359,10 +364,14 @@ AppView = Backbone.View.extend( {
 	},
 	resetNodes: function() {
 		this.selectedNode = undefined;
-		this.render();
+		this.renderNodes();
+	},
+	resetGenerators: function() {
+		this.selectedGenerator = undefined;
+		this.renderGenerators();
 	},
 	generatorAdded: function() {
-		appModel.reset();
+		appModel.resetNodes();
 		this.model.get("generators").each( function(g) {
 			generate_models( g.generate(), {silent:false} );
 		});
@@ -370,7 +379,7 @@ AppView = Backbone.View.extend( {
 		this.render();
 	},
 	generatorChanged: function(generator) {
-		appModel.reset();
+		appModel.resetNodes();
 		this.model.get("generators").each( function(g) {
 			generate_models( g.generate(), {silent:false} );
 		});
@@ -417,7 +426,7 @@ AppView = Backbone.View.extend( {
 			this.selectedNode = new BranchView({model:node});
 		}
 		else {
-			console.log("unrecognized node type");
+			console.log("unrecognized node type:", type);
 		}
 		this.render();
 	},
@@ -455,10 +464,10 @@ AppView = Backbone.View.extend( {
 	},
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
-		this.nodeTabs = this.$("> .node-list");
 		this.generatorTabs = this.$("> .generator-list");
-		this.renderNodes();
 		this.renderGenerators();
+		this.nodeTabs = this.$("> .node-list");
+		this.renderNodes();
 		return this;
 	},
 });       
@@ -496,15 +505,17 @@ function requestLastSync() {
 
 function restoreFromSync(sync) {
     appModel.get("generators").reset();
+	appModel.resetGenerators();
 	generate_generator_models(sync.generators, {silent:true});
-	appModel.get("nodes").reset();
+	appModel.resetNodes();
     generate_models( sync.nodes, {silent:true} );
+	appView.render();
 }
 
 function popSnapshot() {
 	var snapshot = snapshotStack.pop();
 	if (snapshot) {
-		appModel.reset();
+		appModel.resetNodes();
 		generate_models(snapshot, {silent:true});
 		publishSnapshot(snapshot);
 	}
