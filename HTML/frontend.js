@@ -71,6 +71,12 @@ function NodeCtrl($scope) {
 		$scope.nodes.push(newBranch);
 	};
 
+	$scope.addNewEmitterTo = function(node) {
+		var newEmitter = newDefaultEmitter(uid());
+	    node.pool.push(newEmitter.name);
+		$scope.nodes.push(newEmitter);
+	};
+
 	$scope.emitterName = uid();
 	$scope.addEmitter = function() {
 		$scope.nodes.push(newDefaultEmitter($scope.emitterName));
@@ -93,3 +99,5 @@ function NodeCtrl($scope) {
 				});
 	};
 }
+
+console.log("loaded.");
