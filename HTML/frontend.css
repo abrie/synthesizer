@@ -108,75 +108,16 @@ div.emitter[on=false] {
 	display: inline;
 }
 
-.dragOver {
-	border: 1px solid black;
-}
-
-.branch {
-	margin-bottom: 1em;
-}
-
-.widgets {
-	display: table;
-}
-
-.widget {
-	display: table-cell;
-	padding: 1px;
-}
-
-.widget-group {
-	display: table-cell;
-}
-
-.widget-row {
-	display: table-row;
-}
-
-.label {
-	display: block;
-	text-align: center;
-}
-
-.fields {
-	display: table-cell;
-	vertical-align: middle;
-	background: rgb(190,190,190);
-}
-
-.fields > .label {
-	background: rgb(200,200,200);
-}
-
-.field {
-	display: inline-block;
-}
-
-.field > .label {
-	display: block;
-}
-
-.field > input {
+input {
 	width: 3em;
 }
 
-.field > input[type="range"] {
+input[type="range"] {
 	width: 18em;
 }
 
-.piano.widget {
-	width: 800px;
-}
-
-.tab.widget {
-	border: 1px solid rgb(200,200,200);
-	cursor: pointer;
-}
-
-.tab.widget:hover {
-	border: 1px solid rgb(100,100,100);
-	background: black;
-	color: white;
+input[type="submit"] {
+	width:6em;
 }
 
 #nonsense {

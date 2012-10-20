@@ -1,203 +1,75 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta charset='utf-8'/>
-		<title>see below</title>
-		<script type="text/javascript" src="lib/jquery-1.8.0.js"></script>
-		<script type="text/javascript" src="lib/underscore.js"></script>
-		<script type="text/javascript" src="lib/backbone.js"></script>
-		<link rel="stylesheet" href="frontend.css" type="text/css" />
-
-	<script type="text/template" id="template-branch">
-		<div class="header">
-			<%=type%>:<%=name%>
-			<button class="branch">+branch</button>
-			<button class="emitter">+emitter</button>
-		</div>
-		<div class="parameters widgets">
-			<div class="rhythm"></div>
-		</div>
-		<div class="node-list widgets"></div>
-	</script>
-
-	<script type="text/template" id="template-application">
-		<div class="header">
-			APPLICATION
-		</div>
-		<div>GENERATORS
-			<button class="generator">+generator</button>
-			<div class="generator-list widgets"></div>
-			<button class="clone">clone selected"</button>
-			<div class="selected-generator"></div>
-		</div>
-		<div>NODES
-			<button class="hide">hide</button>
-			<button class="root">+root</button>
-			<button class="snapshot">push snapshot</button>
-			<button class="pop">pop snapshot</button>
-			<div class="node-list widgets"></div>
-		</div>
-		<div class="selected-node"></div>
-	</script>
-
-	<script type="text/template" id="template-widget-tab">
-		<div class="header">
-			<%=type%>:<%=name%>
-		</div>
-	</script>
-
-	<script type="text/template" id="template-widget-rhythm">
-		<div class="fields">
-			<div class="label">rhythm</div>
-			<div class="field">
-				<div class="label">steps</div>
-				<input class="steps" placeholder="steps">
-				<input class="steps" type="range" value="0" max="100" min="1">
-			</div>
-			<div class="field">
-				<div class="label">pulses</div>
-				<input class="pulses" placeholder="pulses">
-				<input class="pulses" type="range" value="0" max="100" min="1">
-			</div>
-			<div class="field">
-				<div class="label">t/s</div>
-				<input class="ticksPerStep" placeholder="ticksPerStep">
-			</div>
-            <div class="field">
-				<div class="label">t/p</div>
-				<input class="ticksPerPulse" placeholder="ticksPerPulse">
-			</div>
-			<div class="field">
-				<div class="label">total ticks</div>
-				<input class="totalTicks" placeholder="totalTicks">
-			</div>
-			<div class="field">
-				<div class="label">offset</div>
-				<input class="offset" placeholder="offset">
-			</div>
-			<div class="field">
-				<div class="label">retrigger</div>
-				<input class="retrigger" type="checkbox">
-			</div>
-        </div>
-	</script>
-
-	<script type="text/template" id="template-widget-lfsr">
-		<div class="fields">
-			<div class="label">LFSRWidgetLabelRequired</div>
-			<div class="field">
-				<div class="label">seed</div>
-				<input class="seed" placeholder="seed"></input>
-			</div>
-			<div class="field">
-				<div class="label">mask</div>
-				<input class="mask" placeholder="mask"></input>
-			</div>
-			<div class="field">
-				<div class="label">pool</div>
-				<input class="pool" placeholder="pool"></input>
-			</div>
-		</div>
-	</script>
-
-	<script type="text/template" id="template-widget-sequential">
-		<div class="fields">
-			<div class="label">SequentialWidgetLabelRequired</div>
-			<div class="field">
-				<div class="label">pool</div>
-				<input class="pool" placeholder="pool"></input>
-			</div>
-		</div>
-	</script>
-
-    <script type="text/template" id="template-emitter">
-		<div class="header">
-			<%=type%>:<%=name%>
-			<select class="indexer"></select>
-		</div>
-		<div class="parameters widgets">
-			<div class="widget-row">
-				<div class="piano"></div>
-			</div>
-			<div class="widget-row">
-				<div class="rhythm"></div>
-			</div>
-			<div class="widget-row">
-				<div class="widget-group">
-					<div class="note"></div>
-					<div class="channel"></div>
-					<div class="duration"></div>
-					<div class="onVelocity"></div>
-					<div class="offVelocity"></div>
-				</div>
-			</div>
-		</div> 
-	</script>
-
-	<script type="text/template" id="template-generator">
-		generator:<%= name %> 
-		<div class="fields">
-			<div class="label">r-rhythm</div>
-			<div class="field">   
-				<div class="label">steps</div>
-				<input class="r-steps" placeholder="steps">
-				<input class="r-steps" type="range" value="0" max="100" min="1">
-			</div>
-			<div class="field">
-				<div class="label">pulses</div>
-				<input class="r-pulses" placeholder="pulses">
-				<input class="r-pulses" type="range" value="0" max="100" min="1">
-			</div>
-			<div class="field">
-				<div class="label">ticksPerStep</div>
-				<input class="r-ticksPerStep" placeholder="pulses">
-			</div>
-			<div class="field">
-				<div class="label">ticksPerPulse</div>
-				<input class="r-ticksPerPulse" placeholder="pulses">
-			</div>
-		</div>
-		<div class="widgets">
-			<div class="emitter"></div>
-		</div>
-	</script>
-
-	<script type="text/template" id="template-widget-piano">
-		<canvas class="pianoCanvas" width="600" height="50">
-			This text is displayed if your browser does not support HTML5 Canvas.
-		</canvas>
-		<ul class="pianokeys"></ul>
-	</script>
-
-	<script type="text/template" id="pianokey-template">
-		<li class="pianokey <%= whiteblack %>"
-			state="<%= state %>"
-			note_number="<%= note_number %>">
-		</li>
-	</script>
-	</head>
-    
-	<body>
-		<div id="menu">
-			<div id="tick-indicator" on=false></div>
-			<div id="connection-status" class="waiting"></div>
-			<div id="sync-mode">
-				<input type="radio" name="sync_mode" value="external">external</input>
-				<input type="radio" name="sync_mode" value="internal">internal</input>
-				<input type="radio" name="sync_mode" value="stall">stall</input>
-			</div>
-			<button id="sync">sync</button>
-			<button id="get-last-sync">get-last-sync</button>
-			<button id="render">render</button>
-		</div>
-        <div>
-		<div id="content"></div>
-        </div>
-		<div id="nonsense">project feelers w/ backbone 1960(c)(tm)(r)(xxx) !ENDEAYE!</div>
-		<script type="text/javascript" src="utilities.js"></script>
-		<script type="text/javascript" src="websocket.js"></script>
-		<script type="text/javascript" src="widgets.js"></script>
-		<script type="text/javascript" src="patterns.js"></script>
-		<script type="text/javascript" src="frontend.js"></script>
-	</body>
+<!doctype html>
+<html ng-app>
+<head>
+	<script src="lib/angular.js"></script>
+	<script src="frontend.js"></script>
+	<script src="utilities.js"></script>
+	<link rel="stylesheet" href="frontend.css">
+</head>
+<body>
+	<h2>Node</h2>
+	<div ng-controller="NodeCtrl">
+		<ul class="unstyled">
+			<li ng-repeat="node in nodes">
+				<span>{{node.type}}:{{node.name}}</span>
+				<ng-switch on="node.type">
+					<div ng-switch-when="root">
+						<button ng-click="addNewNodeTo(node)" >+branch</button>
+						<input ng-model="node.parameters.rhythm.steps">
+						<input ng-model="node.parameters.rhythm.steps" type="range" max="100" min="1" >
+						<input ng-model="node.parameters.rhythm.pulses">
+						<input ng-model="node.parameters.rhythm.pulses" type="range" max="100" min="1" >
+						<input ng-model="node.parameters.rhythm.ticksPerStep">
+						<input ng-model="node.parameters.rhythm.ticksPerPulse">
+						<input ng-model="node.parameters.rhythm.totalTicks">
+						<input ng-model="node.parameters.rhythm.retrigger" type="checkbox" >
+						<ul class="unstyled">
+							<li ng-repeat="nodeName in node.pool">{{nodeName}}</li>
+						</ul>                     
+					</div>
+					<div ng-switch-when="branch">
+						<button ng-click="addNewNodeTo(node)" >+branch</button>
+						<input ng-model="node.parameters.rhythm.steps">
+						<input ng-model="node.parameters.rhythm.steps" type="range" max="100" min="1" >
+						<input ng-model="node.parameters.rhythm.pulses">
+						<input ng-model="node.parameters.rhythm.pulses" type="range" max="100" min="1" >
+						<input ng-model="node.parameters.rhythm.ticksPerStep">
+						<input ng-model="node.parameters.rhythm.ticksPerPulse">
+						<input ng-model="node.parameters.rhythm.totalTicks">
+						<input ng-model="node.parameters.rhythm.retrigger" type="checkbox" >
+						<ul class="unstyled">
+							<li ng-repeat="nodeName in node.pool">{{nodeName}}</li>
+						</ul>                     
+					</div>
+					<div ng-switch-when="emitter">
+						<input ng-model="node.parameters.rhythm.steps">
+						<input ng-model="node.parameters.rhythm.steps" type="range" max="100" min="1" >
+						<input ng-model="node.parameters.rhythm.pulses">
+						<input ng-model="node.parameters.rhythm.pulses" type="range" max="100" min="1" >
+						<input ng-model="node.parameters.rhythm.ticksPerStep">
+						<input ng-model="node.parameters.rhythm.ticksPerPulse">
+						<input ng-model="node.parameters.rhythm.totalTicks">
+						<input ng-model="node.parameters.rhythm.retrigger" type="checkbox" >
+						<select ng-model="node.parameters.indexer" ng-options="indexer for indexer in indexerTypes"></select>
+					</div>
+					<div ng-switch-default>
+						unknown type
+					</div>
+				</ng-switch>
+			</li>
+		</ul>
+		<form ng-submit="addRoot()">
+			<input type="text" ng-model="nodeName"  size="30" placeholder="add new root here">
+			<input class="btn-primary" type="submit" value="+root">
+		</form>
+		<form ng-submit="addNode()">
+			<input type="text" ng-model="nodeName"  size="30" placeholder="add new node here">
+			<input class="btn-primary" type="submit" value="+branch">
+		</form>
+		<form ng-submit="addEmitter()">
+			<input type="text" ng-model="emitterName"  size="30" placeholder="add new emitter here">
+			<input class="btn-primary" type="submit" value="+emitter">
+		</form>
+	</div>
+</body>
 </html>

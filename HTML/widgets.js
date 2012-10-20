@@ -15,61 +15,47 @@ TabWidget = Backbone.View.extend({
 	},
 });
 
+RhythmModel = Backbone.Model.extend( {
+	defaults: function() {
+		return {
+			name: uid(),
+			type: "rhythm",
+			steps:1,
+			pulses:1,
+			ticksPerStep:24,
+			ticksPerPulse:24,
+			totalTicks:24,
+			offset:0,
+			retrigger:false,
+		}
+	},
+	initialize: function() {
+	},
+});
+
 RhythmWidget = Backbone.View.extend( {
 	tagname: "div",
 	className: "rhythm widget",
 	template: _.template( $('#template-widget-rhythm').html() ),
-	initialize: function(model, fieldName) {
-		this.model = model;
-		this.model.bind("change", this.update, this);
-		this.fieldName = fieldName;
-		this.field = this.model.parameter(this.fieldName);
-	},
 	events: {
-		"change input.steps" : "rhythmStepsChanged",
-		"change input.pulses" : "rhythmPulsesChanged",
-		"change input.ticksPerStep" : "rhythmChanged",
-		"change input.ticksPerPulse" : "rhythmChanged",
-		"change input.totalTicks" : "rhythmChanged",
-		"change input.offset" : "rhythmChanged",
-		"change input.retrigger" : "rhythmChanged",
+		"change input.steps" : "changed",
+		"change input.pulses" : "changed",
+		"change input.ticksPerStep" : "changed",
+		"change input.ticksPerPulse" : "changed",
+		"change input.totalTicks" : "changed",
+		"change input.offset" : "changed",
+		"change input.retrigger" : "changed",
 	},
-	rhythmStepsChanged: function(e) {
-		this.field.steps = parseInt( $(e.target).val() );
-		this.model.trigger("change");
-	},
-	rhythmPulsesChanged: function(e) {
-		this.field.pulses = parseInt( $(e.target).val() );
-		this.model.trigger("change");
-	},
-	rhythmChanged: function() {
-		this.field.ticksPerStep = parseInt( this.ticksPerStepInput.val() );
-		this.field.ticksPerPulse = parseInt( this.ticksPerPulseInput.val() );
-		this.field.totalTicks = parseInt( this.totalTicksInput.val() );
-		this.field.offset = parseInt( this.offsetInput.val() );
-		this.field.retrigger = this.retriggerInput.is(":checked");
-		this.model.trigger("change");
-	},
-	update: function() {
-		this.$("input.steps").val( this.field.steps ); 
-		this.$("input.pulses").val( this.field.pulses );
-		this.ticksPerStepInput.val( this.field.ticksPerStep );
-		this.ticksPerPulseInput.val( this.field.ticksPerPulse );
-		this.totalTicksInput.val( this.field.totalTicks );
-		this.offsetInput.val( this.field.offset );
-		this.retriggerInput.attr("checked",this.field.retrigger);
-		return this;
+	changed: function(e) {
+		console.log("rhythm changed:");
+		var fieldName = $(e.currentTarget).data("field");
+		this.model.set(fieldName, parseInt($(e.currentTarget).val()));
 	},
 	render: function() {
+		console.log("render RhythmWidget");
 		this.$el.html( this.template( this.model.toJSON() ) );
-		this.ticksPerStepInput = this.$("input.ticksPerStep");
-		this.ticksPerPulseInput = this.$("input.ticksPerPulse");
-		this.totalTicksInput = this.$("input.totalTicks");
-		this.offsetInput = this.$("input.offset");
-		this.retriggerInput = this.$("input.retrigger");
-
         this.delegateEvents(this.events);
-		return this.update();
+		return this;
 	}
 });
 
@@ -82,8 +68,10 @@ PianoWidget = Backbone.View.extend( {
 		this.field = this.model.parameter("note");
 		this.canvas = undefined;
 		this.ctx = undefined;
-		this.numberOfOctaves = 10;
-		this.numberOfKeys = 12*this.numberOfOctaves;
+		this.lowestOctave = 1;
+		this.numberOfOctaves = 8;
+		this.keysPerOctave = 12;
+		this.numberOfKeys = this.keysPerOctave*this.numberOfOctaves;
 		this.hoverKey = undefined;
 	},
 	events: {
@@ -142,11 +130,11 @@ PianoWidget = Backbone.View.extend( {
 	},
 	drawCanvas : function() {
 		var width = this.canvas.width;
-		var keyWidth = this.canvas.width / (this.numberOfOctaves*7);
+		var keyWidth = width / (this.numberOfOctaves*7-this.lowestOctave*7);
 		var keyHeight = this.canvas.height;
 		this.ctx.strokeStyle = "#000000";
 		var x = 0;
-		for( var i = 0; i < this.numberOfKeys; i++ ) {
+		for( var i = this.lowestOctave*this.keysPerOctave; i < this.numberOfKeys; i++ ) {
 			if (this.whiteOrBlackPianokey(i) === "white") {
 				this.ctx.strokeStyle = "#000000";
 				this.ctx.lineWidth = 1;
@@ -176,7 +164,7 @@ PianoWidget = Backbone.View.extend( {
 		}
 	},
 	getNoteNumberForCoordinate : function(x,y) {
-		var keyWidth = this.canvas.width / (this.numberOfOctaves*7);
+		var keyWidth = this.canvas.width / (this.numberOfOctaves*7 - this.lowestOctave*7);
 		var midKey = Math.floor( keyWidth / 2 );
 		var keyHeight = this.canvas.height;
 		var octave = Math.floor( x / (7*keyWidth) );
@@ -195,7 +183,7 @@ PianoWidget = Backbone.View.extend( {
 			}
 		}
 
-		return val+octave*12;
+		return val+(octave+this.lowestOctave)*this.keysPerOctave;
 	},
 	canvasMouseStoppedHovering : function(e) {
 		this.hoverKey = undefined;
@@ -208,6 +196,8 @@ PianoWidget = Backbone.View.extend( {
 	render: function() {
 		this.$el.html( this.pianoWidget_template() );
 		this.canvas = this.$("canvas.pianoCanvas")[0];
+		this.canvas.width = 950;
+		this.canvas.height = 63;
 		this.ctx = this.canvas.getContext("2d");
 		this.drawCanvas();
         this.delegateEvents(this.events);

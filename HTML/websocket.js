@@ -1,10 +1,3 @@
-function uid() {
-	var S4 = function() {
-		return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-	}
-
-	return S4();
-}
 
 function open_interfaceWebSocket( host, message_processor, onOpen ) {
 	ws = new WebSocket( host ) ;

@@ -1,3 +1,11 @@
+function uid() {
+	var S4 = function() {
+		return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+	}
+
+	return S4();
+}
+
 var PPQN = 24;
 function parseNotation(str) {
     var ticks = 0;
