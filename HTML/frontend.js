@@ -100,4 +100,38 @@ function NodeCtrl($scope) {
 	};
 }
 
-console.log("loaded.");
+function SocketControl($scope) {
+	$scope.connectionStatus = "disconnected";
+
+	$scope.websocket_onMessage = function(message) {
+		var json = JSON.parse(message);
+		switch(json.type) {
+			case "snapshot": 
+				console.log("snapshot received");
+				snapshotStack.push(json.nodes);
+				break;
+			case "sync": 
+				console.log("sync received");
+				restoreFromSync(json);
+				break;
+		}
+	}
+
+	$scope.websocket_onOpen = function() {
+		$scope.$apply( function() {
+			$scope.connectionStatus = "connected";
+		});
+	}
+
+	$scope.websocket_onClose = function()  {
+		$scope.$apply( function() {
+			$scope.connectionStatus = "disconnected";
+		});
+	}
+
+	open_interfaceWebSocket(
+		"ws://yeux.local:12345/service",
+		$scope.websocket_onMessage,
+		$scope.websocket_onOpen,
+		$scope.websocket_onClose);
+}

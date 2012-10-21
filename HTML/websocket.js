@@ -1,15 +1,12 @@
-
-function open_interfaceWebSocket( host, message_processor, onOpen ) {
+function open_interfaceWebSocket( host, onMessage, onOpen, onClose ) {
 	ws = new WebSocket( host ) ;
 
-	ws.onopen = function()
-	{
-		$("#connection-status").removeClass("disconnected").addClass("connected").text("");
+	ws.onopen = function() {
 		onOpen();
 	};
 
-	ws.onmessage = function (evt) {
-		message_processor( evt.data );
+	ws.onmessage = function(evt) {
+		onMessage( evt.data );
 	};
 
 	ws.onerror = function (evt) {
@@ -17,8 +14,10 @@ function open_interfaceWebSocket( host, message_processor, onOpen ) {
 	};
 
 	ws.onclose = function() {
-		var retryTimer = window.setTimeout(function() { open_interfaceWebSocket( host ); } , 1000);
-		$("#connection-status").removeClass("connected").addClass("disconnected").text("disconnected");
+		onClose();
+		var retryTimer = window.setTimeout(function() {
+			open_interfaceWebSocket( host, onMessage, onOpen, onClose );
+		} , 1000);
 	};
 }
 

@@ -2,11 +2,19 @@
 <html ng-app>
 <head>
 	<script src="lib/angular.js"></script>
-	<script src="frontend.js"></script>
 	<script src="utilities.js"></script>
+	<script src="websocket.js"></script>
+	<script src="frontend.js"></script>
 	<link rel="stylesheet" href="frontend.css">
 </head>
 <body>
+	<div ng-controller="SocketControl" id="menu">
+		<div id="tick-indicator" on=false></div>
+		<div id="connection-status" ng-class="connectionStatus"></div>
+		<button id="sync">sync</button>
+		<button id="get-last-sync">get-last-sync</button>
+		<button id="render">render</button>
+	</div>
 	<h2>Node</h2>
 	<div ng-controller="NodeCtrl">
 		<ul class="unstyled">
