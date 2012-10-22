@@ -188,11 +188,13 @@ function drawPiano(canvas,ctx,scope,ngModel,mouseX,mouseY,mouseClicked) {
 		var newPool = pool.slice();
 		newPool.push(noteNumber);
 		scope.$apply( function() { ngModel.$setViewValue(newPool); } );
+		pool = newPool;
 	};
 
 	var removePianokey = function(noteNumber) {
 		var newPool = _.filter( pool, function(i) { return i != noteNumber; } );
 		scope.$apply( function() { ngModel.$setViewValue(newPool); } );
+		pool = newPool;
 	};
 
 	if (mouseClicked===true) {
@@ -265,7 +267,7 @@ angular.module('components', [])
 			restrict:'E',                 
 			replace:true,
 			require: 'ngModel',
-			template:'<canvas>canvas required</canvas>',
+			template:'<canvas width=700 height=60>canvas required</canvas>',
 			link: function (scope, iElement, iAttrs, ngModel) {
 				iElement.addClass("pianoCanvas");
 				var context = iElement[0].getContext("2d");
