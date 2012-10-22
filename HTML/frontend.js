@@ -55,6 +55,7 @@ function NodeCtrl($scope) {
 
 	$scope.rootName = uid();
 	$scope.addRoot = function() {
+		console.log("add root");
 		$scope.nodes.push(newDefaultRoot($scope.rootName));
 		$scope.rootName = uid();
 	};
@@ -91,12 +92,9 @@ function NodeCtrl($scope) {
 		return count;
 	};
 
-	$scope.archive = function() {
-		var oldNodes = $scope.nodes;
-		$scope.nodes = [];
-		angular.forEach(oldNodes, function(node) {
-				if (!node.done) $scope.nodes.push(node);
-				});
+	$scope.publish = function() {
+		var message = {toFeelers:{nodes:$scope.nodes}};
+		send_data(message);
 	};
 }
 
