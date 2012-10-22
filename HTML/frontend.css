@@ -26,7 +26,7 @@ canvas.pianoCanvas {
 }
 
 #application {
-	padding-top: 25px;
+	padding-top: 50px;
 }
 
 #tick-indicator {
@@ -43,41 +43,6 @@ canvas.pianoCanvas {
 
 #tick-indicator[on=false] {
 	background: white;
-}
-
-div.emitter {
-}
-
-div.emitter[on=true] {
-	-webkit-animation-duration: 0.25s;
-    -webkit-animation-name: border-down;
-}
-
-@-webkit-keyframes border-down {     
-	  from {
-		border-radius: 25px;
-		}
-	  to {
-		border-radius: 0px;
-	 }
-}
-
-div.emitter[on=false] {
-	-webkit-animation-duration: 0.25s;
-    -webkit-animation-name: border-up;
-}
-
-@-webkit-keyframes border-up {     
-	  from {
-		border-radius: 25px;
-		}
-	  to {
-		border-radius: 0px;
-	 }
-}                           
-
-#content {
-	margin-top: 3em;
 }
 
 #connection-status {
@@ -130,6 +95,10 @@ input {
 
 input[type="range"] {
 	width: 18em;
+}
+
+input[array] {
+	width:18em;
 }
 
 input[type="submit"] {

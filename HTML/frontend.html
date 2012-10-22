@@ -17,6 +17,9 @@
 		<button id="render">render</button>
 	</div>
 	<div ng-controller="NodeCtrl" id="application">
+		<button ng-click="addRoot()">+root</button>
+		<button ng-click="addNode()">+branch</button>
+		<button ng-click="addEmitter()">+emitter</button>
 		<ul class="unstyled">
 			<li ng-repeat="node in nodes">
 				<span>{{node.type}}:{{node.name}}</span>
@@ -111,18 +114,6 @@
 				</ng-switch>
 			</li>
 		</ul>
-		<form ng-submit="addRoot()">
-			<input type="text" ng-model="nodeName"  size="30" placeholder="add new root here">
-			<input class="btn-primary" type="submit" value="+root">
-		</form>
-		<form ng-submit="addNode()">
-			<input type="text" ng-model="nodeName"  size="30" placeholder="add new node here">
-			<input class="btn-primary" type="submit" value="+branch">
-		</form>
-		<form ng-submit="addEmitter()">
-			<input type="text" ng-model="emitterName"  size="30" placeholder="add new emitter here">
-			<input class="btn-primary" type="submit" value="+emitter">
-		</form>
 	</div>
 	<div id="nonsense">project feelers w/ angularjs 1988(c)(tm)(r)(xXx) !URUNDERANNDA!</div>
 </body>
