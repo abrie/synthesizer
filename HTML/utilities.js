@@ -45,7 +45,7 @@ function inputToArray( input ) {
         console.log("inputToArray called with null parameter");
         return [];
     }
-	var result = _.map( input.val().split(','), function(val) {
+	var result = _.map( input.split(','), function(val) {
 		if(val == 0) {
 			return 0;
 		}

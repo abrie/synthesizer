@@ -1,7 +1,8 @@
 <!doctype html>
-<html ng-app>
+<html ng-app="frontend">
 <head>
 	<script src="lib/angular.js"></script>
+	<script src="lib/underscore.js"></script>
 	<script src="utilities.js"></script>
 	<script src="websocket.js"></script>
 	<script src="frontend.js"></script>
@@ -59,6 +60,8 @@
 						<input ng-model="node.parameters.rhythm.ticksPerPulse">
 						<input ng-model="node.parameters.rhythm.totalTicks">
 						<input ng-model="node.parameters.rhythm.retrigger" type="checkbox" >
+						<input array ng-model="node.parameters.note.pool">
+						<piano ng-model="node.parameters.note.pool">
 						<select ng-model="node.parameters.indexer" ng-options="indexer for indexer in indexerTypes"></select>
 					</div>
 					<div ng-switch-default>
