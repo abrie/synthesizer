@@ -112,6 +112,18 @@ div.emitter[on=false] {
 	display: inline;
 }
 
+div.table {
+	display:table;
+}
+
+div.table div.row {
+	display:table-row;
+}
+
+div.table div.row div.cell {
+	display:table-cell;
+}
+
 input {
 	width: 3em;
 }
