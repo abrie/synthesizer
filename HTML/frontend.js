@@ -97,7 +97,7 @@ function NodeCtrl($scope) {
 }
 
 function SocketControl($scope) {
-	$scope.connectionStatus = "disconnected";
+	$scope.connected = false;
 
 	$scope.websocket_onMessage = function(message) {
 		var json = JSON.parse(message);
@@ -115,13 +115,13 @@ function SocketControl($scope) {
 
 	$scope.websocket_onOpen = function() {
 		$scope.$apply( function() {
-			$scope.connectionStatus = "connected";
+			$scope.connected = true;
 		});
 	}
 
 	$scope.websocket_onClose = function()  {
 		$scope.$apply( function() {
-			$scope.connectionStatus = "disconnected";
+			$scope.connected = false;
 		});
 	}
 

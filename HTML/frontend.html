@@ -11,7 +11,7 @@
 <body>
 	<div ng-controller="SocketControl" id="menu">
 		<div id="tick-indicator" on=false></div>
-		<div id="connection-status" ng-class="connectionStatus"></div>
+		<div id="connection-status" ng-class="{connected:connected}"></div>
 		<button id="sync">sync</button>
 		<button id="get-last-sync">get-last-sync</button>
 		<button id="render">render</button>

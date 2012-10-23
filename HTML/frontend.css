@@ -49,28 +49,15 @@ canvas.pianoCanvas {
 	display: inline-block;
 	border: 1px solid rgb(120,120,120);
 	border-radius: 0.25em;
-}
-
-#connection-status.waiting {
-	padding-left: 0.25em;
-	padding-right: 0.25em;
-	min-width: 1em;
-	min-height: 0.5em;
+	width: 1em;
+	height: 1em;
+	color: white;
+	font-size: 0.25em;
+	background: rgb(200,100,100);
 }
 
 #connection-status.connected {
 	background: rgb(100,200,100);
-	min-width: 1em;
-	min-height: 0.5em;
-	text-size: 1em;
-}
-
-#connection-status.disconnected {
-	min-width: 3em;
-	min-height: 3em;
-	color: white;
-	font-size: 0.25em;
-	background: rgb(200,100,100);
 }
 
 #sync-mode {

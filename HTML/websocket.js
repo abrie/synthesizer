@@ -21,9 +21,8 @@ function open_interfaceWebSocket( host, onMessage, onOpen, onClose ) {
 	};
 }
 
-function send_data( json ) {
-	ws.send( JSON.stringify(json) );
-	console.log("publish:", json);
+function send_data( obj ) {
+	ws.send( JSON.stringify(obj) );
 }
 
 function transmit_note_on( channel, note_number ) {
