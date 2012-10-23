@@ -55,7 +55,6 @@ function NodeCtrl($scope) {
 
 	$scope.rootName = uid();
 	$scope.addRoot = function() {
-		console.log("add root");
 		$scope.nodes.push(newDefaultRoot($scope.rootName));
 		$scope.rootName = uid();
 	};
@@ -84,18 +83,17 @@ function NodeCtrl($scope) {
 		$scope.emitterName = uid();
 	};
 
-	$scope.remaining = function() {
-		var count = 0;
-		angular.forEach($scope.nodes, function(node) {
-				count += node.done ? 0 : 1;
-				});
-		return count;
-	};
-
-	$scope.publish = function() {
+	var publish = function() {
 		var message = {toFeelers:{nodes:$scope.nodes}};
 		send_data(message);
 	};
+
+	$scope.publish = publish; 
+
+	$scope.$watch("nodes", function(newVal,oldVal) { 
+		if (newVal===oldVal) return;
+		publish();
+	},true);
 }
 
 function SocketControl($scope) {
@@ -247,12 +245,10 @@ angular.module('components', [])
 			require: 'ngModel',
 			link: function (scope, iElement, iAttrs, ngModel) {
 				function toArray(text) {
-					console.log("toArray:",text);
 					return inputToArray(text);
 				};  
 
 				function fromArray(v) {
-					console.log("fromArray:",v);
 					return v.join(",");
 				};
 				ngModel.$parsers.push(toArray);
