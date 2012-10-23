@@ -79,6 +79,8 @@ canvas.pianoCanvas {
 
 div.table {
 	display:table;
+	border-bottom: 1px solid rgb(100,100,100);
+	border-right: 1px solid rgb(100,100,100);
 }
 
 div.table div.row {
@@ -87,10 +89,13 @@ div.table div.row {
 
 div.table div.row div.cell {
 	display:table-cell;
+	border-top: 1px solid rgb(100,100,100);
+	border-left: 1px solid rgb(100,100,100);
+	padding:2px;
 }
 
 input {
-	width: 3em;
+	width: 5em;
 }
 
 input[type="range"] {
