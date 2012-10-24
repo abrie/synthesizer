@@ -41,7 +41,7 @@ function newDefaultEmitter(name) {
 			rhythm: newDefaultRhythm(),
 			indexer: "lfsr",
 			channel : { seed:1, mask:0xC0, pool:[0] },
-			note : { seed:1, mask:0xC0, pool:[36,37,38] },
+			note : { seed:1, mask:0xC0, pool:[60,64,67,70,72] },
 			onVelocity : { seed:1, mask:0xC0, pool:[80]},
 			offVelocity : { seed:1, mask:0xC0, pool:[60]},
 			duration :{ seed:1, mask:0xC0, pool:[24]}
