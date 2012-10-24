@@ -39,16 +39,16 @@
 							</div>
 							<div class="row">
 								<div class="cell">
-									<input ng-model="node.parameters.rhythm.steps">
+									<input type="number" ng-model="node.parameters.rhythm.steps">
 									<input ng-model="node.parameters.rhythm.steps" type="range" max="100" min="1" >
 								</div>
 								<div class="cell">
-									<input ng-model="node.parameters.rhythm.pulses">
+									<input type="number" ng-model="node.parameters.rhythm.pulses">
 									<input ng-model="node.parameters.rhythm.pulses" type="range" max="100" min="1" >
 								</div>
-								<div class="cell"><input ng-model="node.parameters.rhythm.ticksPerStep"></div>
-								<div class="cell"><input ng-model="node.parameters.rhythm.ticksPerPulse"></div>
-								<div class="cell"><input ng-model="node.parameters.rhythm.totalTicks"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.ticksPerStep"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.ticksPerPulse"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.totalTicks"></div>
 								<div class="cell"><input ng-model="node.parameters.rhythm.retrigger" type="checkbox" ></div>
 							</div>
 						</div>
@@ -70,16 +70,16 @@
 							</div>
 							<div class="row">
 								<div class="cell">
-									<input ng-model="node.parameters.rhythm.steps">
+									<input type="number" ng-model="node.parameters.rhythm.steps">
 									<input ng-model="node.parameters.rhythm.steps" type="range" max="100" min="1" >
 								</div>
 								<div class="cell">
-									<input ng-model="node.parameters.rhythm.pulses">
+									<input type="number" ng-model="node.parameters.rhythm.pulses">
 									<input ng-model="node.parameters.rhythm.pulses" type="range" max="100" min="1" >
 								</div>
-								<div class="cell"><input ng-model="node.parameters.rhythm.ticksPerStep"></div>
-								<div class="cell"><input ng-model="node.parameters.rhythm.ticksPerPulse"></div>
-								<div class="cell"><input ng-model="node.parameters.rhythm.totalTicks"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.ticksPerStep"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.ticksPerPulse"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.totalTicks"></div>
 								<div class="cell"><input ng-model="node.parameters.rhythm.retrigger" type="checkbox" ></div>
 							</div>
 						</div>
@@ -99,16 +99,16 @@
 							</div>
 							<div class="row">
 								<div class="cell">
-									<input ng-model="node.parameters.rhythm.steps">
+									<input type="number" ng-model="node.parameters.rhythm.steps">
 									<input ng-model="node.parameters.rhythm.steps" type="range" max="100" min="1" >
 								</div>
 								<div class="cell">
-									<input ng-model="node.parameters.rhythm.pulses">
+									<input type="number" ng-model="node.parameters.rhythm.pulses">
 									<input ng-model="node.parameters.rhythm.pulses" type="range" max="100" min="1" >
 								</div>
-								<div class="cell"><input ng-model="node.parameters.rhythm.ticksPerStep"></div>
-								<div class="cell"><input ng-model="node.parameters.rhythm.ticksPerPulse"></div>
-								<div class="cell"><input ng-model="node.parameters.rhythm.totalTicks"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.ticksPerStep"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.ticksPerPulse"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.totalTicks"></div>
 								<div class="cell"><input ng-model="node.parameters.rhythm.retrigger" type="checkbox" ></div>
 							</div>
 						</div>
@@ -125,32 +125,32 @@
 							</div>
 							<div class="row">
 								<div class="cell">note</div>
-								<div class="cell"><input ng-model="node.parameters.note.seed"></div>
-								<div class="cell"><input ng-model="node.parameters.note.mask"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.note.seed"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.note.mask"></div>
 								<div class="cell"><input array ng-model="node.parameters.note.pool"></div>
 							</div>
 							<div class="row">
 								<div class="cell">channel</div>
-								<div class="cell"><input ng-model="node.parameters.channel.seed"></div>
-								<div class="cell"><input ng-model="node.parameters.channel.mask"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.channel.seed"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.channel.mask"></div>
 								<div class="cell"><input array ng-model="node.parameters.channel.pool"></div>
 							</div>
 							<div class="row">
 								<div class="cell">onVelocity</div>
-								<div class="cell"><input ng-model="node.parameters.onVelocity.seed"></div>
-								<div class="cell"><input ng-model="node.parameters.onVelocity.mask"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.onVelocity.seed"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.onVelocity.mask"></div>
 								<div class="cell"><input array ng-model="node.parameters.onVelocity.pool"></div>
 							</div>
 							<div class="row">
 								<div class="cell">offVelocity</div>
-								<div class="cell"><input ng-model="node.parameters.offVelocity.seed"></div>
-								<div class="cell"><input ng-model="node.parameters.offVelocity.mask"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.offVelocity.seed"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.offVelocity.mask"></div>
 								<div class="cell"><input array ng-model="node.parameters.offVelocity.pool"></div>
 							</div>
 							<div class="row">
 								<div class="cell">duration</div>
-								<div class="cell"><input ng-model="node.parameters.duration.seed"></div>
-								<div class="cell"><input ng-model="node.parameters.duration.mask"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.duration.seed"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.duration.mask"></div>
 								<div class="cell"><input array ng-model="node.parameters.duration.pool"></div>
 							</div>
 						</div>
