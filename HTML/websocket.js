@@ -15,9 +15,6 @@ function open_interfaceWebSocket( host, onMessage, onOpen, onClose ) {
 
 	ws.onclose = function() {
 		onClose();
-		var retryTimer = window.setTimeout(function() {
-			open_interfaceWebSocket( host, onMessage, onOpen, onClose );
-		} , 1000);
 	};
 }
 

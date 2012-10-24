@@ -49,7 +49,7 @@ function newDefaultEmitter(name) {
 	};
 }
 
-function NodeCtrl($scope) {
+function NodeCtrl($scope,socketService) {
 	$scope.nodes = [];
 	$scope.indexerTypes = ["lfsr","sequential"];
 
@@ -85,51 +85,20 @@ function NodeCtrl($scope) {
 
 	var publish = function() {
 		var message = {toFeelers:{nodes:$scope.nodes}};
-		send_data(message);
+		socketService.send(message);
 	};
 
 	$scope.publish = publish; 
 
 	$scope.$watch("nodes", function(newVal,oldVal) { 
-		if (newVal===oldVal) return;
 		publish();
 	},true);
 }
 
-function SocketControl($scope) {
-	$scope.connected = false;
-
-	$scope.websocket_onMessage = function(message) {
-		var json = JSON.parse(message);
-		switch(json.type) {
-			case "snapshot": 
-				console.log("snapshot received");
-				snapshotStack.push(json.nodes);
-				break;
-			case "sync": 
-				console.log("sync received");
-				restoreFromSync(json);
-				break;
-		}
-	}
-
-	$scope.websocket_onOpen = function() {
-		$scope.$apply( function() {
-			$scope.connected = true;
-		});
-	}
-
-	$scope.websocket_onClose = function()  {
-		$scope.$apply( function() {
-			$scope.connected = false;
-		});
-	}
-
-	open_interfaceWebSocket(
-		"ws://yeux.local:12345/service",
-		$scope.websocket_onMessage,
-		$scope.websocket_onOpen,
-		$scope.websocket_onClose);
+function AppControl($scope, socketService) {
+	$scope.isSocketConnected = function() {
+		return socketService.isConnected();
+	};
 }
 
 function drawPiano(canvas,ctx,scope,ngModel,mouseX,mouseY,mouseClicked) {
@@ -239,6 +208,67 @@ function drawPiano(canvas,ctx,scope,ngModel,mouseX,mouseY,mouseClicked) {
 }
 
 angular.module('components', [])
+	.factory('socketService', function($rootScope) {
+		var connected = false;
+		var sendQueue = undefined;
+
+		var websocket_onMessage = function(message) {
+			var json = JSON.parse(message);
+			switch(json.type) {
+				case "snapshot": 
+					console.log("snapshot received");
+					snapshotStack.push(json.nodes);
+					break;
+				case "sync": 
+					console.log("sync received");
+					restoreFromSync(json);
+					break;
+			}
+		}
+
+		var websocket_onOpen = function() {
+			$rootScope.$apply( function() {
+				connected = true;
+				if (sendQueue != undefined) {
+					send_data(sendQueue);
+					sendQueue = undefined;
+				}
+			});
+		}
+
+		var websocket_onClose = function() {
+			$rootScope.$apply( function() {
+				connected = false;
+			});
+			var retryTimer = window.setTimeout(function() {
+				open_interfaceWebSocket(
+					"ws://yeux.local:12345/service",
+					websocket_onMessage,
+					websocket_onOpen,
+					websocket_onClose);
+			} , 1000);
+		}
+
+		open_interfaceWebSocket(
+			"ws://yeux.local:12345/service",
+			websocket_onMessage,
+			websocket_onOpen,
+			websocket_onClose);
+
+        return {
+			isConnected : function() {
+				return connected;
+			},
+			send : function(message) {
+				if (connected) {
+					send_data(message);
+				}
+				else {
+					sendQueue = message;
+				}
+			}
+		}
+	})
 	.directive('array', function () {
 		return {
 			restrict:'A',

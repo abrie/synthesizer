@@ -9,9 +9,9 @@
 	<link rel="stylesheet" href="frontend.css">
 </head>
 <body>
-	<div ng-controller="SocketControl" id="menu">
+	<div ng-controller="AppControl" id="menu">
 		<div id="tick-indicator" on=false></div>
-		<div id="connection-status" ng-class="{connected:connected}"></div>
+		<div id="connection-status" ng-class="{connected:isSocketConnected()}"></div>
 		<button id="sync">sync</button>
 		<button id="get-last-sync">get-last-sync</button>
 		<button id="render">render</button>
