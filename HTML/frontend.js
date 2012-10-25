@@ -273,7 +273,7 @@ angular.module('components', [])
 		return {
 			restrict:'A',
 			require: 'ngModel',
-			link: function (scope, iElement, iAttrs, ngModel) {
+			link: function (scope, iElement, iAttrs, modelController) {
 				function toArray(text) {
 					return inputToArray(text);
 				};  
@@ -281,8 +281,8 @@ angular.module('components', [])
 				function fromArray(v) {
 					return v.join(",");
 				};
-				ngModel.$parsers.push(toArray);
-				ngModel.$formatters.push(fromArray);
+				modelController.$parsers.push(toArray);
+				modelController.$formatters.push(fromArray);
 			}
 		}
 	})
