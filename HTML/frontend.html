@@ -28,30 +28,7 @@
 					<div ng-switch-when="root">
 						<button ng-click="addNewNodeTo(node)" >+branch</button>
 						<button ng-click="addNewEmitterTo(node)" >+emitter</button>
-						<div class="table">
-							<div class="row">
-								<div class="cell">steps</div>
-								<div class="cell">pulses</div>
-								<div class="cell">ticksPerStep</div>
-								<div class="cell">ticksPerPulse</div>
-								<div class="cell">totalTicks</div>
-								<div class="cell">retrigger</div>
-							</div>
-							<div class="row">
-								<div class="cell">
-									<input type="number" ng-model="node.parameters.rhythm.steps">
-									<input ng-model="node.parameters.rhythm.steps" type="range" max="100" min="1" >
-								</div>
-								<div class="cell">
-									<input type="number" ng-model="node.parameters.rhythm.pulses">
-									<input ng-model="node.parameters.rhythm.pulses" type="range" max="100" min="1" >
-								</div>
-								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.ticksPerStep"></div>
-								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.ticksPerPulse"></div>
-								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.totalTicks"></div>
-								<div class="cell"><input ng-model="node.parameters.rhythm.retrigger" type="checkbox" ></div>
-							</div>
-						</div>
+						<rhythm ng-model="node.parameters.rhythm"></rhythm>
 						<ul class="unstyled">
 							<li ng-repeat="nodeName in node.pool">{{nodeName}}</li>
 						</ul>                     
@@ -59,59 +36,13 @@
 					<div ng-switch-when="branch">
 						<button ng-click="addNewNodeTo(node)" >+branch</button>
 						<button ng-click="addNewEmitterTo(node)" >+emitter</button>
-						<div class="table">
-							<div class="row">
-								<div class="cell">steps</div>
-								<div class="cell">pulses</div>
-								<div class="cell">ticksPerStep</div>
-								<div class="cell">ticksPerPulse</div>
-								<div class="cell">totalTicks</div>
-								<div class="cell">retrigger</div>
-							</div>
-							<div class="row">
-								<div class="cell">
-									<input type="number" ng-model="node.parameters.rhythm.steps">
-									<input ng-model="node.parameters.rhythm.steps" type="range" max="100" min="1" >
-								</div>
-								<div class="cell">
-									<input type="number" ng-model="node.parameters.rhythm.pulses">
-									<input ng-model="node.parameters.rhythm.pulses" type="range" max="100" min="1" >
-								</div>
-								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.ticksPerStep"></div>
-								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.ticksPerPulse"></div>
-								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.totalTicks"></div>
-								<div class="cell"><input ng-model="node.parameters.rhythm.retrigger" type="checkbox" ></div>
-							</div>
-						</div>
+						<rhythm ng-model="node.parameters.rhythm"></rhythm>
 						<ul class="unstyled">
 							<li ng-repeat="nodeName in node.pool">{{nodeName}}</li>
 						</ul>                     
 					</div>
 					<div ng-switch-when="emitter">
-						<div class="table">
-							<div class="row">
-								<div class="cell">steps</div>
-								<div class="cell">pulses</div>
-								<div class="cell">ticksPerStep</div>
-								<div class="cell">ticksPerPulse</div>
-								<div class="cell">totalTicks</div>
-								<div class="cell">retrigger</div>
-							</div>
-							<div class="row">
-								<div class="cell">
-									<input type="number" ng-model="node.parameters.rhythm.steps">
-									<input ng-model="node.parameters.rhythm.steps" type="range" max="100" min="1" >
-								</div>
-								<div class="cell">
-									<input type="number" ng-model="node.parameters.rhythm.pulses">
-									<input ng-model="node.parameters.rhythm.pulses" type="range" max="100" min="1" >
-								</div>
-								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.ticksPerStep"></div>
-								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.ticksPerPulse"></div>
-								<div class="cell"><input type="number" ng-model="node.parameters.rhythm.totalTicks"></div>
-								<div class="cell"><input ng-model="node.parameters.rhythm.retrigger" type="checkbox" ></div>
-							</div>
-						</div>
+						<rhythm ng-model="node.parameters.rhythm"></rhythm>
 						<select ng-model="node.parameters.indexer" ng-options="indexer for indexer in indexerTypes"></select>
 						<div>
 							<piano ng-model="node.parameters.note.pool">

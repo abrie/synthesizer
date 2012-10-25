@@ -286,6 +286,15 @@ angular.module('components', [])
 			}
 		}
 	})
+	.directive('rhythm', function () {
+		return {
+			restrict:'E',
+			replace:true,
+			require: 'ngModel',
+			scope: { rhythm:'=ngModel'},
+			templateUrl:'templateRhythm.html',
+		}
+	})
 	.directive('piano', function () {
 		return {
 			restrict:'E',                 

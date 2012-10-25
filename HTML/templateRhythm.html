@@ -1,0 +1,24 @@
+<div class="table">
+	<div class="row">
+		<div class="cell">steps</div>
+		<div class="cell">pulses</div>
+		<div class="cell">ticksPerStep</div>
+		<div class="cell">ticksPerPulse</div>
+		<div class="cell">totalTicks</div>
+		<div class="cell">retrigger</div>
+	</div>
+	<div class="row">
+		<div class="cell">
+			<input type="number" ng-model="rhythm.steps">
+			<input ng-model="rhythm.steps" type="range" max="100" min="1" >
+		</div>
+		<div class="cell">
+			<input type="number" ng-model="rhythm.pulses">
+			<input ng-model="stem.pulses" type="range" max="100" min="1" >
+		</div>
+		<div class="cell"><input type="number" ng-model="rhythm.ticksPerStep"></div>
+		<div class="cell"><input type="number" ng-model="rhythm.ticksPerPulse"></div>
+		<div class="cell"><input type="number" ng-model="rhythm.totalTicks"></div>
+		<div class="cell"><input ng-model="rhythm.retrigger" type="checkbox" ></div>
+	</div>
+</div>
