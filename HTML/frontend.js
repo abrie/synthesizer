@@ -208,6 +208,117 @@ function drawPiano(canvas,ctx,scope,ngModel,mouseX,mouseY,mouseClicked) {
 }
 
 angular.module('components', [])
+	.directive('visualizer', function() {
+		var width=500, height=300;
+		var cluster = d3.layout.cluster()
+			.size([height, width - 160]);
+		var generateTreeData = function(nodes)
+		{
+			var treeData = {name:"",pool:[]};
+			_.each( nodes, function(node) {
+				if(node.type === "root") {
+					treeData.pool.push( node.name );
+				}
+			})
+			console.log(treeData);
+			return treeData;
+		};
+
+		return {
+			restrict: 'E',
+			scope: {
+				nodes: '=ngModel',
+			},
+			link: function (scope, element, attrs) {
+				var layoutRoot = d3.select(element[0])
+					.append("svg:svg").attr("width", width).attr("height", height)
+					.append("svg:g")
+					.attr("class", "container")
+					.attr("transform", "translate(40, 0)");
+				scope.$watch("nodes", function(newVal,oldVal) {
+					layoutRoot.selectAll('*').remove();
+					var tree = d3.layout.tree()
+						.sort(null)
+						.size([height, width-100])
+						.children(function(d)
+						{
+							if (!d.pool || d.pool.length === 0) {
+								return null;
+							}
+							var result = [];
+							_.each(d.pool, function(nodeName) {
+								console.log("nodeName:",nodeName);
+								console.log("newVal:",newVal);
+								var node = _.find(newVal, function(n) {return n.name===nodeName});
+								console.log("node:",node);
+								result.push({name:node.name,pool:node.pool});
+							});
+							return result;
+						});
+
+					var nodes = tree.nodes(generateTreeData(newVal));
+					var links = tree.links(nodes);
+
+					// Edges between nodes as a <path class="link" />
+					var link = d3.svg.diagonal()
+						.projection(function(d)
+						{
+							return [d.y, d.x];
+						});
+
+					layoutRoot.selectAll("path.link")
+						.data(links)
+						.enter()
+						.append("svg:path")
+						.attr("class", "link")
+						.attr("d", link);
+
+					/*
+					   Nodes as
+					   <g class="node">
+					   <circle class="node-dot" />
+					   <text />
+					   </g>
+					 */
+					var nodeGroup = layoutRoot.selectAll("g.node")
+						.data(nodes)
+						.enter()
+						.append("svg:g")
+						.attr("class", "node")
+						.attr("transform", function(d)
+						{
+							return "translate(" + d.y + "," + d.x + ")";
+						});
+
+					var options = {nodeRadius:5};
+					nodeGroup.append("svg:circle")
+						.attr("class", "node-dot")
+						.attr("r", options.nodeRadius);
+
+					nodeGroup.append("svg:text")
+						.attr("text-anchor", function(d)
+						{
+							return d.children ? "end" : "start";
+						})
+						.attr("dx", function(d)
+						{
+							var gap = 2 * options.nodeRadius;
+							return d.children ? -gap : gap;
+						})
+						.attr("dy", function(d)
+						{
+							var gap = 2 * options.nodeRadius;
+							return d.children ? -gap : 0;
+						})
+						.text(function(d)
+						{
+							return d.name;
+						});
+							  
+				},true);
+			}
+		}
+	})
 	.factory('socketService', function($rootScope) {
 		var connected = false;
 		var sendQueue = undefined;
