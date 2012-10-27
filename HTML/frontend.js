@@ -49,9 +49,38 @@ function newDefaultEmitter(name) {
 	};
 }
 
+function clone(node) {
+	var result = angular.copy(node);
+	result.name = uid();
+	return result;
+}
+
+function cloneInto(source,destination)
+{
+	var name = destination.name;
+	angular.copy(source,destination);
+	destination.name = name;
+}
+
 function NodeCtrl($scope,socketService) {
 	$scope.nodes = [];
 	$scope.indexerTypes = ["lfsr","sequential"];
+
+	$scope.nodeCloneBuffer = undefined;
+	$scope.cloneIntoBuffer = function(node) {
+		$scope.nodeCloneBuffer = clone(node);
+	};
+	$scope.cloneFromBuffer = function(node) {
+		cloneInto($scope.nodeCloneBuffer,node);
+	};
+	$scope.cloneDescription = function() {
+		if ($scope.nodeCloneBuffer) {
+			return $scope.nodeCloneBuffer.name + ":" + $scope.nodeCloneBuffer.type;
+		}
+		else {
+			return "[no clone]";
+		}
+	}
 
 	$scope.rootName = uid();
 	$scope.addRoot = function() {

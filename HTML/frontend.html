@@ -22,11 +22,14 @@
 		<button ng-click="addRoot()">+root</button>
 		<button ng-click="addNode()">+branch</button>
 		<button ng-click="addEmitter()">+emitter</button>
+		<span>clone:{{cloneDescription()}}</span>
 		<ul class="unstyled">
 			<li ng-repeat="node in nodes">
 				<span>{{node.type}}:{{node.name}}</span>
 				<ng-switch on="node.type">
 					<div ng-switch-when="root">
+						<button ng-click="cloneIntoBuffer(node)">clone</button>
+						<button ng-click="cloneFromBuffer(node)">paste</button>
 						<button ng-click="addNewNodeTo(node)" >+branch</button>
 						<button ng-click="addNewEmitterTo(node)" >+emitter</button>
 						<rhythm ng-model="node.parameters.rhythm"></rhythm>
@@ -35,6 +38,8 @@
 						</ul>                     
 					</div>
 					<div ng-switch-when="branch">
+						<button ng-click="cloneIntoBuffer(node)">clone</button>
+						<button ng-click="cloneFromBuffer(node)">paste</button>
 						<button ng-click="addNewNodeTo(node)" >+branch</button>
 						<button ng-click="addNewEmitterTo(node)" >+emitter</button>
 						<rhythm ng-model="node.parameters.rhythm"></rhythm>
@@ -43,6 +48,8 @@
 						</ul>                     
 					</div>
 					<div ng-switch-when="emitter">
+						<button ng-click="cloneIntoBuffer(node)">clone</button>
+						<button ng-click="cloneFromBuffer(node)">paste</button>
 						<rhythm ng-model="node.parameters.rhythm"></rhythm>
 						<select ng-model="node.parameters.indexer" ng-options="indexer for indexer in indexerTypes"></select>
 						<div>
