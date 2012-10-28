@@ -11,6 +11,7 @@
         
         feelers = [[Feelers alloc] init];
         [feelers setNoteEventDelegate:self];
+        [feelers setControllerEventDelegate:self];
         
         midi = _midi;
         [midi setRealtimeDelegate:self];
@@ -118,12 +119,13 @@
                          velocity:[noteEvent offVelocity]];
         }
     }
+    
     else if ([event isKindOfClass:[ControllerEvent class]]) {
         ControllerEvent *ccEvent = (ControllerEvent *)event;
         if (event.state == OPEN) {
             [midi sendCCToChannel:[ccEvent channel]
-                           number:[ccEvent ccNumber]
-                            value:[ccEvent ccValue]];
+                           number:[ccEvent controllerNumber]
+                            value:[ccEvent value]];
         }
     }
     
