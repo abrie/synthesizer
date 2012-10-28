@@ -49,6 +49,21 @@ function newDefaultEmitter(name) {
 	};
 }
 
+function newDefaultControllerEmitter(name) {
+	return {
+		name: name,
+		type: "controller-emitter",
+		parameters: {
+			rhythm: newDefaultRhythm(),
+			indexer: "lfsr",
+			channel : { seed:1, mask:0xC0, pool:[0] },
+			controller : { seed:1, mask:0xC0, pool:[64] },
+			value : { seed:1, mask:0xC0, pool:[0,64,128]},
+			duration :{ seed:1, mask:0xC0, pool:[24]}
+		},
+	};
+}
+
 function clone(node) {
 	var result = angular.copy(node);
 	result.name = uid();
@@ -102,6 +117,12 @@ function NodeCtrl($scope,socketService) {
 
 	$scope.addNewEmitterTo = function(node) {
 		var newEmitter = newDefaultEmitter(uid());
+	    node.pool.push(newEmitter.name);
+		$scope.nodes.push(newEmitter);
+	};
+
+	$scope.addNewControllerEmitterTo = function(node) {
+		var newEmitter = newDefaultControllerEmitter(uid());
 	    node.pool.push(newEmitter.name);
 		$scope.nodes.push(newEmitter);
 	};

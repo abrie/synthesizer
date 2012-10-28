@@ -32,6 +32,7 @@
 						<button ng-click="cloneFromBuffer(node)">paste</button>
 						<button ng-click="addNewNodeTo(node)" >+branch</button>
 						<button ng-click="addNewEmitterTo(node)" >+emitter</button>
+						<button ng-click="addNewControllerEmitterTo(node)" >+controller</button>
 						<rhythm ng-model="node.parameters.rhythm"></rhythm>
 						<ul class="unstyled">
 							<li ng-repeat="nodeName in node.pool">{{nodeName}}</li>
@@ -42,6 +43,7 @@
 						<button ng-click="cloneFromBuffer(node)">paste</button>
 						<button ng-click="addNewNodeTo(node)" >+branch</button>
 						<button ng-click="addNewEmitterTo(node)" >+emitter</button>
+						<button ng-click="addNewControllerEmitterTo(node)" >+controller</button>
 						<rhythm ng-model="node.parameters.rhythm"></rhythm>
 						<ul class="unstyled">
 							<li ng-repeat="nodeName in node.pool">{{nodeName}}</li>
@@ -85,6 +87,44 @@
 								<div class="cell"><input type="number" ng-model="node.parameters.offVelocity.seed"></div>
 								<div class="cell"><input type="number" ng-model="node.parameters.offVelocity.mask"></div>
 								<div class="cell"><input array ng-model="node.parameters.offVelocity.pool"></div>
+							</div>
+							<div class="row">
+								<div class="cell">duration</div>
+								<div class="cell"><input type="number" ng-model="node.parameters.duration.seed"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.duration.mask"></div>
+								<div class="cell"><input array ng-model="node.parameters.duration.pool"></div>
+							</div>
+						</div>
+					</div>
+					<div ng-switch-when="controller-emitter">
+						<button ng-click="cloneIntoBuffer(node)">clone</button>
+						<button ng-click="cloneFromBuffer(node)">paste</button>
+						<rhythm ng-model="node.parameters.rhythm"></rhythm>
+						<select ng-model="node.parameters.indexer" ng-options="indexer for indexer in indexerTypes"></select>
+						<div class="table">
+							<div class="row">
+								<div class="cell">field</div>
+								<div class="cell">seed</div>
+								<div class="cell">mask</div>
+								<div class="cell">pool</div>
+							</div>
+							<div class="row">
+								<div class="cell">controller</div>
+								<div class="cell"><input type="number" ng-model="node.parameters.controller.seed"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.controller.mask"></div>
+								<div class="cell"><input array ng-model="node.parameters.controller.pool"></div>
+							</div>
+							<div class="row">
+								<div class="cell">channel</div>
+								<div class="cell"><input type="number" ng-model="node.parameters.channel.seed"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.channel.mask"></div>
+								<div class="cell"><input array ng-model="node.parameters.channel.pool"></div>
+							</div>
+							<div class="row">
+								<div class="cell">value</div>
+								<div class="cell"><input type="number" ng-model="node.parameters.value.seed"></div>
+								<div class="cell"><input type="number" ng-model="node.parameters.value.mask"></div>
+								<div class="cell"><input array ng-model="node.parameters.value.pool"></div>
 							</div>
 							<div class="row">
 								<div class="cell">duration</div>
