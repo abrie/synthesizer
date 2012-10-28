@@ -77,6 +77,35 @@ function cloneInto(source,destination)
 	destination.name = name;
 }
 
+function MidiCtrl($scope,$timeout,socketService) {
+	$scope.controller = 64;
+	$scope.channel = 1;
+	$scope.value = 0;
+
+	$scope.sweepController = function() {
+		console.log("sweepController");
+		$timeout( function someWork() {
+			var message = {
+				toMidi:{
+					channel:$scope.channel,
+					controller:$scope.controller,
+					value:$scope.value
+				}
+			};
+			console.log(message);
+			socketService.send(message);
+			$scope.value = $scope.value+1;
+			if($scope.value < 127) {
+				$timeout(someWork, 10);
+			}
+			else {
+				$scope.value = 0;
+				return;
+			}
+		},10);
+	}
+}
+
 function NodeCtrl($scope,socketService) {
 	$scope.nodes = [];
 	$scope.indexerTypes = ["lfsr","sequential"];

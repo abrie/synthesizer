@@ -17,6 +17,12 @@
 		<button id="get-last-sync">get-last-sync</button>
 		<button id="render">render</button>
 	</div>
+	<div id="midi" ng-controller="MidiCtrl">
+		channel:<input type="number" ng-model="channel">
+		controller:<input type="number" ng-model="controller">
+		value:<input type="number" ng-model="value">
+		<button ng-click="sweepController()">sweep</button>
+	</div>
 	<div ng-controller="NodeCtrl" id="application">
 		<button ng-click="publish()">publish</button>
 		<button ng-click="addRoot()">+root</button>

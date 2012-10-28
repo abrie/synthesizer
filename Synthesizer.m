@@ -77,12 +77,15 @@
         [self sendMessage:message];
     }
     
-    NSArray *midiMessage = message[@"toFeelers"][@"midi"];
+    NSArray *midiMessage = message[@"toMidi"];
     if (midiMessage)
     {
-        [midi sendCCToChannel:1
-                       number:0x4E
-                        value:5];
+        unsigned int channel = [message[@"toMidi"][@"channel"] unsignedIntValue];
+        unsigned int controller = [message[@"toMidi"][@"controller"] unsignedIntValue];
+        unsigned int value = [message[@"toMidi"][@"value"] unsignedIntValue];
+        [midi sendCCToChannel:channel
+                   controller:controller
+                        value:value];
     }
 }
 
@@ -124,7 +127,7 @@
         ControllerEvent *ccEvent = (ControllerEvent *)event;
         if (event.state == OPEN) {
             [midi sendCCToChannel:[ccEvent channel]
-                           number:[ccEvent controllerNumber]
+                           controller:[ccEvent controllerNumber]
                             value:[ccEvent value]];
         }
     }

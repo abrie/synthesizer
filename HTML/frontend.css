@@ -41,6 +41,10 @@ canvas.pianoCanvas {
 	width: 100%;
 }
 
+#midi {
+	padding-top:50px;
+}
+
 #application {
 	padding-top: 50px;
 }
