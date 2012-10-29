@@ -2,6 +2,7 @@
 	<div class="row">
 		<div class="cell">steps</div>
 		<div class="cell">pulses</div>
+		<div class="cell">offset</div>
 		<div class="cell">ticksPerStep</div>
 		<div class="cell">ticksPerPulse</div>
 		<div class="cell">totalTicks</div>
@@ -16,6 +17,7 @@
 			<input type="number" ng-model="rhythm.pulses">
 			<input ng-model="rhythm.pulses" type="range" max="100" min="1" >
 		</div>
+		<div class="cell"><input type="number" ng-model="rhythm.offset"></div>
 		<div class="cell"><input type="number" ng-model="rhythm.ticksPerStep"></div>
 		<div class="cell"><input type="number" ng-model="rhythm.ticksPerPulse"></div>
 		<div class="cell"><input type="number" ng-model="rhythm.totalTicks"></div>
