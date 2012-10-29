@@ -94,13 +94,13 @@ function MidiCtrl($scope,$timeout,socketService) {
 			socketService.send(message);
 			$scope.value = $scope.value+1;
 			if($scope.value < 127) {
-				$timeout(someWork, 10);
+				$timeout(someWork, 1);
 			}
 			else {
 				$scope.value = 0;
 				return;
 			}
-		},10);
+		},1);
 	}
 }
 
@@ -505,12 +505,22 @@ angular.module('components', [])
 			scope: { rhythm:'=ngModel'},
 			templateUrl:'templateRhythm.html',
 			link: function (scope, iElement, iAttrs, ngModel) {
+				scope.computeTotalTicks = function(rhythm) {
+					return (rhythm.steps-rhythm.pulses) * rhythm.ticksPerStep +
+						(rhythm.pulses * rhythm.ticksPerPulse);
+				};
 				// these scope watches fix the type=number issue
 				scope.$watch('rhythm.steps', function() {
 					scope.rhythm.steps = parseInt(scope.rhythm.steps);
 				}); 
 				scope.$watch('rhythm.pulses', function() {
 					scope.rhythm.pulses = parseInt(scope.rhythm.pulses);
+				}); 
+				scope.$watch('rhythm.ticksPerStep', function() {
+					scope.rhythm.ticksPerStep = parseInt(scope.rhythm.ticksPerStep);
+				}); 
+				scope.$watch('rhythm.ticksPerPulse', function() {
+					scope.rhythm.ticksPerPulse = parseInt(scope.rhythm.ticksPerPulse);
 				}); 
 			}
 		}

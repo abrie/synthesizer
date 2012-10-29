@@ -20,7 +20,10 @@
 		<div class="cell"><input type="number" ng-model="rhythm.offset"></div>
 		<div class="cell"><input type="number" ng-model="rhythm.ticksPerStep"></div>
 		<div class="cell"><input type="number" ng-model="rhythm.ticksPerPulse"></div>
-		<div class="cell"><input type="number" ng-model="rhythm.totalTicks"></div>
+		<div class="cell">
+			<input type="number" ng-model="rhythm.totalTicks">
+			<button ng-click="rhythm.totalTicks = computeTotalTicks(rhythm)">&#931;</button>
+		</div>
 		<div class="cell"><input ng-model="rhythm.retrigger" type="checkbox" ></div>
 	</div>
 </div>
