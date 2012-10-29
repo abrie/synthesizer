@@ -395,6 +395,7 @@ angular.module('components', [])
 	.factory('socketService', function($rootScope) {
 		var connected = false;
 		var sendQueue = undefined;
+		var ws = undefined;
 
 		var websocket_onMessage = function(message) {
 			var json = JSON.parse(message);
@@ -420,12 +421,38 @@ angular.module('components', [])
 			});
 		}
 
+		function send_data( obj ) {
+			ws.send( JSON.stringify(obj) );
+		}
+
+		function open_interfaceWebSocket( host, onMessage, onOpen, onClose ) {
+			var socket = new WebSocket( host ) ;
+
+			socket.onopen = function() {
+				onOpen();
+			};
+
+			socket.onmessage = function(evt) {
+				onMessage( evt.data );
+			};
+
+			socket.onerror = function (evt) {
+				console.log("Websocket onerror:"+evt);
+			};
+
+			socket.onclose = function() {
+				onClose();
+			};
+
+			return socket;
+		}
+
 		var websocket_onClose = function() {
 			$rootScope.$apply( function() {
 				connected = false;
 			});
 			var retryTimer = window.setTimeout(function() {
-				open_interfaceWebSocket(
+				ws = open_interfaceWebSocket(
 					"ws://yeux.local:12345/service",
 					websocket_onMessage,
 					websocket_onOpen,
@@ -433,7 +460,7 @@ angular.module('components', [])
 			} , 1000);
 		}
 
-		open_interfaceWebSocket(
+		ws = open_interfaceWebSocket(
 			"ws://yeux.local:12345/service",
 			websocket_onMessage,
 			websocket_onOpen,
