@@ -83,7 +83,6 @@ function MidiCtrl($scope,$timeout,socketService) {
 	$scope.value = 0;
 
 	$scope.sweepController = function() {
-		console.log("sweepController");
 		$timeout( function someWork() {
 			var message = {
 				toMidi:{
@@ -92,7 +91,6 @@ function MidiCtrl($scope,$timeout,socketService) {
 					value:$scope.value
 				}
 			};
-			console.log(message);
 			socketService.send(message);
 			$scope.value = $scope.value+1;
 			if($scope.value < 127) {
@@ -299,7 +297,6 @@ angular.module('components', [])
 					treeData.pool.push( node.name );
 				}
 			})
-			console.log(treeData);
 			return treeData;
 		};
 
@@ -326,10 +323,7 @@ angular.module('components', [])
 							}
 							var result = [];
 							_.each(d.pool, function(nodeName) {
-								console.log("nodeName:",nodeName);
-								console.log("newVal:",newVal);
 								var node = _.find(newVal, function(n) {return n.name===nodeName});
-								console.log("node:",node);
 								result.push({name:node.name,pool:node.pool});
 							});
 							return result;
@@ -483,6 +477,15 @@ angular.module('components', [])
 			require: 'ngModel',
 			scope: { rhythm:'=ngModel'},
 			templateUrl:'templateRhythm.html',
+			link: function (scope, iElement, iAttrs, ngModel) {
+				// these scope watches fix the type=number issue
+				scope.$watch('rhythm.steps', function() {
+					scope.rhythm.steps = parseInt(scope.rhythm.steps);
+				}); 
+				scope.$watch('rhythm.pulses', function() {
+					scope.rhythm.pulses = parseInt(scope.rhythm.pulses);
+				}); 
+			}
 		}
 	})
 	.directive('piano', function () {
@@ -497,7 +500,8 @@ angular.module('components', [])
 				
 				ngModel.$render = function() {
 					drawPiano(iElement[0],context,scope,ngModel);
-				};
+				};                  
+
 
 				iElement.bind("mousemove",function(e) {
 					drawPiano(iElement[0],context,scope,ngModel,e.offsetX,e.offsetY);
