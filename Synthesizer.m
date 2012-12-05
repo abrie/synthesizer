@@ -107,31 +107,37 @@
     }];
 }
 
+- (void)processNoteEvent:(NoteEvent *)noteEvent {
+    if (noteEvent.state == OPEN) {
+        [midi sendOnToChannel:[noteEvent channel]
+                       number:[noteEvent noteNumber]
+                     velocity:[noteEvent onVelocity]];
+    }
+    else if (noteEvent.state == CLOSED) {
+        [midi sendOffToChannel:[noteEvent channel]
+                        number:[noteEvent noteNumber]
+                      velocity:[noteEvent offVelocity]];
+    }
+}
+
+- (void)processControllerEvent:(ControllerEvent *)controllerEvent {
+    if (controllerEvent.state == OPEN) {
+        [midi sendCCToChannel:[controllerEvent channel]
+                   controller:[controllerEvent controllerNumber]
+                        value:[controllerEvent value]];
+    }
+}
+
 - (void)onEvent:(Event *)event
 {
     if ([event isKindOfClass:[NoteEvent class]]) {
         NoteEvent *noteEvent = (NoteEvent *)event;
-        if (event.state == OPEN) {
-            [midi sendOnToChannel:[noteEvent channel]
-                           number:[noteEvent noteNumber]
-                         velocity:[noteEvent onVelocity]];
-        }
-        else if (event.state == CLOSED) {
-            [midi sendOffToChannel:[noteEvent channel]
-                           number:[noteEvent noteNumber]
-                         velocity:[noteEvent offVelocity]];
-        }
+        [self processNoteEvent:noteEvent];
     }
-    
     else if ([event isKindOfClass:[ControllerEvent class]]) {
-        ControllerEvent *ccEvent = (ControllerEvent *)event;
-        if (event.state == OPEN) {
-            [midi sendCCToChannel:[ccEvent channel]
-                           controller:[ccEvent controllerNumber]
-                            value:[ccEvent value]];
-        }
+        ControllerEvent *controllerEvent = (ControllerEvent *)event;
+        [self processControllerEvent:controllerEvent];
     }
-    
 }
 
 -(void)midiStart
