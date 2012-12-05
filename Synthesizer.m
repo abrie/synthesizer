@@ -107,7 +107,7 @@
     }];
 }
 
-- (void)onEventState:(Event *)event
+- (void)onEvent:(Event *)event
 {
     if ([event isKindOfClass:[NoteEvent class]]) {
         NoteEvent *noteEvent = (NoteEvent *)event;
