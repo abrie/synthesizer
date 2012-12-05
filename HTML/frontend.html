@@ -54,7 +54,7 @@
 							<li ng-repeat="nodeName in node.pool">{{nodeName}}</li>
 						</ul>                     
 					</div>
-					<div ng-switch-when="emitter">
+					<div ng-switch-when="note-emitter">
 						<button ng-click="cloneIntoBuffer(node)">clone</button>
 						<button ng-click="cloneFromBuffer(node)">paste</button>
 						<rhythm ng-model="node.parameters.rhythm"></rhythm>

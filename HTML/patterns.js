@@ -1,7 +1,7 @@
 function generate_emitter( emitter ) {
 	return {
 		name: uid(),
-		type: "emitter",
+		type: "note-emitter",
 		parameters: {
 			rhythm: generate_rhythmParameters(emitter.parameter("rhythm")),
 			indexer: emitter.parameter("indexer"),
@@ -29,7 +29,7 @@ function generate_rhythmParameters( pattern ) {
 
 function generate_tree( model )
 {
-	var emitter_a = generate_emitter( model.get("emitter") );
+	var emitter_a = generate_emitter( model.get("note-emitter") );
 
 	var root_a = {
 		name: uid(),
