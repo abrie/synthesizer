@@ -3,7 +3,7 @@
 #import "MIDI/MIDI.h"
 #import "HTTP.h"
 
-@interface Synthesizer : NSObject <RealtimeProtocol, EventDelegate, HTTPProtocol> {
+@interface Synthesizer : NSObject <RealtimeProtocol, EventHandler, HTTPProtocol> {
 @private
     NSMutableArray *lastGeneratorSync;
     NSMutableArray *lastNodeSync;
