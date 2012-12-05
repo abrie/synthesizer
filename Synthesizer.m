@@ -11,7 +11,7 @@
         
         feelers = [[Feelers alloc] init];
         [feelers setNoteEventHandler:self];
-        [feelers setControllerEventDelegate:self];
+        [feelers setControllerEventHandler:self];
         
         midi = _midi;
         [midi setRealtimeDelegate:self];
