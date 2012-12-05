@@ -10,7 +10,7 @@
         connections = [[NSMutableArray alloc] init];
         
         feelers = [[Feelers alloc] init];
-        [feelers setNoteEventDelegate:self];
+        [feelers setNoteEventHandler:self];
         [feelers setControllerEventDelegate:self];
         
         midi = _midi;
