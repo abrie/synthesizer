@@ -21,6 +21,7 @@
 		controller:<input type="number" ng-model="controller">
 		value:<input type="number" ng-model="value">
 		<button ng-click="sweepController()">sweep</button>
+        <midistatus ng-model="state"></midistatus>
 	</div>
 	<div ng-controller="NodeCtrl" id="application">
 		<button ng-click="publish()">publish</button>
@@ -145,7 +146,9 @@
 				</ng-switch>
 			</li>
 		</ul>
-		<div><visualizer ng-model="nodes"></visualizer></div>
+		<div>
+            <visualizer ng-model="nodes"></visualizer>
+        </div>
 	</div>
 	<div id="nonsense">project feelers w/ angularjs 1988(c)(tm)(r)(xXx) !URUNDERANNDA!</div>
 </body>

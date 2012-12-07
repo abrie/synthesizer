@@ -157,6 +157,10 @@
     dispatch_async(queue, ^{
         [feelers advance];
     });
+    
+    NSMutableDictionary *message = [self buildMessage:@"midi"];
+    message[@"event"] = @"tick";
+    [self sendMessage:message];
 }
 
 -(void)midiTick

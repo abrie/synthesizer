@@ -78,6 +78,7 @@ function cloneInto(source,destination)
 }
 
 function MidiCtrl($scope,$timeout,socketService) {
+    $scope.state = {tick:255};
 	$scope.controller = 64;
 	$scope.channel = 1;
 	$scope.value = 0;
@@ -102,6 +103,8 @@ function MidiCtrl($scope,$timeout,socketService) {
 			}
 		},1);
 	}
+
+    socketService.subscribe($scope.state);
 }
 
 function NodeCtrl($scope,socketService) {
@@ -285,6 +288,35 @@ function drawPiano(canvas,ctx,scope,ngModel,mouseX,mouseY,mouseClicked) {
 }
 
 angular.module('components', [])
+    .directive('midistatus', function() {
+        return {
+            restrict: 'E',
+			require: 'ngModel',
+			replace:true,
+			template:'<canvas width=50 height=50>canvas required</canvas>',
+            scope: {
+                state: '=ngModel',
+            },
+			link: function (scope, iElement, iAttrs, ngModel) {
+				var ctx = iElement[0].getContext("2d");
+                ctx.strokeStyle = "rgb(100,100,100)";
+                ctx.fillStyle = "rgb(255,255,255)";
+                ctx.lineWidth = 1;
+                var radPDegree = 2*Math.PI / 360;
+                scope.$watch("state", function(newVal,oldVal) {
+                    ctx.fillRect(0,0,50,50);
+                    ctx.save();
+                    ctx.translate(25,25);
+                    ctx.rotate( radPDegree * newVal.tick % 360 );
+                    ctx.beginPath();
+                    ctx.moveTo(0,0);
+                    ctx.lineTo(25,0);
+                    ctx.stroke();
+                    ctx.restore();
+                },true);
+            },
+        }
+    })
 	.directive('visualizer', function() {
 		var width=500, height=300;
 		var cluster = d3.layout.cluster()
@@ -395,7 +427,6 @@ angular.module('components', [])
 	.factory('socketService', function($rootScope) {
 		var connected = false;
 		var sendQueue = undefined;
-		var ws = undefined;
 
 		var websocket_onMessage = function(message) {
 			var json = JSON.parse(message);
@@ -408,6 +439,12 @@ angular.module('components', [])
 					console.log("sync received");
 					restoreFromSync(json);
 					break;
+                case "midi":
+                    switch(json.event) {
+                        case "tick": $rootScope.$apply( function() { subscribedState.tick+=1; } ); break;
+                        case "start": $rootScope.$apply( function() { subscribedState.tick=0; } ); break;
+                    }
+                    break;
 			}
 		}
 
@@ -460,16 +497,22 @@ angular.module('components', [])
 			} , 1000);
 		}
 
-		ws = open_interfaceWebSocket(
+		var ws = open_interfaceWebSocket(
 			"ws://yeux.local:12345/service",
 			websocket_onMessage,
 			websocket_onOpen,
 			websocket_onClose);
 
+        var subscribedState = {tick:0};
+
         return {
 			isConnected : function() {
 				return connected;
 			},
+            subscribe: function(state) {
+                subscribedState = state;
+                subscribedState.tick = 0;
+            },
 			send : function(message) {
 				if (connected) {
 					send_data(message);
@@ -551,7 +594,7 @@ angular.module('components', [])
 				});
 			}
 		};
-});
+    });
 
 angular.module('frontend',['components']);
 
