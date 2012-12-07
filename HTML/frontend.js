@@ -36,7 +36,7 @@ function newDefaultBranch(name) {
 function newDefaultEmitter(name) {
 	return {
 		name: name,
-		type: "emitter",
+		type: "note-emitter",
 		parameters: {
 			rhythm: newDefaultRhythm(),
 			indexer: "lfsr",
