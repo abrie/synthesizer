@@ -107,7 +107,7 @@
     }];
 }
 
-- (void)processNoteEvent:(NoteEvent *)noteEvent {
+- (void)processNoteEvent:(EventNote *)noteEvent {
     if (noteEvent.state == OPEN) {
         [midi sendOnToChannel:[noteEvent channel]
                        number:[noteEvent noteNumber]
@@ -120,7 +120,7 @@
     }
 }
 
-- (void)processControllerEvent:(ControllerEvent *)controllerEvent {
+- (void)processControllerEvent:(EventController *)controllerEvent {
     if (controllerEvent.state == OPEN) {
         [midi sendCCToChannel:[controllerEvent channel]
                    controller:[controllerEvent controllerNumber]
@@ -130,12 +130,12 @@
 
 - (void)onEvent:(Event *)event
 {
-    if ([event isKindOfClass:[NoteEvent class]]) {
-        NoteEvent *noteEvent = (NoteEvent *)event;
+    if ([event isKindOfClass:[EventNote class]]) {
+        EventNote *noteEvent = (EventNote *)event;
         [self processNoteEvent:noteEvent];
     }
-    else if ([event isKindOfClass:[ControllerEvent class]]) {
-        ControllerEvent *controllerEvent = (ControllerEvent *)event;
+    else if ([event isKindOfClass:[EventController class]]) {
+        EventController *controllerEvent = (EventController *)event;
         [self processControllerEvent:controllerEvent];
     }
 }
