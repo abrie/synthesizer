@@ -9,13 +9,20 @@ function newDefaultRhythm() {
 	}
 }
 
+function newDefaultIndexer() {
+    return {
+        type: "sequential",
+        pool: []
+    }
+}
+
 function newDefaultRoot(name) {
 	return {
 		name:name,
 		type:'root',
-		pool:[],
 		parameters:{
 			rhythm: newDefaultRhythm(),
+            indexer: newDefaultIndexer(),
 		}, 
 		done:false
 	};
@@ -25,9 +32,9 @@ function newDefaultBranch(name) {
 	return {
 		name:name,
 		type:'branch',
-		pool:[],
 		parameters:{
 			rhythm: newDefaultRhythm(),
+            indexer: newDefaultIndexer(),
 		}, 
 		done:false
 	};
@@ -39,12 +46,11 @@ function newDefaultEmitter(name) {
 		type: "note-emitter",
 		parameters: {
 			rhythm: newDefaultRhythm(),
-			indexer: "lfsr",
-			channel : { seed:1, mask:0xC0, pool:[0] },
-			note : { seed:1, mask:0xC0, pool:[60,64,67,70,72] },
-			onVelocity : { seed:1, mask:0xC0, pool:[80]},
-			offVelocity : { seed:1, mask:0xC0, pool:[60]},
-			duration :{ seed:1, mask:0xC0, pool:[24]}
+			channel : { type:"lfsr", seed:1, mask:0xC0, pool:[0] },
+			note : { type:"lfsr", seed:1, mask:0xC0, pool:[60,64,67,70,72] },
+			onVelocity : { type:"lfsr", seed:1, mask:0xC0, pool:[80]},
+			offVelocity : { type:"lfsr", seed:1, mask:0xC0, pool:[60]},
+			duration :{ type:"lfsr", seed:1, mask:0xC0, pool:[24]}
 		},
 	};
 }
@@ -55,11 +61,10 @@ function newDefaultControllerEmitter(name) {
 		type: "controller-emitter",
 		parameters: {
 			rhythm: newDefaultRhythm(),
-			indexer: "lfsr",
-			channel : { seed:1, mask:0xC0, pool:[0] },
-			controller : { seed:1, mask:0xC0, pool:[64] },
-			value : { seed:1, mask:0xC0, pool:[0,64,128]},
-			duration :{ seed:1, mask:0xC0, pool:[24]}
+			channel : { type:"lfsr", seed:1, mask:0xC0, pool:[0] },
+			controller : { type:"lfsr", seed:1, mask:0xC0, pool:[64] },
+			value : { type:"lfsr", seed:1, mask:0xC0, pool:[0,64,128]},
+			duration :{ type:"lfsr", seed:1, mask:0xC0, pool:[24]}
 		},
 	};
 }
@@ -141,19 +146,19 @@ function NodeCtrl($scope,socketService) {
 
 	$scope.addNewNodeTo = function(node) {
 		var newBranch = newDefaultBranch(uid());
-	    node.pool.push(newBranch.name);
+	    node.parameters.indexer.pool.push(newBranch.name);
 		$scope.nodes.push(newBranch);
 	};
 
 	$scope.addNewEmitterTo = function(node) {
 		var newEmitter = newDefaultEmitter(uid());
-	    node.pool.push(newEmitter.name);
+	    node.parameters.indexer.pool.push(newEmitter.name);
 		$scope.nodes.push(newEmitter);
 	};
 
 	$scope.addNewControllerEmitterTo = function(node) {
 		var newEmitter = newDefaultControllerEmitter(uid());
-	    node.pool.push(newEmitter.name);
+	    node.parameters.indexer.pool.push(newEmitter.name);
 		$scope.nodes.push(newEmitter);
 	};
 
