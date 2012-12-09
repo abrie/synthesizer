@@ -299,14 +299,17 @@ angular.module('components', [])
             },
 			link: function (scope, iElement, iAttrs, ngModel) {
 				var ctx = iElement[0].getContext("2d");
-                ctx.strokeStyle = "rgb(100,100,100)";
-                ctx.fillStyle = "rgb(255,255,255)";
+                ctx.strokeStyle = "rgb(0,0,255)";
+                ctx.fillStyle = "rgb(155,155,155)";
                 ctx.lineWidth = 1;
                 var radPDegree = 2*Math.PI / 360;
                 scope.$watch("state", function(newVal,oldVal) {
-                    ctx.fillRect(0,0,50,50);
                     ctx.save();
                     ctx.translate(25,25);
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 25, 0 , 2 * Math.PI, false);
+                    ctx.fill();
+                    ctx.closePath();
                     ctx.rotate( radPDegree * newVal.tick % 360 );
                     ctx.beginPath();
                     ctx.moveTo(0,0);
