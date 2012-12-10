@@ -58,7 +58,7 @@ function newDefaultEmitter(name) {
 function newDefaultControllerEmitter(name) {
 	return {
 		name: name,
-		type: "controller-emitter",
+		type: "emitter-controller",
 		parameters: {
 			rhythm: newDefaultRhythm(),
 			channel : { type:"lfsr", seed:1, mask:0xC0, pool:[0] },
