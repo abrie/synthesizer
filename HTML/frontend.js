@@ -43,7 +43,7 @@ function newDefaultBranch(name) {
 function newDefaultEmitter(name) {
 	return {
 		name: name,
-		type: "note-emitter",
+		type: "emitter-note",
 		parameters: {
 			rhythm: newDefaultRhythm(),
 			channel : { type:"lfsr", seed:1, mask:0xC0, pool:[0] },
