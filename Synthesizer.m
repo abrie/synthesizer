@@ -80,10 +80,10 @@
     if (midiMessage)
     {
         unsigned int channel = [message[@"toMidi"][@"channel"] unsignedIntValue];
-        unsigned int controller = [message[@"toMidi"][@"controller"] unsignedIntValue];
+        unsigned int number = [message[@"toMidi"][@"number"] unsignedIntValue];
         unsigned int value = [message[@"toMidi"][@"value"] unsignedIntValue];
         [midi sendCCToChannel:channel
-                   controller:controller
+                       number:number
                         value:value];
     }
 }
@@ -122,7 +122,7 @@
 - (void)processControllerEvent:(EventController *)controllerEvent {
     if (controllerEvent.state == OPEN) {
         [midi sendCCToChannel:[controllerEvent channel]
-                   controller:[controllerEvent controllerNumber]
+                   number:[controllerEvent controllerNumber]
                         value:[controllerEvent value]];
     }
 }

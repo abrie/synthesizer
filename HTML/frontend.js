@@ -84,7 +84,7 @@ function cloneInto(source,destination)
 
 function MidiCtrl($scope,$timeout,socketService) {
     $scope.state = {tick:255};
-	$scope.controller = 64;
+	$scope.number = 64;
 	$scope.channel = 1;
 	$scope.value = 0;
 
@@ -93,7 +93,7 @@ function MidiCtrl($scope,$timeout,socketService) {
 			var message = {
 				toMidi:{
 					channel:$scope.channel,
-					controller:$scope.controller,
+					number:$scope.number,
 					value:$scope.value
 				}
 			};
