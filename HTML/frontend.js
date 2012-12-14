@@ -197,8 +197,8 @@ function drawPiano(canvas,ctx,scope,ngModel,mouseX,mouseY,mouseClicked) {
 	var numberOfKeys = keysPerOctave*numberOfOctaves;
 
 	var whiteOrBlackPianokey = function(noteNumber) {
-		return _.find( [1,3,6,8,10], function(n) { 
-			return (noteNumber%12) / n == 1;
+        return [1,3,6,8,10].some( function(n) { 
+			return (noteNumber%12) / n === 1;
 		}) ? "black" : "white";
 	};
 
@@ -332,7 +332,7 @@ angular.module('components', [])
 		var generateTreeData = function(nodes)
 		{
 			var treeData = {name:"",pool:[]};
-			nodes.each( function(node) {
+			nodes.forEach( function(node) {
 				if(node.type === "root") {
 					treeData.pool.push( node.name );
 				}
@@ -362,8 +362,8 @@ angular.module('components', [])
 								return null;
 							}
 							var result = [];
-							d.pool.each( function(nodeName) {
-								var node = _.find(newVal, function(n) {return n.name===nodeName});
+							d.pool.forEach( function(nodeName) {
+								var node = newVal.filter( function(n) {return n.name===nodeName} )[0];
 								result.push({name:node.name,pool:node.pool});
 							});
 							return result;
