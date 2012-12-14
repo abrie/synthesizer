@@ -242,7 +242,7 @@ function drawPiano(canvas,ctx,scope,ngModel,mouseX,mouseY,mouseClicked) {
 	};
 
 	var removePianokey = function(noteNumber) {
-		var newPool = _.filter( pool, function(i) { return i != noteNumber; } );
+		var newPool = pool.filter( function(i) { return i != noteNumber; } );
 		scope.$apply( function() { ngModel.$setViewValue(newPool); } );
 		pool = newPool;
 	};
@@ -332,7 +332,7 @@ angular.module('components', [])
 		var generateTreeData = function(nodes)
 		{
 			var treeData = {name:"",pool:[]};
-			_.each( nodes, function(node) {
+			nodes.each( function(node) {
 				if(node.type === "root") {
 					treeData.pool.push( node.name );
 				}
@@ -362,7 +362,7 @@ angular.module('components', [])
 								return null;
 							}
 							var result = [];
-							_.each(d.pool, function(nodeName) {
+							d.pool.each( function(nodeName) {
 								var node = _.find(newVal, function(n) {return n.name===nodeName});
 								result.push({name:node.name,pool:node.pool});
 							});
