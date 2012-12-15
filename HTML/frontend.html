@@ -40,7 +40,7 @@
 						<button ng-click="addNewControllerEmitterTo(node)" >+controller</button>
 						<rhythm ng-model="node.parameters.rhythm"></rhythm>
 						<ul class="unstyled">
-							<li ng-repeat="nodeName in node.indexer.pool">{{nodeName}}</li>
+							<li ng-repeat="nodeName in node.parameters.indexer.pool">{{nodeName}}</li>
 						</ul>                     
 					</div>
 					<div ng-switch-when="branch">
@@ -51,7 +51,7 @@
 						<button ng-click="addNewControllerEmitterTo(node)" >+controller</button>
 						<rhythm ng-model="node.parameters.rhythm"></rhythm>
 						<ul class="unstyled">
-							<li ng-repeat="nodeName in node.indexer.pool">{{nodeName}}</li>
+							<li ng-repeat="nodeName in node.parameters.indexer.pool">{{nodeName}}</li>
 						</ul>                     
 					</div>
 					<div ng-switch-when="emitter-note">
