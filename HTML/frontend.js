@@ -331,7 +331,7 @@ angular.module('components', [])
 			.size([height, width - 160]);
 		var generateTreeData = function(nodes)
 		{
-			var treeData = {name:"",pool:[]};
+			var treeData = {name:"anchor", pool:[]};
 			nodes.forEach( function(node) {
 				if(node.type === "root") {
 					treeData.pool.push( node.name );
@@ -358,13 +358,19 @@ angular.module('components', [])
 						.size([height, width-100])
 						.children(function(d)
 						{
-							if (!d.pool || d.pool.length === 0) {
+                            var pool = d.pool;
+							if (!pool || pool.length === 0) {
 								return null;
 							}
 							var result = [];
-							d.pool.forEach( function(nodeName) {
+							pool.forEach( function(nodeName) {
 								var node = newVal.filter( function(n) {return n.name===nodeName} )[0];
-								result.push({name:node.name,pool:node.pool});
+                                if( node.parameters.indexer ) {
+                                    result.push({name:node.name,pool:node.parameters.indexer.pool});
+                                }
+                                else {
+                                    result.push({name:node.name+"("+node.type+")",pool:[]});
+                                }
 							});
 							return result;
 						});
