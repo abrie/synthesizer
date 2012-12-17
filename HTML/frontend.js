@@ -330,14 +330,17 @@ angular.module('components', [])
 		var cluster = d3.layout.cluster()
 			.size([height, width - 160]);
 		var generateTreeData = function(nodes)
-		{
-			var treeData = {name:"anchor", pool:[]};
-			nodes.forEach( function(node) {
-				if(node.type === "root") {
-					treeData.pool.push( node.name );
-				}
-			})
-			return treeData;
+		{   
+            var pool = nodes.filter( function(n) {
+                return n.type === "root"
+            }).map( function(n) {
+                return n.name
+            });
+
+			return {
+                name: "anchor",
+                pool: pool
+            }
 		};
 
 		return {
@@ -358,21 +361,24 @@ angular.module('components', [])
 						.size([height, width-100])
 						.children(function(d)
 						{
-                            var pool = d.pool;
-							if (!pool || pool.length === 0) {
-								return null;
-							}
-							var result = [];
-							pool.forEach( function(nodeName) {
-								var node = newVal.filter( function(n) {return n.name===nodeName} )[0];
-                                if( node.parameters.indexer ) {
-                                    result.push({name:node.name,pool:node.parameters.indexer.pool});
-                                }
-                                else {
-                                    result.push({name:node.name+"("+node.type+")",pool:[]});
-                                }
-							});
-							return result;
+                            if(d.pool.length === 0) {
+                                return [];
+                            }
+                            return d.pool.map( function(name) {
+                                return newVal.filter( function(n) {
+                                    return n.name === name
+                                }).map( function(o) {
+                                    var pool = o.parameters.indexer ? 
+                                        o.parameters.indexer.pool :
+                                        []; 
+                                    return {
+                                        name:o.name,
+                                        pool:pool
+                                    };
+                                }); 
+                            }).reduce( function(a,b) {
+                                return a.concat(b)
+                            });
 						});
 
 					var nodes = tree.nodes(generateTreeData(newVal));
