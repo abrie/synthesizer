@@ -1,4 +1,4 @@
-A Synthesizer Called Feelers
+A Synthesizer Named Feelers
 ============================
 
 This is the front end to an experimental, deprecated, procedural music synthesizer generator.  
